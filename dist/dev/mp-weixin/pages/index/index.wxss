@@ -1,0 +1,263 @@
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.app-status-bar-height {
+  width: 100%;
+  height: var(--status-bar-height);
+}
+.index .top-box {
+  padding: 16rpx 8rpx;
+  display: flex;
+  align-items: center;
+  background-color: #FFFFFF;
+}
+.index .top-box .t {
+  padding-left: 8rpx;
+  font-size: 28rpx;
+  color: #333;
+}
+.index .top-box .search {
+  padding: 0 8rpx;
+  flex: 1;
+}
+.index .swiper {
+  position: relative;
+  margin-top: 8rpx;
+}
+.index .swiper .notice {
+  position: absolute;
+  bottom: 46rpx;
+  left: 24rpx;
+  width: 668rpx;
+  color: #fff;
+  font-size: 24rpx;
+  opacity: 0.8;
+  border-radius: 32rpx;
+}
+.index .category-container {
+  padding: 0 0 10px 0;
+  margin-top: 16rpx;
+  position: relative;
+  background-color: white;
+}
+.index .category-container .category-box {
+  background-color: #fff;
+  display: flex;
+  flex-wrap: wrap;
+  box-shadow: 0px 0px 18px 0px rgba(5, 5, 5, 0.15);
+  margin-left: 25rpx;
+  margin-right: 25rpx;
+  border-radius: 10px;
+  padding: 20rpx 0;
+  position: inherit;
+}
+.index .category-container .category-list {
+  width: 140rpx;
+  text-align: center;
+  display: inline-block;
+  overflow: hidden;
+}
+.index .category-container .category-column {
+  width: 100%;
+  margin-top: 20rpx;
+  overflow: hidden;
+}
+.index .category-container .category-imgbox {
+  width: 100rpx;
+  height: 100rpx;
+}
+.index .category-container .category-title {
+  font-size: 24rpx;
+  text-align: center;
+}
+.index .live-pic {
+  margin-top: 16rpx;
+}
+.index .ttt {
+  display: flex;
+  align-items: center;
+  margin-top: 24rpx;
+}
+.index .ttt .l {
+  flex: 1;
+  display: inline-block;
+}
+.index .ttt .content {
+  display: flex;
+  align-items: center;
+  padding: 0 16rpx;
+}
+.index .ttt .content image {
+  width: 34rpx;
+  height: 42rpx;
+}
+.index .ttt .content text {
+  margin-left: 16rpx;
+  color: #333;
+  font-size: 28rpx;
+}
+.index .miaoshaGoods .miaosha-goods-list {
+  margin: 20rpx;
+  border-radius: 16rpx;
+  display: flex;
+  padding: 20rpx;
+}
+.index .miaoshaGoods .miaosha-goods-list .image {
+  width: 260rpx;
+  height: 260rpx;
+  flex-shrink: 0;
+  border-radius: 16rpx;
+}
+.index .miaoshaGoods .miaosha-goods-list .r {
+  margin-left: 32rpx;
+}
+.index .miaoshaGoods .miaosha-goods-list .r .goods-title {
+  color: #333;
+  font-size: 28rpx;
+}
+.index .miaoshaGoods .miaosha-goods-list .r .label {
+  color: #e64340;
+  font-size: 24rpx;
+  display: flex;
+  align-items: flex-start;
+  margin-top: 8rpx;
+}
+.index .miaoshaGoods .miaosha-goods-list .r .label text {
+  margin-left: 8rpx;
+}
+.index .miaoshaGoods .miaosha-goods-list .count-down {
+  background: rgba(250, 195, 198, 0.3);
+  border-radius: 5rpx;
+  font-size: 14rpx;
+  color: red;
+  font-weight: 400;
+  padding: 6rpx 16rpx;
+  margin-top: 6rpx;
+  text-align: center;
+  border-radius: 10rpx;
+}
+.index .miaoshaGoods .miaosha-price-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.index .miaoshaGoods .miaosha-price-btn .msbtn {
+  width: 170rpx;
+  height: 60rpx;
+  background: linear-gradient(156deg, #FF7863 0%, #FF211A 100%);
+  border-radius: 34rpx;
+  border: none !important;
+  line-height: 60rpx !important;
+  font-size: 13px !important;
+}
+.index .miaoshaGoods .miaosha-price-btn .price {
+  color: #e64340;
+  font-size: 40rpx;
+  margin-top: 12rpx;
+  padding-right: 32rpx;
+}
+.index .miaoshaGoods .miaosha-price-btn .price text {
+  color: #666666;
+  font-size: 26rpx;
+  text-decoration: line-through;
+}
+.index .goods-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  box-sizing: content-box;
+  padding: 0 24rpx;
+}
+.index .goods-box {
+  width: 339rpx;
+  background-color: #fff;
+  overflow: hidden;
+  margin-top: 24rpx;
+  border-radius: 5px;
+  border: 1px solid #D1D1D1;
+  padding-bottom: 10rpx;
+}
+.index .goods-box .img-box {
+  width: 339rpx;
+  height: 339rpx;
+  overflow: hidden;
+}
+.index .goods-box .img-box image {
+  width: 339rpx;
+  height: 339rpx;
+}
+.index .goods-box .goods-title {
+  padding: 0 4rpx;
+}
+.index .goods-box .goods-price-container {
+  display: flex;
+  align-items: baseline;
+}
+.index .goods-box .goods-price {
+  overflow: hidden;
+  font-size: 34rpx;
+  color: #F20C32;
+  margin-left: 24rpx;
+}
+.index .goods-box .goods-price2 {
+  overflow: hidden;
+  font-size: 26rpx;
+  color: #aaa;
+  text-decoration: line-through;
+  margin-left: 20rpx;
+}
+.index .coupons-float {
+  position: fixed;
+  right: 15rpx;
+  bottom: 180rpx;
+  width: 80rpx;
+  height: 80rpx;
+  background-color: #fff;
+  text-align: center;
+  border-radius: 50%;
+  border: 1rpx solid #ddd;
+}
+.index .coupons-float image {
+  width: 60rpx;
+  height: 60rpx;
+  margin-top: 10rpx;
+}
+.index .adPositionIndexPop {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.index .adPositionIndexPop image {
+  width: 420rpx;
+}
+.index .adPositionIndexPop .close {
+  margin-top: 32rpx;
+}
+.blank {
+  height: 32rpx;
+}

@@ -77,8 +77,40 @@ export default {
 
 <template>
   <view class="index">
-    <view>
-      <view class="uni-padding-wrap uni-common-mt">
+    <view class="top-0 bg-teal-500" style="position: -webkit-sticky; position: sticky;">
+      <view class="search-box">
+        <input type="text" placeholder="搜索商品">
+        <view class="search-icon" />
+      </view>
+      <view class="nav-bar flex">
+        <view class="nav-item">
+          <view class="nav-icon" />
+          <view class="nav-text">
+            首页
+          </view>
+        </view>
+        <view class="nav-item">
+          <view class="nav-icon" />
+          <view class="nav-text">
+            分类
+          </view>
+        </view>
+        <view class="nav-item">
+          <view class="nav-icon" />
+          <view class="nav-text">
+            购物车
+          </view>
+        </view>
+        <view class="nav-item">
+          <view class="nav-icon" />
+          <view class="nav-text">
+            我的
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="">
+      <view class="">
         <view class="uni-title uni-common-mt">
           flex-direction: row
           <a class="font-bold font-mono text-red-500">
@@ -113,13 +145,13 @@ export default {
         </view>
       </view>
     </view>
-    <u-sticky bg-color="#FFFFFF" custom-nav-height="0">
+    <view bg-color="#FFFFFF" custom-nav-height="0">
       <!--  #ifdef  APP-PLUS -->
       <view class="app-status-bar-height" />
       <!--  #endif -->
       <view class="top-box" :style="headerMarginTopStyle">
         <view class="t">
-          {{ sysconfigMap.mallName }}
+          Q
         </view>
         <view class="search">
           <u-search v-model="kw" placeholder="输入关键词搜索" :show-action="false" :disabled="true" @click="goSearch" />
@@ -128,261 +160,10 @@ export default {
         <view class="mp-btn" :style="menuButtonInfoStyle" />
         <!--  #endif -->
       </view>
-    </u-sticky>
-    <u-cell
-      v-if="shopInfo" icon="map" :title="shopInfo.name" value="切换门店" url="/pages/shop/select" clickable
-      is-link
-    />
-    <view class="swiper">
-      <u-swiper
-        v-if="banners" :list="banners" indicator circular key-name="picUrl" height="375rpx"
-        @click="tapBanner"
-      />
-      <u-notice-bar
-        v-if="goodsDynamic" class="notice" icon="bag" :text="goodsDynamic" direction="column"
-        mode="link" :disable-touch="false" @click="noticeclick"
-      />
     </view>
-    <div v-if="categories && categories.length > 0" class="category-container">
-      <view class="category-box">
-        <!-- <view v-for="(item, index) in categories" :key="index" class="category-list">
-          <view class="category-column" @click="categoryClick(item)">
-            <image mode="aspectFill" class="category-imgbox" :src="item.icon" />
-            <view class="category-title">
-              {{ item.name }}
-            </view>
-          </view>
-        </view> -->
-      </view>
-    </div>
-    <u-notice-bar
-      v-if="notice" class="notice" icon="volume" :text="notice.title" mode="link"
-      url="/pages/notice/list"
-    />
-    <u--image
-      v-if="adPosition['index-live-pic']" class="live-pic" :show-loading="true"
-      :src="adPosition['index-live-pic'].val" width="100vw" height="auto" radius="32rpx" mode="widthFix"
-      @click="goUrl(adPosition['index-live-pic'].url)"
-    />
-    <view v-if="miaoshaGoods" class="miaoshaGoods">
-      <view class="ttt">
-        <view class="l">
-          <u-line />
-        </view>
-        <view class="content">
-          <image src="/static/images/miaosha.png" />
-          <text>限时秒杀</text>
-        </view>
-        <view class="l">
-          <u-line />
-        </view>
-      </view>
-      <view v-for="(item, index) in miaoshaGoods" :key="index" class="miaosha-goods-list" @click="toDetailsTap">
-        <image :src="item.pic" class="image" mode="aspectFill" lazy-load="true" @click="goDetail(item)" />
-        <view class="r">
-          <view class="goods-title" @click="goDetail(item)">
-            {{ item.name }}
-          </view>
-          <!-- <u-count-down
-            v-if="item.dateStartInt > 0" class="count-down" :time="item.dateStartInt"
-            format="距离开始: HH时mm分ss秒"
-          />
-          <u-count-down
-            v-if="item.dateStartInt <= 0 && item.dateEndInt > 0" class="count-down"
-            :time="item.dateEndInt" format="剩余: HH时mm分ss秒"
-          /> -->
-          <view class="miaosha-price-btn">
-            <view class="price">
-              ￥{{ item.minPrice }} <text>￥{{ item.originalPrice }}</text>
-            </view>
-            <!-- <u-button
-              v-if="item.dateStartInt > 0" type="warning" size="mini" plain disabled text="即将开始"
-              @click="goDetail(item)"
-            />
-            <u-button
-              v-else-if="item.dateEndInt <= 0" type="info" size="mini" plain disabled text="已结束"
-              @click="goDetail(item)"
-            />
-            <u-button
-              v-else-if="item.stores <= 0" type="info" size="mini" plain disabled text="已抢完"
-              @click="goDetail(item)"
-            />
-            <u-button v-else type="error" size="mini" plain text="立即抢购" @click="goDetail(item)" /> -->
-          </view>
-        </view>
-      </view>
+    <view>
+      <a v-for="v, i in 100" :key="i">HHHH {{ v }}</a>
     </view>
-    <view v-if="goodsRecommend" class="goodsRecommend">
-      <view class="ttt">
-        <view class="l">
-          <u-line />
-        </view>
-        <view class="content">
-          <image src="/static/images/recommend.png" />
-          <text>爆款推荐</text>
-        </view>
-        <view class="l">
-          <u-line />
-        </view>
-      </view>
-      <view class="goods-container">
-        <view v-for="(item, index) in goodsRecommend" :key="index" class="goods-box" bindtap="toDetailsTap">
-          <view class="img-box">
-            <image
-              :src="item.pic" class="image" mode="aspectFill" lazy-load="true"
-              @click="goDetail(item)"
-            />
-          </view>
-          <view class="goods-title u-line-3 pt16" @click="goDetail(item)">
-            <u-tag
-              v-if="item.supplyType == 'vop_jd' || item.supplyType == 'jdJoycityPoints'" text="京东自营"
-              bg-color="#e64340" border-color="#e64340" size="mini" class="goods-title-tag"
-            />
-            <text class="goods-title">
-              {{ item.name }}
-            </text>
-          </view>
-          <u--text
-            v-if="item.characteristic" class="goods-title" :text="item.characteristic" size="28rpx"
-            color="#c95060"
-          />
-          <view class="price-score">
-            <view v-if="item.minPrice" class="item">
-              <text>¥</text>{{ item.minPrice }}
-            </view>
-            <view v-if="item.minScore" class="item">
-              <text>
-                <image class="score-icon" src="/static/images/score.png" />
-              </text>{{ item.minScore }}
-            </view>
-          </view>
-        </view>
-      </view>
-    </view>
-    <view v-if="kanjiaList" class="miaoshaGoods">
-      <view class="ttt">
-        <view class="l">
-          <u-line />
-        </view>
-        <view class="content">
-          <image src="/static/images/kanjia.png" />
-          <text>疯狂砍价</text>
-        </view>
-        <view class="l">
-          <u-line />
-        </view>
-      </view>
-      <view v-for="(item, index) in kanjiaList" :key="index" class="miaosha-goods-list" @click="toDetailsTap">
-        <image :src="item.pic" class="image" mode="aspectFill" lazy-load="true" @click="goDetail(item)" />
-        <view class="r">
-          <view class="goods-title" @click="goDetail(item)">
-            {{ item.name }}
-          </view>
-          <u--text
-            v-if="item.characteristic" class="goods-title" :text="item.characteristic" size="28rpx"
-            color="#c95060"
-          />
-          <u-line-progress :percentage="item.process" active-color="#ff0000" />
-          <view class="miaosha-price-btn">
-            <view class="price">
-              ￥{{ item.kanjiaPrice }} <text>￥{{ item.minPrice }}</text>
-            </view>
-            <u-button type="error" size="mini" plain text="我要砍价" @click="goDetail(item)" />
-          </view>
-        </view>
-      </view>
-    </view>
-    <view v-if="pingtuanList" class="miaoshaGoods">
-      <view class="ttt">
-        <view class="l">
-          <u-line />
-        </view>
-        <view class="content">
-          <image src="/static/images/pingtuan.png" />
-          <text>全民拼团</text>
-        </view>
-        <view class="l">
-          <u-line />
-        </view>
-      </view>
-      <view v-for="(item, index) in kanjiaList" :key="index" class="miaosha-goods-list" @click="toDetailsTap">
-        <image :src="item.pic" class="image" mode="aspectFill" lazy-load="true" @click="goDetail(item)" />
-        <view class="r">
-          <view class="goods-title" @click="goDetail(item)">
-            {{ item.name }}
-          </view>
-          <u--text
-            v-if="item.characteristic" class="goods-title" :text="item.characteristic" size="28rpx"
-            color="#c95060"
-          />
-          <view class="miaosha-price-btn">
-            <view class="price">
-              ￥{{ item.kanjiaPrice }} <text>￥{{ item.minPrice }}</text>
-            </view>
-            <u-button type="success" size="mini" text="我要拼团" @click="goDetail(item)" />
-          </view>
-        </view>
-      </view>
-    </view>
-    <view v-if="goods" class="goodsRecommend">
-      <view class="ttt">
-        <view class="l">
-          <u-line />
-        </view>
-        <view class="content">
-          <image src="/static/images/goodslist.png" />
-          <text>商品列表</text>
-        </view>
-        <view class="l">
-          <u-line />
-        </view>
-      </view>
-      <view class="goods-container">
-        <view v-for="(item, index) in goods" :key="index" class="goods-box" bindtap="toDetailsTap">
-          <view class="img-box">
-            <image
-              :src="item.pic" class="image" mode="aspectFill" lazy-load="true"
-              @click="goDetail(item)"
-            />
-          </view>
-          <view class="goods-title u-line-3 pt16" @click="goDetail(item)">
-            <u-tag
-              v-if="item.supplyType == 'vop_jd' || item.supplyType == 'jdJoycityPoints'" text="京东自营"
-              bg-color="#e64340" border-color="#e64340" size="mini" class="goods-title-tag"
-            />
-            <text class="goods-title">
-              {{ item.name }}
-            </text>
-          </view>
-          <u--text
-            v-if="item.characteristic" class="goods-title" :text="item.characteristic" size="28rpx"
-            color="#c95060"
-          />
-          <view class="price-score">
-            <view v-if="item.minPrice" class="item">
-              <text>¥</text>{{ item.minPrice }}
-            </view>
-            <view v-if="item.minScore" class="item">
-              <text>
-                <image class="score-icon" src="/static/images/score.png" />
-              </text>{{ item.minScore }}
-            </view>
-          </view>
-        </view>
-      </view>
-    </view>
-    <view class="blank" />
-    <view class="coupons-float" @click="goCoupons">
-      <image src="/static/images/gift.png" />
-    </view>
-    <u-overlay v-if="adPosition['indexPop']" :show="adPositionIndexPop" @click="goUrl(adPosition['indexPop'].url)">
-      <view class="adPositionIndexPop">
-        <image :src="adPosition['indexPop'].val" mode="widthFix" />
-        <view class="close" @click="adPositionIndexPop = false">
-          <u-icon name="close-circle-fill" color="#eee" size="80rpx" />
-        </view>
-      </view>
-    </u-overlay>
   </view>
 </template>
 

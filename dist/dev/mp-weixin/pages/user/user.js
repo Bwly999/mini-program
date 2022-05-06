@@ -1,5 +1,7 @@
 "use strict";
 var __defProp = Object.defineProperty;
+var __defProps = Object.defineProperties;
+var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
 var __getOwnPropSymbols = Object.getOwnPropertySymbols;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __propIsEnum = Object.prototype.propertyIsEnumerable;
@@ -15,6 +17,7 @@ var __spreadValues = (a, b) => {
     }
   return a;
 };
+var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
 var common_vendor = require("../../common/vendor.js");
 const _sfc_main = {
   setup() {
@@ -35,24 +38,35 @@ const _sfc_main = {
       title: "map",
       latitude: 39.909,
       longitude: 116.39742,
-      covers: [{
-        id: 1,
-        latitude: 39.9085,
-        longitude: 116.39747,
-        iconPath: "../../../static/location.png"
-      }, {
-        id: 2,
-        latitude: 39.9,
-        longitude: 116.39,
-        iconPath: "../../../static/location.png"
-      }]
+      covers: []
     });
-    return __spreadValues({
+    function login() {
+      common_vendor.index.login({
+        provider: "weixin",
+        success: (res) => {
+          console.log(res);
+          console.log(res.authResult);
+          common_vendor.index.getUserInfo({
+            provider: "weixin",
+            success(infoRes) {
+              console.log(infoRes);
+              console.log(`\u7528\u6237\u6635\u79F0\u4E3A\uFF1A${infoRes.userInfo.nickName}`);
+            }
+          });
+        },
+        fail: (err) => {
+          console.log(err);
+        }
+      });
+    }
+    return __spreadProps(__spreadValues({
       change,
       single,
       url,
       getMessage
-    }, common_vendor.toRefs(mapData));
+    }, common_vendor.toRefs(mapData)), {
+      login
+    });
   }
 };
 if (!Array) {
@@ -88,7 +102,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     i: _ctx.latitude,
     j: _ctx.longitude,
-    k: _ctx.covers
+    k: _ctx.covers,
+    l: common_vendor.o((...args) => $setup.login && $setup.login(...args))
   };
 }
 var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/vueProjects/my-vue3-project/src/pages/user/user.vue"]]);

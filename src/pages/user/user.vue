@@ -21,30 +21,31 @@ export default {
       title: 'map',
       latitude: 39.909,
       longitude: 116.39742,
-      covers: [{
-        id: 1,
-        latitude: 39.9085,
-        longitude: 116.39747,
-        // #ifdef APP-PLUS
-        iconPath: '../../../static/app-plus/location@3x.png',
-        // #endif
-        // #ifndef APP-PLUS
-        iconPath: '../../../static/location.png',
-        // #endif
-      }, {
-        id: 2,
-        latitude: 39.90,
-        longitude: 116.39,
-        // #ifdef APP-PLUS
-        iconPath: '../../../static/app-plus/location@3x.png',
-        // #endif
-        // #ifndef APP-PLUS
-        iconPath: '../../../static/location.png',
-        // #endif
-      }],
+      covers: [],
     })
+
+    function login() {
+      uni.login({
+        provider: 'weixin',
+        success: (res) => {
+          console.log(res)
+          console.log(res.authResult)
+          // 获取用户信息
+          uni.getUserInfo({
+            provider: 'weixin',
+            success(infoRes) {
+              console.log(infoRes)
+              console.log(`用户昵称为：${infoRes.userInfo.nickName}`)
+            },
+          })
+        },
+        fail: (err) => {
+          console.log(err)
+        },
+      })
+    }
     return {
-      change, single, url, getMessage, ...toRefs(mapData),
+      change, single, url, getMessage, ...toRefs(mapData), login,
     }
   },
 //   methods: {
@@ -57,6 +58,7 @@ export default {
 <template>
   <view>
     <button>rrr{{ isDark }}</button>
+    <web-view src="https://player.bilibili.com/player.html?aid=416605084&bvid=BV13V411i7B7&cid=293227595&page=1" />
     <input>
     <view text-xl mt-6 inline-flex gap-2>
       <button class="icon-btn outline-none inline-flex" @click="toggleDark()">
@@ -90,6 +92,9 @@ export default {
         </view>
       </view>
     </view>
+    <button class="rounded-xl bg-gray-500" @click="login">
+      登录
+    </button>
     about user
   </view>
 </template>

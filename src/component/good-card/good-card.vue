@@ -6,7 +6,6 @@ export interface Good {
   sellingPrice: number
 }
 const props = defineProps<Good>()
-console.log(props)
 </script>
 <template>
   <view class="">

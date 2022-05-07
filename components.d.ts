@@ -5,16 +5,8 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    Empty: typeof import('./src/components/empty.vue')['default']
-    GoodCard: typeof import('./src/components/good-card/good-card.vue')['default']
-    MixListCell: typeof import('./src/components/mix-list-cell.vue')['default']
-    MixLoading: typeof import('./src/components/mix-loading/mix-loading.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    Share: typeof import('./src/components/share.vue')['default']
-    UniNumberBox: typeof import('./src/components/uni-number-box.vue')['default']
-    UploadImages: typeof import('./src/components/upload-images.vue')['default']
-    Winglau14LotusAddress: typeof import('./src/components/Winglau14-lotusAddress/Winglau14-lotusAddress.vue')['default']
   }
 }
 

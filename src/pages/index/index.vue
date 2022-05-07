@@ -1,12 +1,13 @@
 <script lang="ts">
 import { ref } from 'vue'
-import { Skeleton } from 'vant'
 import { onReachBottom } from '@dcloudio/uni-app'
-// import GoodCard from '@/components/GoodCard.vue'
-// import type { Good } from '@/components/good-card/good-card.vue'
+import MixLoading from '../../component/mix-loading/mix-loading.vue'
+import GoodCard from '@/component/good-card/good-card.vue'
+import type { Good } from '@/component/good-card/good-card.vue'
 
 export default {
-//   components: { GoodCard },
+  components: { MixLoading, GoodCard },
+  //   components: { GoodCard },
   setup() {
     const hots = [
       {
@@ -154,11 +155,12 @@ export default {
         <!--  #endif -->
       </view>
     </view>
+    <MixLoading />
     <div class="good">
       <header class="good-header">
         热门商品
       </header>
-      <!-- <good-card goods-id="1" goods-name="'1'" goods-cover-img="'11'" selling-price="1" /> -->
+      <!-- <good-card>1</good-card> -->
       <good-card class="" v-bind="good" />
       <!-- <view title :row="3" :loading="loading">
         <div class="good-box">

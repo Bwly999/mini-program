@@ -6,6 +6,7 @@ import '@vue/runtime-core'
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Empty: typeof import('./src/components/empty.vue')['default']
+    GoodCard: typeof import('./src/components/good-card/good-card.vue')['default']
     MixListCell: typeof import('./src/components/mix-list-cell.vue')['default']
     MixLoading: typeof import('./src/components/mix-loading/mix-loading.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

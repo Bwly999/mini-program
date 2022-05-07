@@ -2,8 +2,11 @@
 import { ref } from 'vue'
 import { Skeleton } from 'vant'
 import { onReachBottom } from '@dcloudio/uni-app'
+// import GoodCard from '@/components/GoodCard.vue'
+// import type { Good } from '@/components/good-card/good-card.vue'
 
 export default {
+//   components: { GoodCard },
   setup() {
     const hots = [
       {
@@ -13,7 +16,12 @@ export default {
         sellingPrice: 100001,
       },
     ]
-
+    const good = ref({
+      goodsId: 1,
+      goodsName: '耳机',
+      goodsCoverImg: 'https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/MME73_AV4_GEO_CN.jpeg',
+      sellingPrice: 100001,
+    })
     const imgUrls = ref<Array<string>>([
       'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b4b60b10-5168-11eb-bd01-97bc1429a9ff.jpg',
       'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b1dcfa70-5168-11eb-bd01-97bc1429a9ff.jpg',
@@ -21,20 +29,17 @@ export default {
     function addImg() {
       imgUrls.value.push('https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b4b60b10-5168-11eb-bd01-97bc1429a9ff.jpg')
     }
-
     const data = ref<Array<number>>([])
     let idx = 0
     for (let i = 0; i < 20; i++) {
       data.value.push(idx)
       idx++
     }
-
     const showLoadMore = ref<boolean>(false)
     const loadMoreText = ref<string>('加载中...')
-
     onReachBottom(() => {
       console.log('reach bottom')
-	  showLoadMore.value = true
+      showLoadMore.value = true
       setTimeout(() => {
         for (let i = 0; i < 10; i++) {
           data.value.push(idx)
@@ -43,9 +48,14 @@ export default {
         showLoadMore.value = false
       }, 500)
     })
-
     return {
-      imgUrls, addImg, data, showLoadMore, loadMoreText,
+      imgUrls,
+      addImg,
+      data,
+      showLoadMore,
+      loadMoreText,
+      hots,
+      good,
     }
   },
 }
@@ -148,10 +158,12 @@ export default {
       <header class="good-header">
         热门商品
       </header>
-      <van-skeleton title :row="3" :loading="loading">
+      <!-- <good-card goods-id="1" goods-name="'1'" goods-cover-img="'11'" selling-price="1" /> -->
+      <good-card class="" v-bind="good" />
+      <!-- <view title :row="3" :loading="loading">
         <div class="good-box">
           <div v-for="item in hots" :key="item.goodsId" class="good-item" @click="goToDetail(item)">
-            <img :src="$filters.prefix(item.goodsCoverImg)" alt="">
+            <img :src="item.goodsCoverImg" alt="">
             <div class="good-desc">
               <div class="title">
                 {{ item.goodsName }}
@@ -162,7 +174,7 @@ export default {
             </div>
           </div>
         </div>
-      </van-skeleton>
+      </view> -->
     </div>
     <!-- <view>
       <a v-for="v, i in data" :key="i">HHHH {{ v }}</a>

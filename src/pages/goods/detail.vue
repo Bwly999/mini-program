@@ -21,13 +21,13 @@ onReady(() => {
 //     showCancel: false,
 //   })
   if (hasVideo.value)
-    videoContext = uni.createVideoContext('myvideo')
+    videoContext = uni.createVideoContext('myVideo')
 })
 function autoStopVideo(e) {
   console.log(e)
   if (hasVideo.value && videoContext !== undefined && e.detail.current !== 0) {
     videoContext.pause()
-    console.log('pause')
+    console.log(videoContext)
   }
 }
 </script>
@@ -45,6 +45,9 @@ function autoStopVideo(e) {
           <image class="" style="height: 100%;  width: 100%;" :src="img" />
         </swiper-item>
       </swiper>
+    </view>
+    <view @click="autoStopVideo">
+      傻鸟
     </view>
   </view>
 </template>

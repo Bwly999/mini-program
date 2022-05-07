@@ -58,7 +58,7 @@ export default {
 <template>
   <view>
     <button>rrr{{ isDark }}</button>
-    <web-view src="https://player.bilibili.com/player.html?aid=416605084&bvid=BV13V411i7B7&cid=293227595&page=1" />
+    <!-- <web-view src="https://player.bilibili.com/player.html?aid=416605084&bvid=BV13V411i7B7&cid=293227595&page=1" /> -->
     <input>
     <view text-xl mt-6 inline-flex gap-2>
       <button class="icon-btn outline-none inline-flex" @click="toggleDark()">

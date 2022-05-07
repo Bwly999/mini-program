@@ -1,114 +1,97 @@
 <script lang="ts">
+import { ref } from 'vue'
+import { Skeleton } from 'vant'
+import { onReachBottom } from '@dcloudio/uni-app'
 
 export default {
+  setup() {
+    const hots = [
+      {
+        goodsId: 1,
+        goodsName: '耳机',
+        goodsCoverImg: 'https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/MME73_AV4_GEO_CN.jpeg',
+        sellingPrice: 100001,
+      },
+    ]
 
-  data() {
+    const imgUrls = ref<Array<string>>([
+      'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b4b60b10-5168-11eb-bd01-97bc1429a9ff.jpg',
+      'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b1dcfa70-5168-11eb-bd01-97bc1429a9ff.jpg',
+    ])
+    function addImg() {
+      imgUrls.value.push('https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b4b60b10-5168-11eb-bd01-97bc1429a9ff.jpg')
+    }
+
+    const data = ref<Array<number>>([])
+    let idx = 0
+    for (let i = 0; i < 20; i++) {
+      data.value.push(idx)
+      idx++
+    }
+
+    const showLoadMore = ref<boolean>(false)
+    const loadMoreText = ref<string>('加载中...')
+
+    onReachBottom(() => {
+      console.log('reach bottom')
+	  showLoadMore.value = true
+      setTimeout(() => {
+        for (let i = 0; i < 10; i++) {
+          data.value.push(idx)
+          idx++
+        }
+        showLoadMore.value = false
+      }, 500)
+    })
+
     return {
-      swiperCurrent: 0,
-      swiperLength: 0,
-      carouselList: [],
-      goodsList: [],
+      imgUrls, addImg, data, showLoadMore, loadMoreText,
     }
   },
-
-  onShow() {
-    this.loadData()
-  },
-  methods: {
-    /**
-			 * 请求静态数据只是为了代码不那么乱
-			 * 分次请求未作整合
-			 */
-    async loadData() {
-      const that = this
-      // getAdvertList().then((response) => {
-      //   const data = response.data
-      //   if (data) {
-      //     that.swiperLength = data.length
-      //     that.carouselList = data
-      //   }
-      // })
-
-      // const goodsList = await this.$api.json('goodsList')
-      // this.goodsList = goodsList || []
-    },
-    // 轮播图切换修改背景色
-    swiperChange(e) {
-      const index = e.detail.current
-      this.swiperCurrent = index
-    },
-    // 详情页
-    navToDetailPage(item) {
-      // 测试数据没有写id，用title代替
-      const id = item.title
-      uni.navigateTo({
-        url: `/pages/product/product?id=${id}`,
-      })
-    },
-  },
-  // #ifndef MP
-  // 标题栏input搜索框点击
-  async onNavigationBarSearchInputClicked(e) {
-    this.$api.msg('点击了搜索框')
-  },
-  // 点击导航栏 buttons 时触发
-  onNavigationBarButtonTap(e) {
-    const index = e.index
-    if (index === 0) {
-      this.$api.msg('点击了扫描')
-    }
-    else if (index === 1) {
-      // #ifdef APP-PLUS
-      const pages = getCurrentPages()
-      const page = pages[pages.length - 1]
-      const currentWebview = page.$getAppWebview()
-      currentWebview.hideTitleNViewButtonRedDot({
-        index,
-      })
-      // #endif
-      uni.navigateTo({
-        url: '/pages/notice/notice',
-      })
-    }
-  },
-  // #endif
 }
 </script>
 
 <template>
   <view class="index">
-    <view class="top-0 bg-teal-500" style="position: -webkit-sticky; position: sticky;">
-      <view class="search-box">
-        <input type="text" placeholder="搜索商品">
+    <view class="top-0 flex gap-2 bg-white z-1" style="position: -webkit-sticky; position: sticky;">
+      <a class="ml-2 text-lg font-bold">农产品</a>
+      <view class="search-box rounded-xl bg-gray-100 text-center">
+        <input type="text" placeholder="输入关键字搜索">
         <view class="search-icon" />
       </view>
-      <view class="nav-bar flex">
-        <view class="nav-item">
-          <view class="nav-icon" />
-          <view class="nav-text">
-            首页
+    </view>
+    <view>
+      <swiper class="w-100vw" indicator-dots="true">
+        <swiper-item v-for="img, key in imgUrls" :key="key">
+          <image class="" style="height: 100%;  width: 100%;" :src="img" />
+        </swiper-item>
+      </swiper>
+    </view>
+    <view class="m-1rem flex justify-center flex-col rounded-xl shadow-lg gap-2">
+      <view class="flex justify-around gap-2">
+        <view v-for="v, i in 5" :key="i">
+          <view class="flex flex-col">
+            <a
+              class="i-carbon-logo-github text-4xl"
+            />
+            <a class="mt-1 text-center text-xs">上装</a>
           </view>
         </view>
-        <view class="nav-item">
-          <view class="nav-icon" />
-          <view class="nav-text">
-            分类
-          </view>
-        </view>
-        <view class="nav-item">
-          <view class="nav-icon" />
-          <view class="nav-text">
-            购物车
-          </view>
-        </view>
-        <view class="nav-item">
-          <view class="nav-icon" />
-          <view class="nav-text">
-            我的
+      </view>
+      <view class="flex justify-around gap-2">
+        <view v-for="v, i in 5" :key="i">
+          <view class="flex flex-col">
+            <a
+              class="i-carbon-moon text-4xl"
+            />
+            <a class="mt-1 text-center text-xs">上装</a>
           </view>
         </view>
       </view>
     </view>
+    <button @click="addImg">
+      ADD ITEM
+    </button>
     <view class="">
       <view class="">
         <view class="uni-title uni-common-mt">
@@ -161,9 +144,32 @@ export default {
         <!--  #endif -->
       </view>
     </view>
-    <view>
-      <a v-for="v, i in 100" :key="i">HHHH {{ v }}</a>
+    <div class="good">
+      <header class="good-header">
+        热门商品
+      </header>
+      <van-skeleton title :row="3" :loading="loading">
+        <div class="good-box">
+          <div v-for="item in hots" :key="item.goodsId" class="good-item" @click="goToDetail(item)">
+            <img :src="$filters.prefix(item.goodsCoverImg)" alt="">
+            <div class="good-desc">
+              <div class="title">
+                {{ item.goodsName }}
+              </div>
+              <div class="price">
+                ¥ {{ item.sellingPrice }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </van-skeleton>
+    </div>
+    <!-- <view>
+      <a v-for="v, i in data" :key="i">HHHH {{ v }}</a>
     </view>
+    <view v-if="showLoadMore" class="uni-loadmore">
+      {{ loadMoreText }}
+    </view> -->
   </view>
 </template>
 

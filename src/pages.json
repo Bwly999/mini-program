@@ -20,6 +20,12 @@
 			"style": {
 				"navigationBarTitleText": "商品详情"
 			}
+		},
+		{
+			"path": "pages/service/service",
+			"style": {
+				"navigationBarTitleText": "客服咨询"
+			}
 		}
 	],
 	"globalStyle": {

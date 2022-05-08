@@ -4,6 +4,12 @@ import { ref } from 'vue'
 import echoneSku from '@/component/echone-sku/echone-sku.vue'
 import alGoodsDetail from '@/component/al-goods-detail/al-goods-detail.vue'
 import uniEvaluate from '@/component/uni-evaluate/uni-evaluate.vue'
+interface GoodDetail {
+  goodsId: number
+  shopId: number
+}
+const props = defineProps<GoodDetail>()
+
 const imgUrls = ref<Array<string>>([
   'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b4b60b10-5168-11eb-bd01-97bc1429a9ff.jpg',
   'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b1dcfa70-5168-11eb-bd01-97bc1429a9ff.jpg',
@@ -31,32 +37,28 @@ const options = ref([{
 }, {
   icon: 'shop',
   text: '店铺',
-  info: 2,
   infoBackgroundColor: '#007aff',
   infoColor: '#f5f5f5',
-}, {
-  icon: 'cart',
-  text: '购物车',
-  info: 2,
 }])
 
-const buttonGroup = ref([{
-  text: '加入购物车',
-  backgroundColor: 'linear-gradient(90deg, #FFCD1E, #FF8A18)',
-  color: '#fff',
-},
-{
-  text: '立即购买',
-  backgroundColor: 'linear-gradient(90deg, #FE6035, #EF1224)',
-  color: '#fff',
-},
+const buttonGroup = ref([
+  {
+    text: '立即购买',
+    backgroundColor: 'linear-gradient(90deg, #FE6035, #EF1224)',
+    color: '#fff',
+  },
 ])
 
 function onClick(e) {
-  uni.showToast({
-    title: `点击${e.content.text}`,
-    icon: 'none',
-  })
+  if (e.content.text === '客服') {
+    uni.navigateTo({
+      url: `/pages/service/service?id=${props.shopId}`,
+    })
+  }
+  // uni.showToast({
+  //   title: `点击${e.content.text}`,
+  //   icon: 'none',
+  // })
 }
 // 评论
 const listData = [{
@@ -209,6 +211,8 @@ function autoStopVideo(e) {
     <view @click="autoStopVideo">
       傻鸟
     </view>
+    <uni-icons type="contact" size="30" />
+    <a class="i-carbon-microphone text-2xl" />
     <al-goods-detail :goods-detail="goodsDetail" interval="5000" />
     <echone-sku
       :show="skuShow"

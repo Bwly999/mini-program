@@ -44,8 +44,13 @@ export default {
         },
       })
     }
+    function navToMyOrder() {
+      uni.navigateTo({
+        url: '/pages/order/order',
+      })
+    }
     return {
-      change, single, url, getMessage, ...toRefs(mapData), login,
+      change, single, url, getMessage, ...toRefs(mapData), login, navToMyOrder,
     }
   },
 //   methods: {
@@ -94,6 +99,9 @@ export default {
     </view>
     <button class="rounded-xl bg-gray-500" @click="login">
       登录
+    </button>
+    <button @click="navToMyOrder">
+      我的订单
     </button>
     about user
   </view>

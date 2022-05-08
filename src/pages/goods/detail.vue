@@ -1,11 +1,119 @@
 <script lang="ts" setup>
 import { onLoad, onReady } from '@dcloudio/uni-app'
 import { ref } from 'vue'
+import echoneSku from '@/component/echone-sku/echone-sku.vue'
 
 const imgUrls = ref<Array<string>>([
   'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b4b60b10-5168-11eb-bd01-97bc1429a9ff.jpg',
   'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b1dcfa70-5168-11eb-bd01-97bc1429a9ff.jpg',
 ])
+const options = ref([{
+  icon: 'chat',
+  text: '客服',
+}, {
+  icon: 'shop',
+  text: '店铺',
+  info: 2,
+  infoBackgroundColor: '#007aff',
+  infoColor: '#f5f5f5',
+}, {
+  icon: 'cart',
+  text: '购物车',
+  info: 2,
+}])
+
+const buttonGroup = ref([{
+  text: '加入购物车',
+  backgroundColor: 'linear-gradient(90deg, #FFCD1E, #FF8A18)',
+  color: '#fff',
+},
+{
+  text: '立即购买',
+  backgroundColor: 'linear-gradient(90deg, #FE6035, #EF1224)',
+  color: '#fff',
+},
+])
+
+function onClick(e) {
+  uni.showToast({
+    title: `点击${e.content.text}`,
+    icon: 'none',
+  })
+}
+
+// 商品规格
+const specifications = ref([
+  {
+    name: '发证机关',
+    id: '123',
+    list: ['成都市锦江区', '成都市青羊区'],
+  },
+  {
+    name: '教育年度',
+    id: '456',
+    list: ['2020年', '2019年'],
+  },
+])
+const combinations = ref([
+  {
+    id: '1',
+    value: '成都市锦江区,2020年',
+    image:
+      'https://miniprogram-img01.caishuib.com/wx15168444f005a4ab/material/image/202005135/3a014c2f42c1c46b.PNG',
+    price: 80.0,
+    stock: 1000,
+  },
+  {
+    id: '2',
+    value: '成都市锦江区,2019年',
+    image:
+      'https://miniprogram-img01.caishuib.com/wx15168444f005a4ab/material/image/20200383/ebd0c8d01a6e9c10.PNG',
+    price: 100.0,
+    stock: 500,
+  },
+  {
+    id: '3',
+    value: '成都市青羊区,2020年',
+    image:
+      'https://miniprogram-img01.caishuib.com/wx15168444f005a4ab/material/image/202005135/3a014c2f42c1c46b.PNG',
+    price: 80.0,
+    stock: 1000,
+  },
+  {
+    id: '4',
+    value: '成都市青羊区,2019年',
+    image:
+      'https://miniprogram-img01.caishuib.com/wx15168444f005a4ab/material/image/20200383/ebd0c8d01a6e9c10.PNG',
+    price: 100.0,
+    stock: 0,
+  },
+])
+const specificationsProps = ref({
+  id: 'id',
+  list: 'list',
+  name: 'name',
+  value: 'value',
+  image: 'image',
+  price: 'price',
+  stock: 'stock',
+})
+const skuShow = ref(false)
+
+function buttonClick(e: any) {
+  skuShow.value = true
+  if (e.index === 0) {
+    console.log('加入购物车的逻辑')
+    options.value[2]!.info++
+  }
+  else { console.log('立即购买的逻辑') }
+}
+
+function handleClose() {
+  skuShow.value = false
+}
+function handleConfirm() {
+  console.log('confirm')
+}
 
 let id = 1
 onLoad((option) => {
@@ -30,6 +138,7 @@ function autoStopVideo(e) {
     console.log(videoContext)
   }
 }
+
 </script>
 
 <template>
@@ -49,5 +158,32 @@ function autoStopVideo(e) {
     <view @click="autoStopVideo">
       傻鸟
     </view>
+    <echone-sku
+      :show="skuShow"
+      :combinations="combinations"
+      :specifications="specifications"
+      :specifications-props="specificationsProps"
+      @close="handleClose"
+      @confirm="handleConfirm"
+    />
+    <view class="goods-carts">
+      <uni-goods-nav
+        :options="options" :fill="true" :button-group="buttonGroup" @click="onClick"
+        @button-click="buttonClick"
+      />
+    </view>
   </view>
 </template>
+
+<style scoped>
+.goods-carts {
+display: flex;
+flex-direction: column;
+position: fixed;
+left: 0;
+right: 0;
+left: var(--window-left);
+right: var(--window-right);
+bottom: 0;
+}
+</style>

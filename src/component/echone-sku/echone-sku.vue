@@ -53,6 +53,13 @@ export default {
         }
       },
     },
+    mode: {
+      // 0 购买  1加入购物车
+      type: Number,
+      default() {
+        return 0
+      },
+    },
   },
   setup(props: any, { emit }) {
     const skuData = reactive({
@@ -94,7 +101,7 @@ export default {
           })
           return
         }
-        item.sdix = sIndex
+        item.sidx = sIndex
       })
     }
     function selectSku(sIndex: any, index: any) {
@@ -139,6 +146,8 @@ export default {
         initSkuData()
     })
 
+    const model = computed(() => props.model)
+
     return {
       speData,
       ...toRefs(skuData),
@@ -148,6 +157,7 @@ export default {
       closeSkuBox,
       handleConfirm,
       acutalPrice,
+      model,
     }
   },
 }
@@ -212,7 +222,7 @@ export default {
         </view>
       </view>
       <view class="confirm-btn container" :class="{disabled:selectSkuInfo[cbStock]==0}" :style="{backgroundColor:themeColor}" @click="handleConfirm">
-        {{ selectSkuInfo[cbStock]>0?'立即购买':'缺货中' }}
+        {{ selectSkuInfo[cbStock]>0?mode == 0 ? '购买' : '加入购物车' : '缺货中' }}
       </view>
     </view>
   </popup-bottom>

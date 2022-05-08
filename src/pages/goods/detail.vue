@@ -2,11 +2,29 @@
 import { onLoad, onReady } from '@dcloudio/uni-app'
 import { ref } from 'vue'
 import echoneSku from '@/component/echone-sku/echone-sku.vue'
-
+import alGoodsDetail from '@/component/al-goods-detail/al-goods-detail.vue'
+import uniEvaluate from '@/component/uni-evaluate/uni-evaluate.vue'
 const imgUrls = ref<Array<string>>([
   'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b4b60b10-5168-11eb-bd01-97bc1429a9ff.jpg',
   'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b1dcfa70-5168-11eb-bd01-97bc1429a9ff.jpg',
 ])
+
+const goodsDetail = {
+  actualPrice: 100,
+  originalPrice: 101,
+  title: '马肉',
+  shopLogo: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b1dcfa70-5168-11eb-bd01-97bc1429a9ff.jpg',
+  shopName: '马肉店',
+  dsrScore: 1,
+  serviceScore: 1,
+  shipScore: 1,
+  monthSales: 1,
+  detailPics: [
+    'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b4b60b10-5168-11eb-bd01-97bc1429a9ff.jpg',
+    'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b1dcfa70-5168-11eb-bd01-97bc1429a9ff.jpg',
+  ],
+}
+
 const options = ref([{
   icon: 'chat',
   text: '客服',
@@ -40,6 +58,34 @@ function onClick(e) {
     icon: 'none',
   })
 }
+// 评论
+const listData = [{
+  header_img: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b1dcfa70-5168-11eb-bd01-97bc1429a9ff.jpg',
+  user_name: '测试1',
+  rate: 5,
+  create_time: '2019-04-12',
+  content: '好评',
+  imgs: [
+    'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b1dcfa70-5168-11eb-bd01-97bc1429a9ff.jpg',
+    'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b1dcfa70-5168-11eb-bd01-97bc1429a9ff.jpg',
+  ],
+},
+{
+  content: '中评',
+  create_time: '2019-04-12',
+  header_img: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b1dcfa70-5168-11eb-bd01-97bc1429a9ff.jpg',
+  user_name: '测试2',
+  rate: 4,
+  // imgs:[]
+},
+{
+  content: '',
+  create_time: '2019-04-12',
+  header_img: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b1dcfa70-5168-11eb-bd01-97bc1429a9ff.jpg',
+  user_name: '测试3',
+  rate: 2,
+  // imgs:[]
+}]
 
 // 商品规格
 const specifications = ref([
@@ -98,14 +144,19 @@ const specificationsProps = ref({
   stock: 'stock',
 })
 const skuShow = ref(false)
+const skuMode = ref(0)
 
 function buttonClick(e: any) {
-  skuShow.value = true
   if (e.index === 0) {
+    skuMode.value = 1
     console.log('加入购物车的逻辑')
     options.value[2]!.info++
   }
-  else { console.log('立即购买的逻辑') }
+  else {
+    console.log('立即购买的逻辑')
+    skuMode.value = 0
+  }
+  skuShow.value = true
 }
 
 function handleClose() {
@@ -144,7 +195,7 @@ function autoStopVideo(e) {
 <template>
   <view>
     <view>
-      <swiper class="w-100vw" indicator-dots="true" @change="autoStopVideo">
+      <swiper class="w-100vw h-30vh" indicator-dots="true" @change="autoStopVideo">
         <swiper-item>
           <video
             id="myVideo" style="height: 100%;  width: 100%;" src="https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/%E7%AC%AC1%E8%AE%B2%EF%BC%88uni-app%E4%BA%A7%E5%93%81%E4%BB%8B%E7%BB%8D%EF%BC%89-%20DCloud%E5%AE%98%E6%96%B9%E8%A7%86%E9%A2%91%E6%95%99%E7%A8%8B@20181126-lite.m4v" enable-danmu danmu-btn controls poster="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b1476d40-4e5f-11eb-b997-9918a5dda011.png"
@@ -158,14 +209,17 @@ function autoStopVideo(e) {
     <view @click="autoStopVideo">
       傻鸟
     </view>
+    <al-goods-detail :goods-detail="goodsDetail" interval="5000" />
     <echone-sku
       :show="skuShow"
       :combinations="combinations"
       :specifications="specifications"
       :specifications-props="specificationsProps"
+      :mode="skuMode"
       @close="handleClose"
       @confirm="handleConfirm"
     />
+    <uni-evaluate :list-data="listData" :rate="1" />
     <view class="goods-carts">
       <uni-goods-nav
         :options="options" :fill="true" :button-group="buttonGroup" @click="onClick"

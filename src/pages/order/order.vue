@@ -115,7 +115,7 @@
         }
 
         .right {
-            color: $u-warning-dark;
+            color: darkblue;
         }
     }
 
@@ -144,7 +144,7 @@
             .type {
                 margin: 10rpx 0;
                 font-size: 24rpx;
-                color: $u-tips-color;
+                color: red;
             }
 
             .delivery-time {
@@ -164,7 +164,7 @@
             }
 
             .number {
-                color: $u-tips-color;
+                color: red;
                 font-size: 24rpx;
             }
         }
@@ -184,22 +184,22 @@
         display: flex;
         margin-top: 40rpx;
         padding: 0 10rpx;
-        justify-content: end;
+        justify-content: flex-end;
         align-items: center;
 
         .btn {
             line-height: 52rpx;
             width: 160rpx;
             border-radius: 26rpx;
-            border: 2rpx solid $u-border-color;
+            border: 2rpx solid gray;
             font-size: 26rpx;
             text-align: center;
-            color: $u-info-dark;
+            color: black;
         }
 
         .evaluate {
-            color: $u-warning-dark;
-            border-color: $u-warning-dark;
+            color: black;
+            border-color: gray;
         }
     }
 }

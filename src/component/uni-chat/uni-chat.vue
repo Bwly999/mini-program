@@ -265,13 +265,13 @@ function fixSelfData(arr) {
         <!-- <image class="cola-keyboard__more" src="" mode=""></image> -->
         <!-- <uni-icon size="40" class="cola-keyboard__more" type="plus" @tap="moreButton" /> -->
 
-        <a class="i-carbon-add-alt text-2xl" />
+        <a class="i-carbon-add-alt text-2xl" @tap="moreButton" />
       </view>
     </view>
     <view class="bottom-more" :style="{'height':(moreIsShow? '400' : '0')+'rpx'}">
       <view v-for="(item,index) in moreFunction" :key="index" class="bottom-more__block" @tap="buttonClick(index)">
         <view class="bottom-more__block__img">
-          <image v-if="item.img!==''" class="bottom-more__block__img__icon" src="" mode="" />
+          <image v-if="item.img!==''" class="more__block__img__icon" src="" mode="" />
           <!-- <uni-icon v-else :size="iconSize" class="bottom-more__block__img__icon" :type="item.icon" /> -->
           <a v-else :class="`${item.icon} ${iconSize}`" />
         </view>
@@ -284,6 +284,15 @@ function fixSelfData(arr) {
 </template>
 
 <style lang="scss" scoped>
+.bottom-more__block{
+  width: 120rpx;
+  height: 200rpx;
+  margin-top: 5rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
 .self-body {
 color: #fff;
 background-color: #19be6b;
@@ -377,7 +386,6 @@ color: #00bc43;
 }
 .bottom-keyboard{
 width: 92%;
-min-height: 140rpx;
 padding: 30rpx 30rpx 0 30rpx;
 padding-bottom: constant(safe-area-inset-bottom); // 核心代码
 padding-bottom: env(safe-area-inset-bottom); // 核心代码
@@ -387,6 +395,15 @@ bottom: 0;
 left: 0;
 transition: bottom 0.5s;
 z-index: 99;
+
+.cola-keyboard__input{
+  height: 100%;
+  width: 65%;
+  padding: 0 20rpx;
+  background-color: #fff;
+  border-radius: 10rpx;
+  box-sizing: border-box;
+}
 .cola-keyboard {
   display: flex;
   flex-direction: row;
@@ -396,15 +413,6 @@ z-index: 99;
   width: 60rpx;
   height: 60rpx;
   background-color: blue;
-  }
-  &__input {
-  // margin-left: 30rpx;
-  height: 100%;
-  width: 65%;
-  padding: 0 20rpx;
-  background-color: #fff;
-  border-radius: 10rpx;
-  box-sizing: border-box;
   }
   &__expression {
   // width: 60rpx;
@@ -461,5 +469,14 @@ content: '';
 flex: 1;
 }
 }
+}
+
+.bottom-more__block__img{
+width: 120rpx;
+height: 120rpx;
+line-height: 150rpx;
+text-align: center;
+background-color: #FFF;
+border-radius: 20rpx;
 }
 </style>

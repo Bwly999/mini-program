@@ -1,90 +1,55 @@
 <script lang="ts" setup>
+import { reactive, ref } from 'vue'
+import type { Order } from '@/component/order-card/order-card.vue'
+import orderCard from '@/component/order-card/order-card.vue'
+
+const tabs = reactive(['全部', '待付款', '待发货', '待收货', '待评价'])
+const current = ref(0)
+function onClickItem(e: any) {
+  if (current.value !== e.currentIndex)
+    current.value = e.currentIndex
+}
+
+const orderList = ref<Array<Order>>([
+  {
+    id: '1',
+    name: '商品1',
+    goodsIdList: [1, 2],
+    price: 100,
+    count: 1,
+    time: '2020-05-01',
+    status: '待发货',
+  },
+])
 </script>
 
 <template>
   <view>
     <view class="wrap">
-      <u-sticky bg-color="#ffffff">
-        <view class="u-tabs-box">
-          <u-tabs line-color="#e64340" :list="list" :current="current" @change="change" />
-        </view>
-      </u-sticky>
-      <page-box-empty
-        v-if="!orderList || orderList.length == 0" title="您还没有相关的订单" sub-title="可以去看看有那些想买的～"
-        :show-btn="true"
-      />
-      <view v-else class="page-box">
-        <view v-for="(item, index) in orderList" :key="item.id" class="order">
-          <view class="top" @click="godetail(item.id)">
-            <view class="left">
-              订单号: {{ item.orderNumber }}
-            </view>
-            <view class="right">
-              {{ item.statusStr }}
-            </view>
-          </view>
-          <view v-for="(item2, index2) in item.goodsList" :key="item2.id" class="item">
-            <view class="left">
-              <image :src="item2.pic" mode="aspectFill" />
-            </view>
-            <view class="content">
-              <view class="title u-line-2">
-                {{ item2.goodsName }}
-              </view>
-              <view v-if="item2.property" class="type">
-                {{ item2.property }}
-              </view>
-            </view>
-            <view class="right">
-              <view class="price-score">
-                <view v-if="item2.amountSingle" class="item">
-                  <text>¥</text>{{ item2.amountSingle }}
-                </view>
-                <view v-if="item2.score" class="item">
-                  <text>
-                    <image class="score-icon" src="/static/images/score.png" />
-                  </text>{{ item2.score }}
-                </view>
-              </view>
-              <view class="number">
-                x{{ item2.number }}
-              </view>
-            </view>
-          </view>
-          <view class="total">
-            共{{ item.goodsNumber }}件商品 合计:
-            <view class="price-score" style="display: inline-flex;">
-              <view v-if="item.amountReal" class="item">
-                <text>¥</text>{{ item.amountReal }}
-              </view>
-              <view v-if="item.score" class="item">
-                <text>
-                  <image class="score-icon" src="/static/images/score.png" />
-                </text>{{ item.score }}
-              </view>
-            </view>
-          </view>
-          <view v-if="item.status == 0" class="bottom">
-            <view class="exchange btn" @click="close(item.id)">
-              取消订单
-            </view>
-            <view class="evaluate btn ml24" @click="pay(index)">
-              立即支付
-            </view>
-          </view>
-          <view v-if="item.status > 0 && !item.isEnd" class="bottom">
-            <view v-if="item.refundStatus == 1" class="btn-box">
-              <u-button
-                type="error" plain size="small" shape="circle" text="撤销售后"
-                @click="refundCancel(item)"
-              />
-            </view>
-            <view v-else class="btn-box">
-              <u-button type="error" plain size="small" shape="circle" text="退换货" @click="refund(item)" />
+      <view bg-color="#ffffff" class="sticky top-0">
+        <uni-section title="实心标签" type="line">
+          <uni-segmented-control
+            :current="current" :values="tabs" style-type="text"
+            active-color="red" @click-item="onClickItem"
+          />
+        </uni-section>
+      </view>
+      <view class="content">
+        <view v-for="v, i in tabs" :key="i">
+          <view v-if="current === i" class="all">
+            <text class="content-text">
+              选项卡{{ v }}的内容
+            </text>
+            <view>
+              <order-card v-for="order1, orderIdx in orderList" :key="orderIdx" :order="order1" />
             </view>
           </view>
         </view>
       </view>
+      <page-box-empty
+        v-if="!orderList || orderList.length == 0" title="您还没有相关的订单" sub-title="可以去看看有那些想买的～"
+        :show-btn="true"
+      />
     </view>
   </view>
 </template>

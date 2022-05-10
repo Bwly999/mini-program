@@ -24,20 +24,26 @@ export default {
       covers: [],
     })
 
+    function getUserInfo() {
+      // 获取用户信息
+      uni.getUserProfile({
+        desc: '获取用户信息',
+        success(infoRes) {
+          console.log(infoRes)
+          console.log(`用户昵称为：${infoRes.userInfo.nickName}`)
+        },
+        fail(err) {
+          console.log(err)
+        },
+      })
+    }
+
     function login() {
       uni.login({
         provider: 'weixin',
         success: (res) => {
           console.log(res)
           console.log(res.authResult)
-          // 获取用户信息
-          uni.getUserInfo({
-            provider: 'weixin',
-            success(infoRes) {
-              console.log(infoRes)
-              console.log(`用户昵称为：${infoRes.userInfo.nickName}`)
-            },
-          })
         },
         fail: (err) => {
           console.log(err)
@@ -50,7 +56,7 @@ export default {
       })
     }
     return {
-      change, single, url, getMessage, ...toRefs(mapData), login, navToMyOrder,
+      change, single, url, getMessage, ...toRefs(mapData), login, navToMyOrder, getUserInfo,
     }
   },
 //   methods: {
@@ -97,7 +103,7 @@ export default {
         </view>
       </view>
     </view>
-    <button class="rounded-xl bg-gray-500" @click="login">
+    <button class="rounded-xl bg-gray-500" @tap="getUserInfo">
       登录
     </button>
     <button @click="navToMyOrder">

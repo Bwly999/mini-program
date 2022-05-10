@@ -26,6 +26,12 @@
 			"style": {
 				"navigationBarTitleText": "我的订单"
 			}
+		},
+		{
+			"path": "pages/service/service",
+			"style": {
+				"navigationBarTitleText": "客服咨询"
+			}
 		}
 	],
 	"globalStyle": {

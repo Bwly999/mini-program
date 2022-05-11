@@ -32,6 +32,12 @@
 			"style": {
 				"navigationBarTitleText": "客服咨询"
 			}
+		},
+		{
+			"path": "pages/fright/fright",
+			"style": {
+				"navigationBarTitleText": "物流信息"
+			}
 		}
 	],
 	"globalStyle": {

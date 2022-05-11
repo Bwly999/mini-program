@@ -4,9 +4,9 @@ import { onReachBottom } from '@dcloudio/uni-app'
 import MixLoading from '../../component/mix-loading/mix-loading.vue'
 import GoodCard from '@/component/good-card/good-card.vue'
 import type { Good } from '@/component/good-card/good-card.vue'
-
+import Mysearch from '@/component/mysearch/mysearch.vue'
 export default {
-  components: { MixLoading, GoodCard },
+  components: { MixLoading, GoodCard, Mysearch },
   //   components: { GoodCard },
   setup() {
     const hots = [
@@ -50,6 +50,9 @@ export default {
         showLoadMore.value = false
       }, 500)
     })
+    function searchclick(options: any) {
+      console.log(options)
+    }
     console.log(good.value)
     return {
       imgUrls,
@@ -59,6 +62,7 @@ export default {
       loadMoreText,
       hots,
       good,
+      searchclick,
     }
   },
 }
@@ -66,13 +70,15 @@ export default {
 
 <template>
   <view class="index">
-    <view class="top-0 flex gap-2 bg-white z-1" style="position: -webkit-sticky; position: sticky;">
-      <a class="ml-2 text-lg font-bold">农产品</a>
+    <!-- <view class="top-0 flex gap-2 bg-white z-1" style="position: -webkit-sticky; position: sticky;">
       <view class="search-box rounded-xl bg-gray-100 text-center">
         <input type="text" placeholder="输入关键字搜索">
         <view class="search-icon" />
       </view>
-    </view>
+      <a class="ml-2 text-lg font-bold">农产品</a>
+
+    </view> -->
+    <Mysearch :select-list="[{name: '傻鸟1'},{name: 'bird'}]" @search-click="searchclick" />
     <view>
       <swiper class="w-100vw" indicator-dots="true">
         <swiper-item v-for="img, key in imgUrls" :key="key">

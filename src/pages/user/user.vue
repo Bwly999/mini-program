@@ -1,14 +1,16 @@
 <script lang="ts">
 import { reactive, ref, toRefs } from 'vue'
 import { isDark, toggleDark } from '@/composables'
+import mysearch from '@/component/mysearch/mysearch.vue'
+import Mysearch from '@/component/mysearch/mysearch.vue'
 export default {
+  components: { Mysearch },
   setup() {
     const single = ref<string>('')
     const change = (e: string) => {
       single.value = e
       console.log('-change事件:', e)
     }
-
     const url = ref<string>('https://staging-cn.vuejs.org/api/composition-api-setup.html#basic-usage')
     function getMessage(event) {
       console.log(typeof event)
@@ -23,7 +25,6 @@ export default {
       longitude: 116.39742,
       covers: [],
     })
-
     function getUserInfo() {
       // 获取用户信息
       uni.getUserProfile({
@@ -37,7 +38,6 @@ export default {
         },
       })
     }
-
     function login() {
       uni.login({
         provider: 'weixin',
@@ -55,15 +55,29 @@ export default {
         url: '/pages/order/order',
       })
     }
+    const frightNo = ref('')
+    function navToFright(no: string) {
+      uni.navigateTo({
+        url: `/pages/fright/fright?id=${no}`,
+      })
+    }
+    function searchclick(options: any) {
+      console.log(options)
+    }
     return {
-      change, single, url, getMessage, ...toRefs(mapData), login, navToMyOrder, getUserInfo,
+      change,
+      single,
+      url,
+      getMessage,
+      ...toRefs(mapData),
+      login,
+      navToMyOrder,
+      getUserInfo,
+      navToFright,
+      frightNo,
+      searchclick,
     }
   },
-//   methods: {
-//     toggleDark() {
-//       toggleDark()
-//     },
-//   },
 }
 </script>
 <template>
@@ -108,6 +122,10 @@ export default {
     </button>
     <button @click="navToMyOrder">
       我的订单
+    </button>
+    <input v-model="frightNo" class="text-red">
+    <button @tap="navToFright(frightNo)">
+      物流信息
     </button>
     about user
   </view>

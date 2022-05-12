@@ -19,7 +19,7 @@ export default {
     ]
     const good = ref<Good>({
       goodsId: 1,
-      goodsName: '耳机耳机耳机https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b4b60b10-5168-11eb-bd01-9耳机耳机耳机耳机耳机耳机耳机',
+      goodsName: '耳机',
       goodsCoverImg: 'https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/MME73_AV4_GEO_CN.jpeg',
       sellingPrice: 100001,
       discountPrice: 1,
@@ -168,7 +168,7 @@ export default {
       <view class="font-bold text-xl ml-5 ">
         热门商品
       </view>
-      <img class="h-1rem object-scale-down" src="https://img.alicdn.com/imgextra/i1/O1CN01EjcAPM25IsjiwGyYs_!!6000000007504-2-tps-65-20.png">
+      <!-- <img class="h-1rem object-scale-down" src="https://img.alicdn.com/imgextra/i1/O1CN01EjcAPM25IsjiwGyYs_!!6000000007504-2-tps-65-20.png"> -->
     </view>
 
     <view>

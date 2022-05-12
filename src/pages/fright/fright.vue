@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { onLoad } from '@dcloudio/uni-app'
 import { onMounted, ref } from 'vue'
+import { queryFright } from '@/api/fright/fright'
+import { data as mockData } from '@/mock/fright/fright'
 interface Lee {
   height: string
 }
@@ -40,11 +42,12 @@ const a = {
 }
 // 查询快递信息
 function search() {
-//   uni.request({
-//     url: `https://api.m.sm.cn/rest?method=kuaidi.getdata&q=${frightNo.value}`,
-//     success: res => dataHandler(res.data),
-//   })
-  dataHandler(a)
+  queryFright().then((result) => {
+    console.log(result)
+    dataHandler(result.data)
+  }).catch(() => {
+    dataHandler(mockData)
+  })
 }
 
 // 查询到数据后的处理函数

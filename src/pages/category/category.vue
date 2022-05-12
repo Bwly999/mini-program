@@ -1,20 +1,60 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import uniEmpty from '@/component/uni-empty/uni-empty.vue'
 import { listAllCategory } from '@/api/category'
 import type { Category } from '@/api/category'
-import { mockData } from '@/mock/category'
+import { type GoodsParams, type GoodsRecord, listGoods } from '@/api/goods'
+import { mockData as categoryMockData } from '@/mock/category'
+import { mockData as goodMockData } from '@/mock/goods'
 
-const categoryList = ref<Category[]>()
+const isLoading = ref(false)
+// 分类
+const categoryList = ref<Category[]>([])
 const current = ref(0)
-listAllCategory().then((res) => {
-  console.log(res)
-  categoryList.value = res.data
-}).catch(() => {
-  categoryList.value = mockData
-})
+function init() {
+  listAllCategory().then((res) => {
+    console.log(res)
+    categoryList.value = res.data
+    getGoodsList(0)
+  }).catch(() => {
+    categoryList.value = categoryMockData
+    getGoodsList(0)
+  })
+}
+
+// 商品
+const goodsList = ref<GoodsRecord[]>()
+
+function getGoodsList(index: number) {
+  const params: GoodsParams = {
+    category: categoryList.value[index].name,
+    page: 1,
+    pageSize: 500,
+  }
+  isLoading.value = true
+  listGoods(params).then((res) => {
+    goodsList.value = res.data.content
+    console.log(goodsList.value)
+    isLoading.value = false
+  }).catch(() => {
+    goodsList.value = goodMockData.content
+    console.log(goodsList.value)
+    isLoading.value = false
+  })
+}
+
+function goodsGoBottom() {
+  console.log('reach bottom')
+}
+
+function goGoodsDetail(item: GoodsRecord) {
+  uni.navigateTo({
+    url: `/pages/goods/detail?id=${item.id}`,
+  })
+}
 const scrollTop = ref(0)
-async function swichMenu(index) {
-  if (index == current.value)
+function swichMenu(index: number) {
+  if (index === current.value)
     return
   current.value = index
   // 如果为0，意味着尚未初始化
@@ -22,13 +62,17 @@ async function swichMenu(index) {
   //     await this.getElRect('menu-scroll-view', 'menuHeight')
   //     await this.getElRect('u-tab-item', 'menuItemHeight')
   //   }
+  getGoodsList(index)
+  console.log(scrollTop.value)
   scrollTop.value = 0
+  console.log('swichMenu', index)
 //   this.getGoodsList(index)
 }
+onMounted(() => init())
 </script>
 
 <template>
-  <view class="flex">
+  <view class="flex flex-1 overflow-hidden h-100vh">
     <scroll-view class="u-tab-view menu-scroll-view" scroll-y="true" scroll-with-animation="true">
       <view
         v-for="(item,index) in categoryList" :key="index" class="u-tab-item"
@@ -41,39 +85,35 @@ async function swichMenu(index) {
       </view>
     </scroll-view>
     <scroll-view
-      class="goods-container" scroll-y="true" :scroll-top="scrolltop"
+      class="goods-container flex" scroll-y="true" :scroll-top="scrollTop"
       @scrolltolower="goodsGoBottom"
     >
-      <u-empty v-if="!goodsList" mode="list" text="暂无商品" margin-top="200rpx" />
-      <view v-for="(item, index) in goodsList" :key="index" class="goodsList">
-        <u--image
-          show-loading lazy-load :src="item.pic" radius="16rpx" width="240rpx" height="240rpx"
-          @click="goDetail(item)"
-        />
-        <view class="goods-info">
-          <view class="goods-title u-line-3 pt16" @click="goDetail(item)">
-            <u-tag v-if="item.supplyType == 'vop_jd' || item.supplyType == 'jdJoycityPoints'" text="京东自营" bg-color="#e64340" border-color="#e64340" size="mini" class="goods-title-tag" />
-            <text class="goods-title">
-              {{ item.name }}
-            </text>
-          </view>
-          <view v-if="item.numberSells" class="t2">
-            已售:{{ item.numberSells }}
-          </view>
-          <view class="price-score">
-            <view v-if="item.minPrice" class="item">
-              <text>¥</text>{{ item.minPrice }}
+      <view v-if="isLoading" class="flex justify-center items-center h-100vh">
+        <uni-load-more icon-type="circle" status="loading" />
+      </view>
+      <view v-else>
+        <uni-empty v-if="!goodsList" text="暂无商品" css-class="mt-200rpx justify-center" />
+        <view v-for="(item, index) in goodsList" :key="index" class="goodsList m2 bg-gray-100">
+          <image
+            mode="scaleToFill" lazy-load :src="item.coverImgUrl" class="w-200rpx h-225rpx border border-gray-200 rounded-lg"
+            @click="goGoodsDetail(item)"
+          />
+          <view class="grow ml-24rpx relative flex flex-col">
+            <view class="" @click="goGoodsDetail(item)">
+              <text class="font-bold text-base">
+                {{ item.name }}
+              </text>
             </view>
-            <view v-if="item.minScore" class="item">
-              <text><image class="score-icon" src="/static/images/score.png" /></text>{{ item.minScore }}
+            <view v-if="item.stock" class="t2">
+              库存:{{ item.stock }}
             </view>
-          </view>
-          <view v-if="item.supplyType != 'jdJoycityPoints'" class="addCar">
-            <u-icon
-              v-if="item.propertyIds || item.hasAddition" name="plus-circle" color="#e64340"
-              size="48rpx" @click="_showGoodsPop(item)"
-            />
-            <u-icon v-else name="shopping-cart" color="#e64340" size="64rpx" @click="addCart(item)" />
+            <view class="mt-auto">
+              <view v-if="item.discount" class="item">
+                <text class="text-red-500">
+                  ¥{{ item.discount }}
+                </text>
+              </view>
+            </view>
           </view>
         </view>
       </view>
@@ -81,109 +121,82 @@ async function swichMenu(index) {
   </view>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .category-page {
-		display: flex;
-		flex-direction: column;
-		width: 100vw;
-		height: calc(100vh - var(--window-bottom) - var(--status-bar-height) - var(--window-top));
+display: flex;
+flex-direction: column;
+width: 100vw;
+height: calc(100vh - var(--window-bottom) - var(--status-bar-height) - var(--window-top));
+}
 
-		.search {
-			padding: 8rpx;
-			display: flex;
-			align-items: center;
+.u-tab-view {
+  width: 180rpx;
+  height: 100%;
+  background-color: #f6f6f6;
+}
 
-			.scan {
-				padding: 0 16rpx;
-			}
-		}
+.u-tab-item {
+  height: 110rpx;
+  background: #f6f6f6;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26rpx;
+  color: #444;
+  font-weight: 400;
+  line-height: 1;
+}
 
-		.main {
-			flex: 1;
-			overflow: hidden;
-			display: flex;
+.u-tab-item-active {
+  position: relative;
+  color: #000;
+  font-size: 30rpx;
+  font-weight: 600;
+  background: #fff;
+}
 
-			.u-tab-view {
-				width: 180rpx;
-				height: 100%;
-				background-color: #f6f6f6;
-			}
+.u-tab-item-active::before {
+  content: "";
+  position: absolute;
+  border-left: 4px solid #e64340;
+  height: 60rpx;
+  left: 0;
+  top: 25rpx;
+}
 
-			.u-tab-item {
-				height: 110rpx;
-				background: #f6f6f6;
-				box-sizing: border-box;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				font-size: 26rpx;
-				color: #444;
-				font-weight: 400;
-				line-height: 1;
-			}
+.goods-container {
+  flex: 1;
+  height: 100%;
+}
 
-			.u-tab-item-active {
-				position: relative;
-				color: #000;
-				font-size: 30rpx;
-				font-weight: 600;
-				background: #fff;
-			}
+.goodsList {
+  margin-bottom: 32rpx;
+  padding: 0 8rpx;
+  display: flex;
+}
+.t {
+  font-weight: bold;
+  color: #333;
+  font-size: 28rpx;
+}
 
-			.u-tab-item-active::before {
-				content: "";
-				position: absolute;
-				border-left: 4px solid #e64340;
-				height: 60rpx;
-				left: 0;
-				top: 25rpx;
-			}
+.t2 {
+  color: #666;
+  font-size: 26rpx;
+}
 
-			.goods-container {
-				flex: 1;
-				height: 100%;
+.price {
+  color: #e64340;
+  font-size: 40rpx;
+  display: flex;
+  align-items: center;
+}
 
-				.goodsList {
-					margin-bottom: 32rpx;
-					padding: 0 8rpx;
-					display: flex;
+.addCar {
+  position: absolute;
+  right: 24rpx;
+  bottom: 16rpx;
+}
 
-					.goods-info {
-						flex: 1;
-						margin-left: 24rpx;
-						position: relative;
-
-						.t {
-							font-weight: bold;
-							color: #333;
-							font-size: 28rpx;
-						}
-
-						.t2 {
-							color: #666;
-							font-size: 26rpx;
-						}
-
-						.price {
-							color: #e64340;
-							font-size: 40rpx;
-							display: flex;
-							align-items: center;
-
-							font {
-								font-size: 22rpx;
-							}
-						}
-
-						.addCar {
-							position: absolute;
-							right: 24rpx;
-							bottom: 16rpx;
-						}
-					}
-				}
-			}
-		}
-
-	}
 </style>

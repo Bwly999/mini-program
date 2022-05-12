@@ -54,6 +54,7 @@ dependencies:
   '@dcloudio/uni-mp-toutiao': 3.0.0-alpha-3040920220506001_vue@3.2.33
   '@dcloudio/uni-mp-weixin': 3.0.0-alpha-3040920220506001_vue@3.2.33
   '@dcloudio/uni-quickapp-webview': 3.0.0-alpha-3040920220506001_vue@3.2.33
+  '@types/mockjs': 1.0.6
   '@vueuse/core': 8.3.1_vue@3.2.33
   '@vueuse/shared': 8.3.1_vue@3.2.33
   axios: 0.27.2

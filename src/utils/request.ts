@@ -18,7 +18,7 @@ const request = (options: Options) => {
         resolve(res.data)
       },
       fail: (err) => {
-        // console.log('err', err)
+        console.log('err', err)
         // msg('请求接口失败')
         reject(err)
       },

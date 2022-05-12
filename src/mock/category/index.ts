@@ -7,4 +7,16 @@ export const mockData: Category[] = [
   {
     name: '蔬菜',
   },
+  {
+    name: '蔬菜',
+  },
+  {
+    name: '蔬菜',
+  },
+  {
+    name: '蔬菜',
+  },
+  {
+    name: '蔬菜',
+  },
 ]

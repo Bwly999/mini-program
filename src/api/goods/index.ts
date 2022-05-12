@@ -1,14 +1,5 @@
 import request from '@/utils/request'
 
-export interface Goods {
-  goodsId: number
-  goodsName: string
-  goodsCoverImg: string
-  sellingPrice: number
-  discountPrice?: number
-  css?: string
-}
-
 export interface GoodsRecord {
   id: string
   name: string
@@ -24,8 +15,10 @@ export interface GoodsRecord {
 }
 
 export interface GoodsParams {
-  page: number
-  pageSize: number
+  name?: string
+  category?: string
+  page?: number
+  pageSize?: number
 }
 
 export interface GoodsListRes {
@@ -33,7 +26,7 @@ export interface GoodsListRes {
   total: number
 }
 
-export function queryGoods(param: GoodsParams) {
+export function listGoods(param: GoodsParams) {
   return request({
     url: '/api/goods', // 仅为示例，并非真实接口地址。
     method: 'GET',

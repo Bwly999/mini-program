@@ -39,7 +39,7 @@ function onClickItem(e: any) {
         order.state = orderParams.value.state
       orderList.value = Array.from({ length: 10 }, () => order)
     }).finally(() => {
-      isLoading.value = false
+      setTimeout(() => isLoading.value = false, 500000)
     })
   }
 }
@@ -47,7 +47,7 @@ function onClickItem(e: any) {
 
 <template>
   <view>
-    <view class="wrap">
+    <view class="">
       <view class="sticky top-0 bg-white z-1">
         <uni-segmented-control
           :current="current" :values="tabs" style-type="text"
@@ -63,7 +63,7 @@ function onClickItem(e: any) {
             <view v-if="isLoading" class="flex justify-center items-center h-100vh">
               <uni-load-more icon-type="circle" status="loading" />
             </view>
-            <view>
+            <view v-else>
               <order-card v-for="order1, orderIdx in orderList" :key="orderIdx" class="w-100vw h-40vw my-4" :order="order1" />
             </view>
           </view>

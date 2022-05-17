@@ -76,7 +76,6 @@ export default {
         <view class="search-icon" />
       </view>
       <a class="ml-2 text-lg font-bold">农产品</a>
-
     </view> -->
     <Mysearch :select-list="[{name: '傻鸟1'},{name: 'bird'}]" @search-click="searchclick" />
     <view>

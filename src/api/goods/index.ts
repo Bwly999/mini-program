@@ -28,12 +28,15 @@ export interface GoodsListRes {
 
 export function listGoods(param: GoodsParams) {
   return request({
-    url: '/api/goods', // 仅为示例，并非真实接口地址。
+    url: '/goods', // 仅为示例，并非真实接口地址。
     method: 'GET',
     data: param,
   })
 }
 
-// export function queryFright() {
-//   return axios.get<FrightModel>('/api/fright')
-// }
+export function getGoodsById(id: string) {
+  return request({
+    url: `/goods/${id}`, // 仅为示例，并非真实接口地址。
+    method: 'GET',
+  })
+}

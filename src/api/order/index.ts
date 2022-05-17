@@ -12,6 +12,8 @@ export interface Order {
   shopId: string
   state: number
   comment: Comment
+  goodsName: string
+  goodsCoverImgUrl: string
 }
 /**
  * state:
@@ -32,17 +34,17 @@ export interface Comment {
   content: string
 }
 
-export interface GoodsParams {
-  name?: string
-  category?: string
+export interface OrderParams {
+  state?: number
   page?: number
   pageSize?: number
 }
 
-export function listOrderByUserId(userId: number) {
+export function listOrderByUserId(userId: string, params?: OrderParams) {
   return request({
-    url: `/orders/${userId}`, // 仅为示例，并非真实接口地址。
+    url: `/orders/${userId}`,
     method: 'GET',
+    data: params,
   })
 }
 

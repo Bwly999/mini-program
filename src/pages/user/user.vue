@@ -1,7 +1,9 @@
 <script lang="ts">
 import { reactive, ref, toRefs } from 'vue'
+import { onLoad } from '@dcloudio/uni-app'
 import { isDark, toggleDark } from '@/composables'
-import mysearch from '@/component/mysearch/mysearch.vue'
+import { type UserData } from '@/api/user'
+import { useUserStore } from '@/store/user'
 import Mysearch from '@/component/mysearch/mysearch.vue'
 export default {
   components: { Mysearch },
@@ -25,31 +27,42 @@ export default {
       longitude: 116.39742,
       covers: [],
     })
-    function getUserInfo() {
-      // 获取用户信息
-      uni.getUserProfile({
-        desc: '获取用户信息',
-        success(infoRes) {
-          console.log(infoRes)
-          console.log(`用户昵称为：${infoRes.userInfo.nickName}`)
-        },
-        fail(err) {
-          console.log(err)
-        },
-      })
-    }
-    function login() {
+
+    const userStore = useUserStore()
+
+    function login(user: UserData) {
       uni.login({
         provider: 'weixin',
         success: (res) => {
           console.log(res)
-          console.log(res.authResult)
+          user = {
+            code: res.code,
+            ...user,
+          }
+          userStore.login(user)
         },
         fail: (err) => {
           console.log(err)
         },
       })
     }
+
+    function getUserInfo() {
+      let user: UserData
+      // 获取用户信息
+      uni.getUserProfile({
+        desc: '获取用户信息',
+        success(infoRes) {
+          console.log(infoRes)
+          user = { ...infoRes.userInfo }
+          login(user)
+        },
+        fail(err) {
+          console.log(err)
+        },
+      })
+    }
+
     function navToMyOrder() {
       uni.navigateTo({
         url: '/pages/order/order',
@@ -64,13 +77,13 @@ export default {
     function searchclick(options: any) {
       console.log(options)
     }
+    onLoad(() => userStore.getUserInfo())
     return {
       change,
       single,
       url,
       getMessage,
       ...toRefs(mapData),
-      login,
       navToMyOrder,
       getUserInfo,
       navToFright,

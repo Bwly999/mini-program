@@ -33,6 +33,7 @@ function getGoodsList(index: number) {
   }
   isLoading.value = true
   listGoods(params).then((res) => {
+    console.log(res)
     goodsList.value = res.data.content
     console.log(goodsList.value)
     isLoading.value = false

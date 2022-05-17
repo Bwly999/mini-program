@@ -19,7 +19,7 @@ export default {
     ]
     const good = ref<Good>({
       goodsId: 1,
-      goodsName: '耳机',
+      goodsName: '耳机耳机耳机耳机耳机耳机耳机机',
       goodsCoverImg: 'https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/MME73_AV4_GEO_CN.jpeg',
       sellingPrice: 100001,
       discountPrice: 1,

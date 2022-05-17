@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { onLoad } from '@dcloudio/uni-app'
-import { ref } from 'vue'
+import { computed, onUpdated, ref, watch } from 'vue'
 import { type Order, listOrderByUserId } from '@/api/order'
 import { type GoodsRecord, getGoodsById } from '@/api/goods'
 
@@ -10,21 +10,29 @@ const props = defineProps<{
 
 type GoodInfo = Partial<GoodsRecord>
 
-const goodsInfo = ref<GoodInfo>({})
-function getGoodsInfo() {
-  getGoodsById(props.order.goodsId!).then((res) => {
-    goodsInfo.value = res.data
-  }).catch(() => {
-    goodsInfo.value = {
-      name: '超超超超惆怅长岑长错错错错23',
-      coverImgUrl: 'https://images.unsplash.com/photo-1652393383964-001a16967c98?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
-    }
-  })
-}
-
-onLoad(() => {
-  getGoodsInfo()
-})
+// const goodsInfo = ref<GoodInfo>({})
+// async function getGoodsInfo() {
+//   try {
+//     console.log('getGoodsInfo')
+//     const data = await getGoodsById(props.order.goodsId!)
+//     return data
+//   }
+//   catch (e) {
+//     return {
+//       name: '超超超超惆怅长岑长错错错错23',
+//       coverImgUrl: 'https://images.unsplash.com/photo-1652393383964-001a16967c98?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+//     }
+//   }
+// }
+// watch(props.order, () => {
+//   getGoodsInfo()
+// })
+// const goodsInfo = computed((props): GoodInfo => {
+//   return props?.order?.goodsId ? getGoodsInfo() : {}
+// })
+// onLoad(() => {
+//   getGoodsInfo()
+// })
 
 function navToGoodDetail(id: string) {
   return () => {
@@ -36,36 +44,49 @@ function navToGoodDetail(id: string) {
 </script>
 
 <template>
-  <view class="my-2 rounded-md shadow-lg">
-    <view class="flex" @click="navToGoodDetail(props.order.id!)">
-      <view class="">
+  <view class="my-2 rounded-2xl shadow-lg bg-white p-2 shadow-inner flex flex-col overflow-hidden">
+    <view class="flex" @click="navToGoodDetail(props.order.goodsId!)">
+      <view class="font-bold">
         订单号: {{ props.order.id }}
       </view>
-      <view class="ml-auto">
+      <view class="ml-auto text-gray">
         {{ props.order.state }}
       </view>
     </view>
-    <view class="flex bg-gray-200 items-center">
-      <image lazy-load mode="aspectFit" :src="goodsInfo.coverImgUrl" class="h-22vh w-20vh mx-2" />
+    <view class="flex justify-between items-center gap-1 grow">
+      <image lazy-load mode="aspectFit" :src="props.order.goodsCoverImgUrl" class="mx-2 rounded-2xl h-25 w-25" />
       <view class="flex items-center">
         <text class="font-bold ">
-          {{ goodsInfo.name }}
+          {{ props.order.goodsName }}
         </text>
       </view>
-    </view>
-    <view class="flex justify-end">
-      <text>
-        共{{ props.order.payAmount }}件商品 合计:
-      </text>
-      <view class="price-score" style="display: inline-flex;">
-        <text>¥ {{ props.order.payAmount }}</text>
-        <a class="i-carbon-moon" />
+      <view class="w-15">
+        <view class="price-score">
+          ¥<text class="font-bold">
+            {{ props.order.payAmount }}
+          </text>
+        </view>
+        <p class="text-gray text-xs font-sans">
+          共{{ props.order.payAmount }}件
+        </p>
       </view>
     </view>
-    <view class="flex justify-end border-t border-gray-300 mt-1">
-      <button class="text-red border border-red rounded-full h-15vw text-right">
+    <view class="flex justify-end items-center border-t border-gray-300 mt-1 p1">
+      <button class="m0 text-red border border-red rounded-full p2 text-sm">
         再次购买
       </button>
     </view>
   </view>
 </template>
+<style scoped>
+.title {
+  width: 100%;
+  height:2.8rem;
+  font-size:1rem;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  display:-webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+</style>

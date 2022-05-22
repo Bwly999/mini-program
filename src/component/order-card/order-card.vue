@@ -35,6 +35,7 @@ type GoodInfo = Partial<GoodsRecord>
 // })
 
 function navToGoodDetail(id: string) {
+  console.log(id)
   return () => {
     uni.navigateTo({
       url: `/pages/goods/goods?id=${id}`,
@@ -44,8 +45,8 @@ function navToGoodDetail(id: string) {
 </script>
 
 <template>
-  <view class="my-2 rounded-2xl shadow-lg bg-white p-2 shadow-inner flex flex-col overflow-hidden">
-    <view class="flex" @click="navToGoodDetail(props.order.goodsId!)">
+  <view class="my-2 rounded-2xl shadow-xl bg-white p-2 shadow-inner flex flex-col overflow-hidden">
+    <view class="flex">
       <view class="font-bold">
         订单号: {{ props.order.id }}
       </view>
@@ -54,7 +55,7 @@ function navToGoodDetail(id: string) {
       </view>
     </view>
     <view class="flex justify-between items-center gap-1 grow">
-      <image lazy-load mode="aspectFit" :src="props.order.goodsCoverImgUrl" class="mx-2 rounded-2xl h-25 w-25" />
+      <image lazy-load mode="aspectFit" :src="props.order.goodsCoverImgUrl" class="mx-2 rounded-2xl max-h-25 max-w-25" @click="navToGoodDetail(props.order.goodsId!)" />
       <view class="flex items-center">
         <text class="font-bold ">
           {{ props.order.goodsName }}
@@ -71,7 +72,7 @@ function navToGoodDetail(id: string) {
         </p>
       </view>
     </view>
-    <view class="flex justify-end items-center border-t border-gray-300 mt-1 p1">
+    <view class="flex justify-end items-center border-t border-gray-300 mt-1 p2">
       <button class="m0 text-red border border-red rounded-full p2 text-sm">
         再次购买
       </button>

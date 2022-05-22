@@ -39,7 +39,7 @@ function onClickItem(e: any) {
         order.state = orderParams.value.state
       orderList.value = Array.from({ length: 10 }, () => order)
     }).finally(() => {
-      setTimeout(() => isLoading.value = false, 500000)
+      setTimeout(() => isLoading.value = false, 500)
     })
   }
 }
@@ -64,7 +64,7 @@ function onClickItem(e: any) {
               <uni-load-more icon-type="circle" status="loading" />
             </view>
             <view v-else>
-              <order-card v-for="order1, orderIdx in orderList" :key="orderIdx" class="w-100vw h-40vw my-4" :order="order1" />
+              <order-card v-for="order1, orderIdx in orderList" :key="orderIdx" class="w-100vw h-45vw my-4 mx-2" :order="order1" />
             </view>
           </view>
         </scorll-view>

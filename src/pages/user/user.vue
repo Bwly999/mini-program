@@ -74,6 +74,12 @@ export default {
         url: `/pages/fright/fright?id=${no}`,
       })
     }
+
+    function navToMyAddress() {
+      uni.navigateTo({
+        url: '/pages/user/address',
+      })
+    }
     function searchclick(options: any) {
       console.log(options)
     }
@@ -89,57 +95,72 @@ export default {
       navToFright,
       frightNo,
       searchclick,
+      navToMyAddress,
     }
   },
 }
 </script>
 <template>
-  <view>
-    <button>rrr{{ isDark }}</button>
-    <!-- <web-view src="https://player.bilibili.com/player.html?aid=416605084&bvid=BV13V411i7B7&cid=293227595&page=1" /> -->
-    <input>
-    <view text-xl mt-6 inline-flex gap-2>
-      <button class="icon-btn outline-none inline-flex" @click="toggleDark()">
-        <div class="i-carbon-moon" />
-        <div class="i-carbon-sun" />
-      </button>
-      <uni-link
-        title="GitHub"
-        href="https://github.com/antfu/vitesse-lite"
-      >
-        <a
-          class="icon-btn i-carbon-logo-github"
-        />
-      </uni-link>
-    </view>
-    <view class="example-body">
-      <uni-datetime-picker
-        type="date"
-        :value="single"
-        start="2022-3-20"
-        end="2022-6-20"
-        @change="change"
-      />
-      <a> {{ single }}, {{ typeof single }}</a>
-    </view>
-    <view>
-      <page-head :title="title" />
-      <view class="uni-common-mt">
-        <view>
-          <map :latitude="latitude" :longitude="longitude" :markers="covers" />
-        </view>
+  <view class="flex flex-col h-100vh bg-teal-100">
+    <view class="user-info flex gap-2 p4">
+      <view class="avator rounded-full ml-2">
+        <image class="avator-img rounded-full max-h-20 max-w-20" mode="scaleToFill" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+      </view>
+      <view class="flex items-center">
+        <text class="text-xl">
+          用户名
+        </text>
       </view>
     </view>
+    <!-- <web-view src="https://player.bilibili.com/player.html?aid=416605084&bvid=BV13V411i7B7&cid=293227595&page=1" /> -->
     <button class="rounded-xl bg-gray-500" @tap="getUserInfo">
       登录
     </button>
-    <button @click="navToMyOrder">
-      我的订单
-    </button>
-    <input v-model="frightNo" class="text-red">
-    <button @tap="navToFright(frightNo)">
-      物流信息
-    </button>
-    about user
+    <view class="bg-slate-100 rounded-t-2xl grow">
+      <view class="bg-white rounded-2xl shadow-md m-2">
+        <view class="p2 font-bold">
+          个人中心
+        </view>
+        <view class="flex text-sm">
+          <view class="flex flex-col justify-center items-center shadow-md bg-white m2">
+            <a class="i-carbon-order-details text-center text-xl" />
+            <button class="icon-btn text-sm" @click="navToMyOrder">
+              我的订单
+            </button>
+          </view>
+          <view class="flex flex-col justify-center items-center shadow-md bg-white m2">
+            <a class="i-carbon:package text-center text-xl" />
+            <button class="icon-btn text-sm" @click="navToFright(frightNo)">
+              物流信息
+            </button>
+          </view>
+          <view class="flex flex-col justify-center items-center shadow-md bg-white m2">
+            <a class="i-carbon-pedestrian text-center text-xl" />
+            <button class="icon-btn text-sm" @click="navToMyAddress">
+              我的地址
+            </button>
+          </view>
+          <view class="flex flex-col justify-center items-center shadow-md bg-white m2">
+            <a class="i-carbon-phone-voice text-center text-xl" />
+            <button class="icon-btn text-sm" open-type="contact" show-message-card session-from send-message-path send-message-title send-message-img>
+              客服咨询
+            </button>
+          </view>
+        </view>
+      </view>
+    </view>
   </view>
 </template>
+<style>
+  .icon-btn {
+    border-radius: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    border: none !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  .icon-btn::after {
+    border: none !important;
+  }
+</style>

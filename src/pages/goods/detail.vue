@@ -148,17 +148,11 @@ const specificationsProps = ref({
 const skuShow = ref(false)
 const skuMode = ref(0)
 
-function buttonClick(e: any) {
-  if (e.index === 0) {
-    skuMode.value = 1
-    console.log('加入购物车的逻辑')
-    options.value[2]!.info++
-  }
-  else {
-    console.log('立即购买的逻辑')
-    skuMode.value = 0
-  }
-  skuShow.value = true
+function buttonClick() {
+  console.log('立即购买的逻辑')
+  uni.navigateTo({
+    url: '/pages/order/submit',
+  })
 }
 
 function handleClose() {
@@ -208,13 +202,10 @@ function autoStopVideo(e) {
         </swiper-item>
       </swiper>
     </view>
-    <view @click="autoStopVideo">
-      傻鸟
-    </view>
     <uni-icons type="contact" size="30" />
     <a class="i-carbon-microphone text-2xl" />
     <al-goods-detail :goods-detail="goodsDetail" interval="5000" />
-    <echone-sku
+    <!-- <echone-sku
       :show="skuShow"
       :combinations="combinations"
       :specifications="specifications"
@@ -222,7 +213,7 @@ function autoStopVideo(e) {
       :mode="skuMode"
       @close="handleClose"
       @confirm="handleConfirm"
-    />
+    /> -->
     <uni-evaluate :list-data="listData" :rate="1" />
     <view class="goods-carts">
       <uni-goods-nav
@@ -235,13 +226,13 @@ function autoStopVideo(e) {
 
 <style scoped>
 .goods-carts {
-display: flex;
-flex-direction: column;
-position: fixed;
-left: 0;
-right: 0;
-left: var(--window-left);
-right: var(--window-right);
-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  right: 0;
+  left: var(--window-left);
+  right: var(--window-right);
+  bottom: 0;
 }
 </style>

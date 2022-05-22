@@ -28,6 +28,12 @@
 			}
 		},
 		{
+			"path": "pages/order/submit",
+			"style": {
+				"navigationBarTitleText": "填写订单"
+			}
+		},
+		{
 			"path": "pages/order/order",
 			"style": {
 				"navigationBarTitleText": "我的订单"
@@ -43,6 +49,12 @@
 			"path": "pages/fright/fright",
 			"style": {
 				"navigationBarTitleText": "物流信息"
+			}
+		},
+		{
+			"path": "pages/user/address",
+			"style": {
+				"navigationBarTitleText": "我的地址"
 			}
 		}
 	],

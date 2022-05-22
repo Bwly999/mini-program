@@ -107,45 +107,6 @@ export default {
         </view>
       </view>
     </view>
-    <button @click="addImg">
-      ADD ITEM
-    </button>
-    <view class="">
-      <view class="">
-        <view class="uni-title uni-common-mt">
-          flex-direction: row
-          <a class="font-bold font-mono text-red-500">
-            \n横向布局
-          </a>
-        </view>
-        <view class="flex flex-row w-375rpx">
-          <view class="flex-grow bg-red text-center">
-            A
-          </view>
-          <view class="flex-grow bg-green">
-            B
-          </view>
-          <view class="flex-grow bg-blue">
-            C
-          </view>
-        </view>
-        <view class="uni-title uni-common-mt">
-          flex-direction: column
-          <text>\n纵向布局</text>
-        </view>
-        <view class="uni-flex uni-column">
-          <view class="flex-item flex-item-V uni-bg-red">
-            A
-          </view>
-          <view class="flex-item flex-item-V uni-bg-green">
-            B
-          </view>
-          <view class="flex-item flex-item-V uni-bg-blue">
-            C
-          </view>
-        </view>
-      </view>
-    </view>
     <view bg-color="#FFFFFF" custom-nav-height="0">
       <!--  #ifdef  APP-PLUS -->
       <view class="app-status-bar-height" />

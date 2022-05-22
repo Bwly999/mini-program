@@ -52,9 +52,16 @@
 			}
 		},
 		{
-			"path": "pages/user/address",
+			"path": "pages/address/address",
 			"style": {
 				"navigationBarTitleText": "我的地址"
+			}
+		}
+		,
+		{
+			"path": "pages/address/createAddress",
+			"style": {
+				"navigationBarTitleText": "新增收货地址"
 			}
 		}
 	],

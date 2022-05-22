@@ -77,7 +77,7 @@ export default {
 
     function navToMyAddress() {
       uni.navigateTo({
-        url: '/pages/user/address',
+        url: '/pages/address/address',
       })
     }
     function searchclick(options: any) {

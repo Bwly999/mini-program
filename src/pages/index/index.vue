@@ -107,39 +107,39 @@ export default {
         </view>
       </view>
     </view>
-    <view bg-color="#FFFFFF" custom-nav-height="0">
+    <!-- <view bg-color="#FFFFFF" custom-nav-height="0">
       <!--  #ifdef  APP-PLUS -->
-      <view class="app-status-bar-height" />
+    <view class="app-status-bar-height" />
+    <!--  #endif -->
+    <view class="top-box" :style="headerMarginTopStyle">
+      <view class="t">
+        Q
+      </view>
+      <view class="search">
+        <u-search v-model="kw" placeholder="输入关键词搜索" :show-action="false" :disabled="true" @click="goSearch" />
+      </view>
+      <!--  #ifdef  MP-WEIXIN || MP-BAIDU || MP-TOUTIAO || MP-QQ -->
+      <view class="mp-btn" :style="menuButtonInfoStyle" />
       <!--  #endif -->
-      <view class="top-box" :style="headerMarginTopStyle">
-        <view class="t">
-          Q
-        </view>
-        <view class="search">
-          <u-search v-model="kw" placeholder="输入关键词搜索" :show-action="false" :disabled="true" @click="goSearch" />
-        </view>
-        <!--  #ifdef  MP-WEIXIN || MP-BAIDU || MP-TOUTIAO || MP-QQ -->
-        <view class="mp-btn" :style="menuButtonInfoStyle" />
-        <!--  #endif -->
-      </view>
     </view>
-    <!-- <MixLoading /> -->
-    <view class="flex grow-0">
-      <view class="font-bold text-xl ml-5 ">
-        热门商品
-      </view>
-      <!-- <img class="h-1rem object-scale-down" src="https://img.alicdn.com/imgextra/i1/O1CN01EjcAPM25IsjiwGyYs_!!6000000007504-2-tps-65-20.png"> -->
+  </view> -->
+  <MixLoading />
+  <view class="flex grow-0">
+    <view class="font-bold text-xl ml-5 ">
+      热门商品
     </view>
+    <!-- <img class="h-1rem object-scale-down" src="https://img.alicdn.com/imgextra/i1/O1CN01EjcAPM25IsjiwGyYs_!!6000000007504-2-tps-65-20.png"> -->
+  </view>
 
-    <view>
-      <!-- <good-card>1</good-card> -->
-      <view class="good flex flex-wrap justify-center">
-        <good-card v-for="v, i in data" :key="i" class="" v-bind="good" css="w-337rpx h-470rpx m2" />
-      </view>
-      <view v-if="showLoadMore" class="uni-loadmore text-center">
-        {{ loadMoreText }}
-      </view>
-      <!-- <view title :row="3" :loading="loading">
+  <view>
+    <!-- <good-card>1</good-card> -->
+    <view class="good flex flex-wrap justify-center">
+      <good-card v-for="v, i in data" :key="i" class="" v-bind="good" css="w-337rpx h-470rpx m2" />
+    </view>
+    <view v-if="showLoadMore" class="uni-loadmore text-center">
+      {{ loadMoreText }}
+    </view>
+    <!-- <view title :row="3" :loading="loading">
         <div class="good-box">
           <div v-for="item in hots" :key="item.goodsId" class="good-item" @click="goToDetail(item)">
             <img :src="item.goodsCoverImg" alt="">
@@ -154,7 +154,7 @@ export default {
           </div>
         </div>
       </view> -->
-    </view>
+  </view>
     <!-- <view>
       <a v-for="v, i in data" :key="i">HHHH {{ v }}</a>
     </view>

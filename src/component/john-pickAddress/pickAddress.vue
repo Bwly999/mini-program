@@ -48,6 +48,7 @@
 <script>
   import addressData from './addressData.js'
   export default {
+    emits: ['confirm'],
     data() {
       return {
         tabIndex: 0,
@@ -169,6 +170,11 @@
       onSelectConfirm() {
         console.log(`省：${this.province.name},市：${this.city.name}, 区：${this.district.name}`)
         console.log(`省code：${this.province.id},市code：${this.city.id}, 区code：${this.district.id}`)
+        this.$emit('confirm',{
+          province: this.province,
+          city: this.city,
+          district: this.district
+        })
         this.$refs.popup.close()
       }
 

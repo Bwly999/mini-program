@@ -129,7 +129,7 @@ export default {
             </button>
           </view>
           <view class="flex flex-col justify-center items-center shadow-md bg-white m2">
-            <a class="i-carbon:package text-center text-xl" />
+            <a class="i-carbon-package text-center text-xl" />
             <button class="icon-btn text-sm" @click="navToFright(frightNo)">
               物流信息
             </button>

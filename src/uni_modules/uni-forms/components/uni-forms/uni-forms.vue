@@ -1,5 +1,5 @@
 <template>
-	<view class="uni-forms" :class="{ 'uni-forms--top': !border }">
+	<view class="uni-forms" :class="{ 'uni-forms--top': (!border) }">
 		<form @submit.stop="submitForm" @reset="resetForm">
 			<slot></slot>
 		</form>

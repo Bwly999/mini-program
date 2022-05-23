@@ -1,26 +1,27 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import addressCard from '@/component/address-card/address-card.vue'
-import pickAddress from '@/component/john-pickAddress/pickAddress.vue'
 
 const pickAddressRef = ref()
 function openPickAddress() {
   pickAddressRef.value.onOpen()
 }
 
+function navToCreateAddress() {
+  uni.navigateTo({
+    url: '/pages/address/createAddress',
+  })
+}
+
 </script>
 
 <template>
-  <view class="flex flex-col h-90vh">
+  <view class="flex flex-col">
     <view class="grow">
       <address-card v-for="i in 5" :key="i" />
     </view>
-    <button class="mt-auto rounded-full bg-red-500 text-white px-6">
+    <button class="mt-auto rounded-full bg-red-500 text-white px-6" @click="navToCreateAddress">
       +新增收货地址
     </button>
-    <view @click="openPickAddress">
-      选择地址
-    </view>
-    <pick-address ref="pickAddressRef" />
   </view>
 </template>

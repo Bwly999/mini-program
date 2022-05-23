@@ -99,8 +99,8 @@ onReady(() => {
     </uni-forms>
 
     <view class="sticky bottom-0 bg-white flex p2 justify-center mt-auto">
-      <button class="rounded-full bg-red-500 text-white px-4" @click="saveAddress">
-        提交订单
+      <button class="rounded-full bg-red-500 text-white px-20" @click="saveAddress">
+        保存
       </button>
     </view>
   </view>

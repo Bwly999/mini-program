@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import uniSection from '@/component/uni-section/uni-section.vue'
+import addressCard from '@/component/address-card/address-card.vue'
+import { useUserStore } from '@/store/user'
 
 const url = ref('https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b4b60b10-5168-11eb-bd01-97bc1429a9ff.jpg')
 const goodsNum = ref(0)
@@ -15,9 +17,17 @@ const payWayOption = ref([
   },
 ])
 const payWay = ref(0)
-function bindPickerChange(e) {
+
+const userStore = useUserStore()
+function bindPickerChange(e: any) {
   console.log(`picker发送选择改变，携带值为：${e.detail.value}`)
   payWay.value = e.detail.value
+}
+
+function selectAddress() {
+  uni.navigateTo({
+    url: '/pages/address/address?mode=select',
+  })
 }
 
 function submitOrder() {
@@ -27,7 +37,7 @@ function submitOrder() {
 
 <template>
   <view class="bg-slate-100 h-100vh flex flex-col gap-4">
-    <view class="address-card bg-white">
+    <!-- <view class="address-card bg-white">
       <view class="address flex items-center">
         <view class="address-text p4">
           <view class="address-list-item-left-name">
@@ -55,10 +65,9 @@ function submitOrder() {
 
       <view class="footer">
         <view class="h-1 bg-gradient-to-r from-cyan-500 to-blue-500" />
-        <!-- <div class="h-1 bg-repeat" style="background-image: url('https://tailwindcss.com/img/background-pattern.svg');" /> -->
-        <!-- <div class="h-14 bg-gradient-to-r from-sky-500 to-indigo-500" /> -->
       </view>
-    </view>
+    </view> -->
+    <address-card v-bind="userStore.selectedAddress" @click-arrow="selectAddress" />
     <view class="goods-info bg-white rounded-xl p-3">
       <view class="shop-info flex items-center">
         <view class="i-carbon-shopping-bag" />

@@ -1,5 +1,6 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { type UserData, apiGetUserInfo, apiLogin } from '@/api/user'
+import { type Address } from '@/api/address'
 
 const emptyUser = {
   id: '',
@@ -12,6 +13,14 @@ const emptyUser = {
   isAdmin: true,
   token: '',
 }
+const emptyAddress: Address = {
+  consignee: '',
+  phone: '',
+  province: '',
+  city: '',
+  district: '',
+  detailAddress: '',
+}
 export const useUserStore = defineStore('user', {
   state: () => ({
     id: '',
@@ -21,6 +30,7 @@ export const useUserStore = defineStore('user', {
     gender: 0,
     nickName: '',
     province: '',
+    selectedAddress: emptyAddress,
     isAdmin: true,
   }),
 
@@ -31,6 +41,7 @@ export const useUserStore = defineStore('user', {
       //     ...emptyUser,
       //   })
       this.$reset()
+      this.selectedAddress = emptyAddress
       // we could do other stuff like redirecting the user
     },
 

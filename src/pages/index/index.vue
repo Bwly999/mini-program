@@ -123,7 +123,7 @@ export default {
       <!--  #endif -->
     </view>
   </view> -->
-  <MixLoading />
+  <!-- <MixLoading /> -->
   <view class="flex grow-0">
     <view class="font-bold text-xl ml-5 ">
       热门商品

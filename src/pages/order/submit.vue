@@ -1,18 +1,24 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { onLoad } from '@dcloudio/uni-app'
+import UniSection from '../../component/uni-section/uni-section.vue'
 import uniSection from '@/component/uni-section/uni-section.vue'
 import addressCard from '@/component/address-card/address-card.vue'
 import { useUserStore } from '@/store/user'
+import { createOrder } from '@/api/order'
+import type { GoodsRecord } from '@/api/goods'
+import { getGoodsById } from '@/api/goods'
+import { moneyFormatter } from '@/filters'
 
 const url = ref('https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b4b60b10-5168-11eb-bd01-97bc1429a9ff.jpg')
-const goodsNum = ref(0)
+const goodsNum = ref(1)
 const payWayOption = ref([
   {
     name: '微信支付',
     value: 0,
   },
   {
-    name: '线下到付',
+    name: '线下自提',
     value: 1,
   },
 ])
@@ -31,52 +37,91 @@ function selectAddress() {
 }
 
 function submitOrder() {
-
+  if (!userStore.selectedAddress && payWay.value !== 1) {
+    uni.showToast({
+      title: '请选择收货地址',
+      icon: 'none',
+    })
+    return
+  }
+  createOrder({
+    goodsId: goodsId.value,
+    userId: userStore.id,
+    payNumber: goodsNum.value,
+    payWay: payWay.value,
+    address: userStore.selectedAddress,
+  }).then((res: any) => {
+    console.log(res)
+    uni.showToast({
+      title: '下单成功',
+      icon: 'success',
+    })
+  }).catch((err: any) => {
+    console.log(err)
+    uni.showToast({
+      title: '下单失败',
+      icon: 'error',
+    })
+  })
 }
+
+const goodsInfo = ref<Partial<GoodsRecord>>()
+const price = ref<number | undefined>()
+const calcPrice = computed(() => {
+  if (price.value)
+    return moneyFormatter(price.value * goodsNum.value)
+
+  return 0.00
+})
+
+function loadGoodsInfo(goodsId: string) {
+  getGoodsById(goodsId).then((res: any) => {
+    goodsInfo.value = res.data
+  }).catch((err: any) => {
+    goodsInfo.value = {
+      id: '1',
+      name: '',
+      price: 0,
+      discountPrice: 132,
+      stock: 0,
+      coverImgUrl: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b4b60b10-5168-11eb-bd01-97bc1429a9ff.jpg',
+    }
+    console.log(err)
+  }).finally(() => {
+    price.value = goodsInfo.value?.discountPrice || goodsInfo.value?.price || undefined
+  })
+}
+
+onLoad((options: any) => {
+  console.log(options)
+  if (options.goodsId)
+    loadGoodsInfo(options.goodsId)
+})
 </script>
 
 <template>
   <view class="bg-slate-100 h-100vh flex flex-col gap-4">
-    <!-- <view class="address-card bg-white">
-      <view class="address flex items-center">
-        <view class="address-text p4">
-          <view class="address-list-item-left-name">
-            <text class="text-sm">
-              福建省厦门市翔安区
-            </text>
-          </view>
-          <view class="address-list-item-left-name">
-            <text class="font-bold text-xl">
-              凌云路哈哈哈哈哈哈哈哈哈13当前
-            </text>
-          </view>
-          <view class="address-text-user">
-            <text class="address-list-item-left-name-text">
-              天天   12323232
-            </text>
-          </view>
-        </view>
-        <view class="ml-auto mr-2">
-          <view class="text-gray text-xl">
-            <div class="i-carbon-chevron-right" />
-          </view>
-        </view>
+    <!-- <uni-section class="bg-white" title="地址" type="line">
+      <address-card v-bind="userStore.selectedAddress" @click-arrow="selectAddress" />
+    </uni-section> -->
+    <view class="bg-white" title="地址" type="line">
+      <view class="shop-info flex items-center m-3">
+        <view class="i-carbon-map" />
+        <text class="ml-2 font-bold">
+          收货地址
+        </text>
       </view>
-
-      <view class="footer">
-        <view class="h-1 bg-gradient-to-r from-cyan-500 to-blue-500" />
-      </view>
-    </view> -->
-    <address-card v-bind="userStore.selectedAddress" @click-arrow="selectAddress" />
+      <address-card v-bind="userStore.selectedAddress || {}" @click-arrow="selectAddress" />
+    </view>
     <view class="goods-info bg-white rounded-xl p-3">
       <view class="shop-info flex items-center">
         <view class="i-carbon-shopping-bag" />
-        <text class="ml-2">
-          店铺名
+        <text class="ml-2 font-bold">
+          {{ goodsInfo?.shopName || '店铺' }}
         </text>
       </view>
       <view class="flex items-center gap-1">
-        <image lazy-load mode="aspectFit" :src="url" class="mx-2 rounded-2xl max-h-25 max-w-25" />
+        <image lazy-load mode="aspectFit" :src="goodsInfo?.coverImgUrl" class="mx-2 rounded-2xl max-h-25 max-w-25" />
         <view class="grow">
           <view class="flex items-center">
             <text class="font-bold ">
@@ -86,7 +131,7 @@ function submitOrder() {
           <view class="flex">
             <view class="price-score">
               <text class="font-bold text-red-500">
-                ¥ 20
+                ¥ {{ moneyFormatter(price!) }}
               </text>
             </view>
             <view class="ml-auto mr-2">
@@ -117,7 +162,7 @@ function submitOrder() {
           共{{ goodsNum }}件
         </view>
         <text class="font-bold text-red-500">
-          ¥ 20
+          ¥ {{ calcPrice }}
         </text>
       </view>
       <button class="rounded-full bg-red-500 text-white px-4 ml-auto mr-2" @click="submitOrder">

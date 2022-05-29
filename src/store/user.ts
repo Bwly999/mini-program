@@ -30,7 +30,7 @@ export const useUserStore = defineStore('user', {
     gender: 0,
     nickName: '',
     province: '',
-    selectedAddress: emptyAddress,
+    selectedAddress: undefined as unknown as Address,
     isAdmin: true,
   }),
 

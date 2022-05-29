@@ -1,3 +1,4 @@
+import { type Address } from '../address'
 import request from '@/utils/request'
 
 export interface Order {
@@ -45,6 +46,22 @@ export function listOrderByUserId(userId: string, params?: OrderParams) {
     url: `/orders/${userId}`,
     method: 'GET',
     data: params,
+  })
+}
+
+export interface OrderUseForPay {
+  userId: string
+  goodsId: string
+  payNumber: number
+  payWay: number
+  address: Address
+}
+
+export function createOrder(order: OrderUseForPay) {
+  return request({
+    url: '/goods/orders',
+    method: 'POST',
+    data: order,
   })
 }
 

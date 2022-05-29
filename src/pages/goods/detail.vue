@@ -4,11 +4,12 @@ import { ref } from 'vue'
 import echoneSku from '@/component/echone-sku/echone-sku.vue'
 import alGoodsDetail from '@/component/al-goods-detail/al-goods-detail.vue'
 import uniEvaluate from '@/component/uni-evaluate/uni-evaluate.vue'
+import { type GoodsRecord, getGoodsById } from '@/api/goods'
 interface GoodDetail {
   goodsId: number
   shopId: number
 }
-const props = defineProps<GoodDetail>()
+const goodsInfo = ref<Partial<GoodsRecord>>()
 
 const imgUrls = ref<Array<string>>([
   'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b4b60b10-5168-11eb-bd01-97bc1429a9ff.jpg',
@@ -49,10 +50,10 @@ const buttonGroup = ref([
   },
 ])
 
-function onClick(e) {
+function onClick(e: any) {
   if (e.content.text === '客服') {
     uni.navigateTo({
-      url: `/pages/service/service?id=${props.shopId}`,
+      url: `/pages/service/service?id=${goodsInfo.value?.shopId}`,
     })
   }
   // uni.showToast({
@@ -89,84 +90,34 @@ const listData = [{
   // imgs:[]
 }]
 
-// 商品规格
-const specifications = ref([
-  {
-    name: '发证机关',
-    id: '123',
-    list: ['成都市锦江区', '成都市青羊区'],
-  },
-  {
-    name: '教育年度',
-    id: '456',
-    list: ['2020年', '2019年'],
-  },
-])
-const combinations = ref([
-  {
-    id: '1',
-    value: '成都市锦江区,2020年',
-    image:
-      'https://miniprogram-img01.caishuib.com/wx15168444f005a4ab/material/image/202005135/3a014c2f42c1c46b.PNG',
-    price: 80.0,
-    stock: 1000,
-  },
-  {
-    id: '2',
-    value: '成都市锦江区,2019年',
-    image:
-      'https://miniprogram-img01.caishuib.com/wx15168444f005a4ab/material/image/20200383/ebd0c8d01a6e9c10.PNG',
-    price: 100.0,
-    stock: 500,
-  },
-  {
-    id: '3',
-    value: '成都市青羊区,2020年',
-    image:
-      'https://miniprogram-img01.caishuib.com/wx15168444f005a4ab/material/image/202005135/3a014c2f42c1c46b.PNG',
-    price: 80.0,
-    stock: 1000,
-  },
-  {
-    id: '4',
-    value: '成都市青羊区,2019年',
-    image:
-      'https://miniprogram-img01.caishuib.com/wx15168444f005a4ab/material/image/20200383/ebd0c8d01a6e9c10.PNG',
-    price: 100.0,
-    stock: 0,
-  },
-])
-const specificationsProps = ref({
-  id: 'id',
-  list: 'list',
-  name: 'name',
-  value: 'value',
-  image: 'image',
-  price: 'price',
-  stock: 'stock',
-})
-const skuShow = ref(false)
-const skuMode = ref(0)
-
 function buttonClick() {
-  console.log('立即购买的逻辑')
   uni.navigateTo({
-    url: '/pages/order/submit',
+    url: `/pages/order/submit?goodsId=${goodsInfo.value?.id}`,
   })
 }
 
-function handleClose() {
-  skuShow.value = false
-}
-function handleConfirm() {
-  console.log('confirm')
+function loadGoodsInfo(goodsId: string) {
+  getGoodsById(goodsId).then((res: any) => {
+    goodsInfo.value = res.data
+  }).catch((err: any) => {
+    goodsInfo.value = {
+      id: '1',
+      name: 'hh',
+      price: 0,
+      discountPrice: 100,
+      stock: 0,
+      coverImgUrl: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b4b60b10-5168-11eb-bd01-97bc1429a9ff.jpg',
+    }
+    console.log(err)
+  })
 }
 
-let id = 1
 onLoad((option) => {
-  id = Number(option.id)
+  console.log(option)
+  const id = option.id || ''
   // params = option.   //还可以  window.location.search.substring()
   //    invitation = this.getQueryVariable('id') //code是url后面带的
+  loadGoodsInfo(id)
 })
 let videoContext: any
 const hasVideo = ref(true)
@@ -178,12 +129,9 @@ onReady(() => {
   if (hasVideo.value)
     videoContext = uni.createVideoContext('myVideo')
 })
-function autoStopVideo(e) {
-  console.log(e)
-  if (hasVideo.value && videoContext !== undefined && e.detail.current !== 0) {
+function autoStopVideo(e: any) {
+  if (hasVideo.value && videoContext !== undefined && e.detail.current !== 0)
     videoContext.pause()
-    console.log(videoContext)
-  }
 }
 
 </script>
@@ -209,7 +157,7 @@ function autoStopVideo(e) {
       :show="skuShow"
       :combinations="combinations"
       :specifications="specifications"
-      :specifications-props="specificationsProps"
+      :specifications-goodsInfo="specificationsProps"
       :mode="skuMode"
       @close="handleClose"
       @confirm="handleConfirm"

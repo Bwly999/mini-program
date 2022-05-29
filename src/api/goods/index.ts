@@ -5,13 +5,15 @@ export interface GoodsRecord {
   name: string
   coverImgUrl: string
   price: number
-  discount: number
+  discountPrice: number
   stock: number
-  descImgUrlList: string[]
+  scollImages: string[]
   originPlace?: string
   level?: string
   weight?: number
   desc: string
+  shopId: string
+  shopName: string
 }
 
 export interface GoodsParams {

@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 interface Address {
-  consignee: string
-  phone: string
-  province: string
-  city: string
-  district: string
-  detailAddress: string
+  consignee?: string
+  phone?: string
+  province?: string
+  city?: string
+  district?: string
+  detailAddress?: string
 }
 const props = withDefaults(defineProps<Address>(), {
   consignee: '',
@@ -34,7 +34,7 @@ function navToChangeAddress() {
 const emit = defineEmits(['clickArrow', 'clickCard'])
 </script>
 <template>
-  <view class="address-card bg-white flex flex-col">
+  <view class="address-card bg-white flex flex-col" @click="$emit('clickArrow')">
     <view class="address flex items-center" @click="$emit('clickCard', props)">
       <view class="address-text p4">
         <view class="address-list-item-left-name">
@@ -56,7 +56,7 @@ const emit = defineEmits(['clickArrow', 'clickCard'])
       <view class="ml-auto mr-2">
         <view class="text-gray text-xl">
           <!-- <view class="i-carbon-chevron-right" @click="navToChangeAddress" /> -->
-          <view class="i-carbon-chevron-right" @click="$emit('clickArrow')" />
+          <view class="i-carbon-chevron-right" />
         </view>
       </view>
     </view>

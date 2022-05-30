@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import { type Address, saveAddress as saveAddressApi } from '@/api/address'
+import { onLoad } from '@dcloudio/uni-app'
+import { type Address, getAddressById, saveAddress as saveAddressApi } from '@/api/address'
 
 // component
 import AddressInfo from '@/component/address-info/address-info.vue'
 
-const formData = reactive<Address>({
+const formData = ref<Address>({
   consignee: '',
   phone: '',
   province: '',
@@ -19,7 +20,7 @@ const addressInfoRef = ref()
 function saveAddress() {
   addressInfoRef.value.validate()
     .then(() => {
-      return saveAddressApi(formData)
+      return saveAddressApi(formData.value)
     })
     .then((res: any) => {
       console.log(res)
@@ -35,7 +36,17 @@ function saveAddress() {
       })
     })
 }
-
+function loadAddress(addressId: string) {
+  getAddressById(addressId).then((res: any) => {
+    console.log(res)
+    formData.value = res.data
+  })
+}
+onLoad((option) => {
+  console.log(option)
+  if (option.addressId)
+    loadAddress(option.addressId)
+})
 </script>
 <template>
   <view class="pt-2 flex flex-col h-100vh bg-slate-100">

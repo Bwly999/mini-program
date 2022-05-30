@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost'
+const BASE_URL = 'http://localhost:8080'
 
 interface Options {
   url: string

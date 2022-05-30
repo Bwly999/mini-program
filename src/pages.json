@@ -7,6 +7,7 @@
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "首页"
+				// "enablePullDownRefresh": true
 			}
 		},
 		{
@@ -64,12 +65,12 @@
 				"navigationBarTitleText": "新增收货地址"
 			}
 		},
-		// {
-		// 	"path": "pages/address/editAddress",
-		// 	"style": {
-		// 		"navigationBarTitleText": "编辑收货地址"
-		// 	}
-		// }
+		{
+			"path": "pages/address/editAddress",
+			"style": {
+				"navigationBarTitleText": "编辑收货地址"
+			}
+		},
 		{
 			"path": "pages/news/news",
 			"style": {
@@ -109,8 +110,8 @@
 			},
 			{
 				"pagePath": "pages/news/news",
-				"iconPath": "static/message.svg",
-				"selectedIconPath": "static/message-current.svg",
+				"iconPath": "static/message.png",
+				"selectedIconPath": "static/message-current.png",
 				"text": "资讯"
 			},
 			{

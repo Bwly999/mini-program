@@ -30,7 +30,7 @@ export interface GoodsListRes {
 
 export function listGoods(param: GoodsParams) {
   return request({
-    url: '/goods', // 仅为示例，并非真实接口地址。
+    url: '/goods/goods', // 仅为示例，并非真实接口地址。
     method: 'GET',
     data: param,
   })

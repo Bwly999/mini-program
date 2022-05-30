@@ -1,34 +1,35 @@
 <script lang="ts" setup>
 export interface Good {
-  goodsId: number
-  goodsName: string
-  goodsCoverImg: string
-  sellingPrice: number
+  id: string
+  name: string
+  coverImgUrl: string
+  price: number
   discountPrice?: number
-  css?: string
 }
-const props = defineProps<Good>()
+const props = defineProps<{
+  goods: Good
+  css?: string
+}>()
 function getDetail() {
   uni.navigateTo({
-    url: `/pages/goods/detail?id=${props.goodsId}`,
+    url: `/pages/goods/detail?id=${props.goods.id}`,
   })
 }
-console.log(props.sellingPrice)
 </script>
 <template>
   <!-- <view class="rounded-2xl shadow-xl flex flex-col" :class="props.css" style="aspect-ratio: 9/11;" @click="getDetail"> -->
   <view class="rounded-2xl shadow-xl flex flex-col" :class="props.css" @click="getDetail">
-    <img :src="props.goodsCoverImg" style="width: 100%; height: 100%; border-radius: inherit;" alt="">
+    <img :src="props.goods.coverImgUrl" style="width: 100%; height: 100%; border-radius: inherit;" alt="">
     <view class="good-desc ml-1rem">
       <view class="title">
-        {{ props.goodsName }}
+        {{ props.goods.name }}
       </view>
       <view class="flex">
         <a class="font-bold text-red">
-          ¥ {{ props.sellingPrice }}
+          ¥ {{ props.goods.price }}
         </a>
-        <a v-if="props.discountPrice" class="ml-2 font-bold line-through text-gray">
-          ¥ {{ props.discountPrice }}
+        <a v-if="props.goods.discountPrice" class="ml-2 font-bold line-through text-gray">
+          ¥ {{ props.goods.discountPrice }}
         </a>
       </view>
     </view>

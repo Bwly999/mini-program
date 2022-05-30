@@ -16,6 +16,7 @@ const sample = ref({
   detailAddress: '12331凌云路',
 })
 const addressList = ref([{
+  id: '1',
   consignee: '天天的1',
   phone: '13332323232',
   province: '福建省',
@@ -23,6 +24,7 @@ const addressList = ref([{
   district: '翔安区',
   detailAddress: '12331凌云路',
 }, {
+  id: '2',
   consignee: '天天2',
   phone: '13332323232',
   province: '福建省',
@@ -30,6 +32,7 @@ const addressList = ref([{
   district: '翔安区',
   detailAddress: '12331凌云路',
 }, {
+  id: '3',
   consignee: '天天3',
   phone: '13332323232',
   province: '福建省',
@@ -61,6 +64,11 @@ function onClickCard(address: Address) {
   if (mode === 'select') {
     userStore.selectedAddress = address
     uni.navigateBack({})
+  }
+  else {
+    uni.navigateTo({
+      url: `/pages/address/editAddress?addressId=${address.id}`,
+    })
   }
 }
 

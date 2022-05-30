@@ -1,70 +1,78 @@
-<script lang="ts">
-import { ref } from 'vue'
-import { onReachBottom } from '@dcloudio/uni-app'
+<script lang="ts" setup>
+import { onMounted, ref } from 'vue'
+import { onPullDownRefresh, onReachBottom } from '@dcloudio/uni-app'
 import MixLoading from '../../component/mix-loading/mix-loading.vue'
+import UniLoadMore from '../../uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue'
 import GoodCard from '@/component/good-card/good-card.vue'
 import type { Good } from '@/component/good-card/good-card.vue'
 import Mysearch from '@/component/mysearch/mysearch.vue'
-export default {
-  components: { MixLoading, GoodCard, Mysearch },
-  //   components: { GoodCard },
-  setup() {
-    const hots = [
-      {
-        goodsId: 1,
-        goodsName: '耳机',
-        goodsCoverImg: 'https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/MME73_AV4_GEO_CN.jpeg',
-        sellingPrice: 100001,
-      },
-    ]
-    const good = ref<Good>({
-      goodsId: 1,
-      goodsName: '耳机耳机耳机耳机耳机耳机耳机机',
-      goodsCoverImg: 'https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/MME73_AV4_GEO_CN.jpeg',
-      sellingPrice: 100001,
-      discountPrice: 1,
+import type { GoodsParams, GoodsRecord } from '@/api/goods'
+import { listGoods } from '@/api/goods'
+
+const imgUrls = ref<Array<string>>([
+  'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b4b60b10-5168-11eb-bd01-97bc1429a9ff.jpg',
+  'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b1dcfa70-5168-11eb-bd01-97bc1429a9ff.jpg',
+])
+
+const showLoadMore = ref<boolean>(false)
+const loadMoreText = ref<string>('加载中...')
+
+const queryParams = ref<GoodsParams>({
+  page: 1,
+  pageSize: 10,
+})
+const goodsList = ref<GoodsRecord[]>([])
+function sleep(delay: number) {
+  const start = (new Date()).getTime()
+  while ((new Date()).getTime() - start < delay)
+    continue
+}
+function loadGoodsInfo() {
+  showLoadMore.value = true
+  // sleep(1000)
+  listGoods(queryParams.value).then((res: any) => {
+    console.log(res)
+    const { data } = res
+    goodsList.value?.push(...data.content)
+    if (data.content.length < queryParams.value.pageSize!) {
+      uni.showToast({
+        title: '没有更多了',
+        icon: 'none',
+      })
+      loadMoreText.value = '没有更多了'
+    }
+
+    else { loadMoreText.value = '加载中...' }
+
+    queryParams.value.page!++
+  })
+    .catch(() => {
+      uni.showToast({
+        title: '加载失败',
+        icon: 'none',
+      })
     })
-    const imgUrls = ref<Array<string>>([
-      'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b4b60b10-5168-11eb-bd01-97bc1429a9ff.jpg',
-      'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b1dcfa70-5168-11eb-bd01-97bc1429a9ff.jpg',
-    ])
-    function addImg() {
-      imgUrls.value.push('https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b4b60b10-5168-11eb-bd01-97bc1429a9ff.jpg')
-    }
-    const data = ref<Array<number>>([])
-    let idx = 0
-    for (let i = 0; i < 5; i++) {
-      data.value.push(idx)
-      idx++
-    }
-    const showLoadMore = ref<boolean>(false)
-    const loadMoreText = ref<string>('加载中...')
-    onReachBottom(() => {
-      console.log('reach bottom')
-      showLoadMore.value = true
+    .finally(() => {
       setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          data.value.push(idx)
-          idx++
-        }
         showLoadMore.value = false
-      }, 500)
+      }, 1000)
+      // showLoadMore.value = false
     })
-    function searchclick(options: any) {
-      console.log(options)
-    }
-    console.log(good.value)
-    return {
-      imgUrls,
-      addImg,
-      data,
-      showLoadMore,
-      loadMoreText,
-      hots,
-      good,
-      searchclick,
-    }
-  },
+}
+loadGoodsInfo()
+// onMounted(() => loadGoodsInfo())
+onReachBottom(() => {
+  console.log('onReachBottom')
+  if (showLoadMore.value)
+    return
+  loadGoodsInfo()
+})
+// onPullDownRefresh(() => {
+//   console.log('refresh')
+//   loadGoodsInfo()
+// })
+function searchclick(options: any) {
+  console.log(options)
 }
 </script>
 
@@ -107,10 +115,7 @@ export default {
         </view>
       </view>
     </view>
-    <!-- <view bg-color="#FFFFFF" custom-nav-height="0">
-      <!--  #ifdef  APP-PLUS -->
     <view class="app-status-bar-height" />
-    <!--  #endif -->
     <view class="top-box" :style="headerMarginTopStyle">
       <view class="t">
         Q
@@ -131,37 +136,22 @@ export default {
     <!-- <img class="h-1rem object-scale-down" src="https://img.alicdn.com/imgextra/i1/O1CN01EjcAPM25IsjiwGyYs_!!6000000007504-2-tps-65-20.png"> -->
   </view>
 
-  <view>
-    <!-- <good-card>1</good-card> -->
-    <view class="good flex flex-wrap justify-center">
-      <good-card v-for="v, i in data" :key="i" class="" v-bind="good" css="w-337rpx h-470rpx m2" />
-    </view>
-    <view v-if="showLoadMore" class="uni-loadmore text-center">
-      {{ loadMoreText }}
-    </view>
-    <!-- <view title :row="3" :loading="loading">
-        <div class="good-box">
-          <div v-for="item in hots" :key="item.goodsId" class="good-item" @click="goToDetail(item)">
-            <img :src="item.goodsCoverImg" alt="">
-            <div class="good-desc">
-              <div class="title">
-                {{ item.goodsName }}
-              </div>
-              <div class="price">
-                ¥ {{ item.sellingPrice }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </view> -->
+  <!-- <good-card>1</good-card> -->
+  <view class="good flex flex-wrap justify-center">
+    <good-card v-for="v, i in goodsList" :key="i" class="" :goods="v" css="w-337rpx h-470rpx m2" />
   </view>
-    <!-- <view>
-      <a v-for="v, i in data" :key="i">HHHH {{ v }}</a>
+  <view v-if="showLoadMore" class="uni-loadmore text-center">
+    <view class="text-center flex justify-center">
+      <view id="preloader_1">
+        <span />
+        <span />
+        <span />
+        <span />
+        <span />
+      </view>
     </view>
-    <view v-if="showLoadMore" class="uni-loadmore">
-      {{ loadMoreText }}
-    </view> -->
   </view>
+  <!-- </view> -->
 </template>
 
 <style scoped>
@@ -170,6 +160,40 @@ export default {
     color: #111;
     font-weight: bold;
     line-height: 24px;
+}
+#preloader_1{
+    position:relative;
+}
+#preloader_1 span{
+    display:block;
+    bottom:0px;
+    width: 9px;
+    height: 5px;
+    background:#9b59b6;
+    position:absolute;
+    animation: preloader_1 1.5s  infinite ease-in-out;
+}
+#preloader_1 span:nth-child(2){
+    left:11px;
+    animation-delay: .2s;
+}
+#preloader_1 span:nth-child(3){
+    left:22px;
+    animation-delay: .4s;
+}
+#preloader_1 span:nth-child(4){
+    left:33px;
+    animation-delay: .6s;
+}
+#preloader_1 span:nth-child(5){
+    left:44px;
+    animation-delay: .8s;
+}
+@keyframes preloader_1 {
+    0% {height:5px;transform:translateY(0px);background:#9b59b6;}
+    25% {height:30px;transform:translateY(15px);background:#3498db;}
+    50% {height:5px;transform:translateY(0px);background:#9b59b6;}
+    100% {height:5px;transform:translateY(0px);background:#9b59b6;}
 }
 /* .mlogo {
     margin: 4px 0 0 6px;

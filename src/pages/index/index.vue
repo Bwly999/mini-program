@@ -3,6 +3,12 @@ import { onMounted, ref } from 'vue'
 import { onPullDownRefresh, onReachBottom } from '@dcloudio/uni-app'
 import MixLoading from '../../component/mix-loading/mix-loading.vue'
 import UniLoadMore from '../../uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue'
+import Apple from './icon/apple.vue'
+import Vegetable from './icon/vegetable.vue'
+import Grain from './icon/grain.vue'
+import Chick from './icon/chick.vue'
+import Cow from './icon/cow.vue'
+import Fish from './icon/fish.vue'
 import GoodCard from '@/component/good-card/good-card.vue'
 import type { Good } from '@/component/good-card/good-card.vue'
 import Mysearch from '@/component/mysearch/mysearch.vue'
@@ -94,32 +100,62 @@ function searchclick(options: any) {
       </swiper>
     </view>
     <view class="m-1rem flex justify-center flex-col rounded-xl shadow-lg gap-2">
-      <view class="flex justify-around gap-2">
-        <view v-for="v, i in 5" :key="i">
-          <view class="flex flex-col">
-            <a
-              class="i-carbon-logo-github text-4xl"
-            />
-            <a class="mt-1 text-center text-xs">上装</a>
-          </view>
+      <view class="flex justify-around flex-wrap relative text-5xl">
+        <view class="flex flex-col justify-center">
+          <Apple
+            class="icon"
+          />
+          <a class="mt-1 text-center text-xs">瓜果</a>
+        </view>
+        <view class="flex flex-col text-5xl">
+          <Vegetable
+            class="icon"
+          />
+          <a class="mt-1 text-center text-xs">蔬菜</a>
+        </view>
+        <view class="flex flex-col">
+          <Grain
+            class="icon"
+          />
+          <a class="mt-1 text-center text-xs">粮油</a>
+        </view>
+        <view class="flex flex-col">
+          <Chick
+            class="icon"
+          />
+          <a class="mt-1 text-center text-xs">禽类</a>
+        </view>
+        <view class="flex flex-col">
+          <Cow
+            class="icon"
+          />
+          <a class="mt-1 text-center text-xs">畜牧</a>
+        </view>
+        <view class="flex flex-col">
+          <Fish
+            class="icon"
+          />
+          <a class="mt-1 text-center text-xs">水产</a>
         </view>
       </view>
       <view class="flex justify-around gap-2">
-        <view v-for="v, i in 5" :key="i">
-          <view class="flex flex-col">
-            <a
-              class="i-carbon-moon text-4xl"
-            />
-            <a class="mt-1 text-center text-xs">上装</a>
-          </view>
+        <!-- <view class="flex flex-col">
+          <Cow
+            class="icon w-2rem h-2rem"
+          />
+          <a class="mt-1 text-center text-xs">畜牧</a>
         </view>
+        <view class="flex flex-col">
+          <Fish
+            class="icon w-2rem h-2rem"
+          />
+          <a class="mt-1 text-center text-xs">水产</a>
+        </view> -->
       </view>
     </view>
     <view class="app-status-bar-height" />
     <view class="top-box" :style="headerMarginTopStyle">
-      <view class="t">
-        Q
-      </view>
+      <view class="t" />
       <view class="search">
         <u-search v-model="kw" placeholder="输入关键词搜索" :show-action="false" :disabled="true" @click="goSearch" />
       </view>
@@ -127,7 +163,7 @@ function searchclick(options: any) {
       <view class="mp-btn" :style="menuButtonInfoStyle" />
       <!--  #endif -->
     </view>
-  </view> -->
+  </view>
   <!-- <MixLoading /> -->
   <view class="flex grow-0">
     <view class="font-bold text-xl ml-5 ">
@@ -140,7 +176,8 @@ function searchclick(options: any) {
   <view class="good flex flex-wrap justify-center">
     <good-card v-for="v, i in goodsList" :key="i" class="" :goods="v" css="w-337rpx h-470rpx m2" />
   </view>
-  <view v-if="showLoadMore" class="uni-loadmore text-center">
+  <!-- <view v-if="showLoadMore" class="uni-loadmore text-center"> -->
+  <view class="text-center">
     <view class="text-center flex justify-center">
       <view id="preloader_1">
         <span />
@@ -163,6 +200,7 @@ function searchclick(options: any) {
 }
 #preloader_1{
     position:relative;
+    width: 55px;
 }
 #preloader_1 span{
     display:block;
@@ -172,6 +210,7 @@ function searchclick(options: any) {
     background:#9b59b6;
     position:absolute;
     animation: preloader_1 1.5s  infinite ease-in-out;
+    transform: translate(-2px, 0);
 }
 #preloader_1 span:nth-child(2){
     left:11px;

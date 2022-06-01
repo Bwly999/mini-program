@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
+import { onLoad } from '@dcloudio/uni-app'
 import uniEmpty from '@/component/uni-empty/uni-empty.vue'
 import { listAllCategory } from '@/api/category'
 import type { Category } from '@/api/category'
@@ -12,7 +13,7 @@ const isLoading = ref(false)
 const categoryList = ref<Category[]>([])
 const current = ref(0)
 function init() {
-  listAllCategory().then((res) => {
+  listAllCategory().then((res: any) => {
     console.log(res)
     categoryList.value = res.data
     getGoodsList(0)
@@ -32,7 +33,7 @@ function getGoodsList(index: number) {
     pageSize: 500,
   }
   isLoading.value = true
-  listGoods(params).then((res) => {
+  listGoods(params).then((res: any) => {
     console.log(res)
     goodsList.value = res.data.content
     console.log(goodsList.value)
@@ -66,10 +67,16 @@ function swichMenu(index: number) {
   getGoodsList(index)
   console.log(scrollTop.value)
   scrollTop.value = 0
-  console.log('swichMenu', index)
-//   this.getGoodsList(index)
 }
 onMounted(() => init())
+
+onLoad((options) => {
+  if (options.category) {
+    const index = categoryList.value.findIndex(item => item.name === options.category)
+    if (index !== -1)
+      swichMenu(index)
+  }
+})
 </script>
 
 <template>

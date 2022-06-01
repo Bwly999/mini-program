@@ -80,6 +80,39 @@ onReachBottom(() => {
 function searchclick(options: any) {
   console.log(options)
 }
+const categoryList = ref([
+  {
+    name: '瓜果',
+    icon: Apple,
+  },
+  {
+    name: '蔬菜',
+    icon: Vegetable,
+  },
+  {
+    name: '粮油',
+    icon: Grain,
+  },
+  {
+    name: '禽类',
+    icon: Chick,
+  },
+  {
+    name: '畜牧',
+    icon: Cow,
+  },
+  {
+    name: '水产',
+    icon: Fish,
+  },
+])
+
+function navigateToCategory(category: string) {
+  console.log(category)
+  uni.navigateTo({
+    url: `/pages/category/category?category=${category}`,
+  })
+}
 </script>
 
 <template>
@@ -101,13 +134,22 @@ function searchclick(options: any) {
     </view>
     <view class="m-1rem flex justify-center flex-col rounded-xl shadow-lg gap-2">
       <view class="flex justify-around flex-wrap relative text-5xl">
-        <view class="flex flex-col justify-center">
+        <view v-for="(category, i) in categoryList" :key="i" class="flex flex-col" @click="navigateToCategory(category.name)">
+          <component
+            :is="category.icon"
+            class="icon"
+          />
+          <a class="mt-1 text-center text-xs">{{ category.name }}</a>
+        </view>
+      </view>
+      <!-- <view class="flex justify-around flex-wrap relative text-5xl">
+        <view class="flex flex-col">
           <Apple
             class="icon"
           />
           <a class="mt-1 text-center text-xs">瓜果</a>
         </view>
-        <view class="flex flex-col text-5xl">
+        <view class="flex flex-col">
           <Vegetable
             class="icon"
           />
@@ -137,7 +179,7 @@ function searchclick(options: any) {
           />
           <a class="mt-1 text-center text-xs">水产</a>
         </view>
-      </view>
+      </view> -->
       <view class="flex justify-around gap-2">
         <!-- <view class="flex flex-col">
           <Cow

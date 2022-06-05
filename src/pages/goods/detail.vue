@@ -152,7 +152,7 @@ function autoStopVideo(e: any) {
     </view>
     <uni-icons type="contact" size="30" />
     <a class="i-carbon-microphone text-2xl" />
-    <al-goods-detail :goods-detail="goodsDetail" interval="5000" />
+    <al-goods-detail :goods-detail="goodsDetail" />
     <!-- <echone-sku
       :show="skuShow"
       :combinations="combinations"

@@ -1,46 +1,61 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
-import { onLoad } from '@dcloudio/uni-app'
+import { onLoad, onShow } from '@dcloudio/uni-app'
 import uniEmpty from '@/component/uni-empty/uni-empty.vue'
 import { listAllCategory } from '@/api/category'
 import type { Category } from '@/api/category'
 import { type GoodsParams, type GoodsRecord, listGoods } from '@/api/goods'
 import { mockData as categoryMockData } from '@/mock/category'
 import { mockData as goodMockData } from '@/mock/goods'
+import { useGlobalVarStore } from '@/store/globalVar'
 
 const isLoading = ref(false)
 // 分类
-const categoryList = ref<Category[]>([])
+const categoryList = ref<string[]>([])
 const current = ref(0)
 function init() {
   listAllCategory().then((res: any) => {
     console.log(res)
     categoryList.value = res.data
-    getGoodsList(0)
+    getGoodsList(current.value)
   }).catch(() => {
     categoryList.value = categoryMockData
-    getGoodsList(0)
+    getGoodsList(current.value)
   })
 }
 
 // 商品
 const goodsList = ref<GoodsRecord[]>()
 
-function getGoodsList(index: number) {
+const currentPage = ref(1)
+const total = ref(0)
+function getGoodsList() {
   const params: GoodsParams = {
-    category: categoryList.value[index].name,
-    page: 1,
-    pageSize: 500,
+    category: categoryList.value[current.value],
+    page: currentPage.value,
+    pageSize: 10,
   }
   isLoading.value = true
   listGoods(params).then((res: any) => {
     console.log(res)
-    goodsList.value = res.data.content
-    console.log(goodsList.value)
-    isLoading.value = false
-  }).catch(() => {
+    if (res.data.content.length === 0) {
+      uni.showToast({
+        title: '没有更多了',
+        icon: 'none',
+      })
+      return
+    }
+    goodsList.value?.push(...res.data.content)
+    total.value = res.data.total
+    currentPage.value = currentPage.value + 1
+  }).catch((_err: any) => {
     goodsList.value = goodMockData.content
     console.log(goodsList.value)
+    uni.showToast({
+      title: '加载失败',
+      icon: 'error',
+    })
+  }).finally(() => {
     isLoading.value = false
   })
 }
@@ -59,22 +74,22 @@ function swichMenu(index: number) {
   if (index === current.value)
     return
   current.value = index
-  // 如果为0，意味着尚未初始化
-  //   if (this.menuHeight == 0 || this.menuItemHeight == 0) {
-  //     await this.getElRect('menu-scroll-view', 'menuHeight')
-  //     await this.getElRect('u-tab-item', 'menuItemHeight')
-  //   }
-  getGoodsList(index)
+  getGoodsList()
   console.log(scrollTop.value)
   scrollTop.value = 0
 }
 onMounted(() => init())
 
-onLoad((options) => {
-  if (options.category) {
-    const index = categoryList.value.findIndex(item => item.name === options.category)
-    if (index !== -1)
+const globalVarStore = useGlobalVarStore()
+onShow(() => {
+  console.log(globalVarStore.selectedCategory)
+  const category = globalVarStore.selectedCategory
+  if (category) {
+    const index = categoryList.value.findIndex(item => item === category)
+    if (index !== -1 && index !== current.value)
       swichMenu(index)
+
+    globalVarStore.selectedCategory = ''
   }
 })
 </script>
@@ -88,7 +103,7 @@ onLoad((options) => {
         @tap.stop="swichMenu(index)"
       >
         <text class="u-line-1">
-          {{ item.name }}
+          {{ item }}
         </text>
       </view>
     </scroll-view>
@@ -116,9 +131,9 @@ onLoad((options) => {
               库存:{{ item.stock }}
             </view>
             <view class="mt-auto">
-              <view v-if="item.discount" class="item">
+              <view v-if="item.discountPrice" class="item">
                 <text class="text-red-500">
-                  ¥{{ item.discount }}
+                  ¥{{ item.discountPrice }}
                 </text>
               </view>
             </view>

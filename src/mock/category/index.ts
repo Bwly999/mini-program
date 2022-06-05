@@ -1,22 +1,10 @@
 import type { Category } from '@/api/category'
 
-export const mockData: Category[] = [
-  {
-    name: '水果',
-  },
-  {
-    name: '蔬菜',
-  },
-  {
-    name: '蔬菜',
-  },
-  {
-    name: '蔬菜',
-  },
-  {
-    name: '蔬菜',
-  },
-  {
-    name: '蔬菜',
-  },
+export const mockData: string[] = [
+  '瓜果',
+  '蔬菜',
+  '粮油',
+  '禽类',
+  '畜牧',
+  '水产',
 ]

@@ -1,46 +1,21 @@
-<script lang="ts">
+<script lang="ts" setup>
 import { onLoad, onReady } from '@dcloudio/uni-app'
 import { computed, ref } from 'vue'
-export default {
-  props: {
-    goodsDetail: {
-      type: Object,
-      default() {
-        return {}
-      },
-    },
-    indicatorDots: {
-      type: Boolean,
-      default: true,
-    },
-    autoplay: {
-      type: Boolean,
-      default: true,
-    },
-    interval: {
-      default: 5000,
-    },
-    duration: {
-      default: 500,
-    },
-  },
-  setup(props: any, { emit }) {
-    const goodsDetail1 = computed(() => props.goodsDetail)
-    function couponClick() {
-      console.log(props.goodsDetail.actualPrice)
-    }
-    onReady(() => {
-      console.log(props.goodsDetail)
-    })
+import { type GoodsRecord } from '@/api/goods'
+const props = defineProps<{
+  goodsDetail: GoodsRecord
+}>()
+const goodsDetail = computed(() => props.goodsDetail)
 
-    return {
-      couponClick, goodsDetail1,
-    }
-  },
-  mounted() {
-    // console.log(this.goodsDetail)
-  },
-}
+onReady(() => {
+  console.log(props.goodsDetail)
+})
+const acutalPrice = computed(() => {
+  if (props.goodsDetail.discountPrice)
+    return props.goodsDetail.discountPrice
+  else
+    return props.goodsDetail.price
+})
 </script>
 
 <template>
@@ -48,35 +23,36 @@ export default {
     <view class="detail-body">
       <view class="goods-text">
         <view class="price">
-          ￥{{ goodsDetail1.actualPrice }}<text class="del-price">
-            ￥{{ goodsDetail1.originalPrice }}
+          ￥{{ acutalPrice }}
+          <text v-if="goodsDetail.discountPrice" class="del-price">
+            ￥{{ goodsDetail.price }}
           </text>
         </view>
         <view class="month-sale">
-          月销量：{{ goodsDetail1.monthSales }}
+          月销量：{{ '1' }}
         </view>
       </view>
       <view class="goods-title">
         <text class="tag">
           助农商城
-        </text>{{ goodsDetail1.title }}
+        </text>{{ goodsDetail.name }}
       </view>
     </view>
     <!-- 店铺信息 -->
     <view class="goods-shop">
       <view class="logo">
-        <image :src="goodsDetail1.shopLogo" mode="widthFix" />
+        <image :src="goodsDetail.shopName" mode="widthFix" />
       </view>
       <view class="shop-info">
         <view>
           <text class="name">
-            {{ goodsDetail1.shopName }}
+            {{ goodsDetail.shopName }}
           </text>
         </view>
         <view class="desc">
-          <text>描述{{ goodsDetail1.dsrScore }}</text>
-          <text>卖家{{ goodsDetail1.serviceScore }}</text>
-          <text>物流{{ goodsDetail1.shipScore }}</text>
+          <text>描述{{ goodsDetail.desc }}</text>
+          <!-- <text>卖家{{ goodsDetail.serviceScore }}</text>
+          <text>物流{{ goodsDetail.shipScore }}</text> -->
         </view>
       </view>
     </view>
@@ -89,7 +65,7 @@ export default {
       <view class="title">
         商品详情
       </view>
-      <image v-for="(item,index) in goodsDetail1.detailPics" :key="index" :src="item" mode="widthFix" />
+      <image v-for="(item,index) in goodsDetail.scollImages" :key="index" :src="item" mode="widthFix" />
     </view>
   </view>
 </template>

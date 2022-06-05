@@ -23,25 +23,34 @@ const sample = {
 const orderList = ref<Array<Partial<Order>>>(Array.from({ length: 10 }, () => sample))
 const isLoading = ref(false)
 function onClickItem(e: any) {
-  if (current.value !== e.currentIndex) {
-    current.value = e.currentIndex
-    orderParams.value.state = e.currentIndex
+  if (current.value === e.currentIndex)
+    return
 
-    isLoading.value = true
-    listOrderByUserId(userStore.id, orderParams.value).then((res: any) => {
-      console.log(res)
-      orderList.value = res.content
-    }).catch(() => {
-      const order = {
-        ...sample,
-      }
-      if (orderParams.value.state)
-        order.state = orderParams.value.state
-      orderList.value = Array.from({ length: 10 }, () => order)
-    }).finally(() => {
-      setTimeout(() => isLoading.value = false, 500)
-    })
+  current.value = e.currentIndex
+  if (e.currentIndex === 0) {
+    orderParams.value = {
+    }
   }
+  else {
+    orderParams.value = {
+      state: e.currentIndex,
+    }
+  }
+
+  isLoading.value = true
+  listOrderByUserId(userStore.id, orderParams.value).then((res: any) => {
+    console.log(res)
+    orderList.value = res.content
+  }).catch(() => {
+    const order = {
+      ...sample,
+    }
+    if (orderParams.value.state)
+      order.state = orderParams.value.state
+    orderList.value = Array.from({ length: 10 }, () => order)
+  }).finally(() => {
+    setTimeout(() => isLoading.value = false, 500)
+  })
 }
 </script>
 

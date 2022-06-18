@@ -2,8 +2,9 @@
 import { ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
 import addressCard from '@/component/address-card/address-card.vue'
-import type { Address } from '@/api/address'
+import { type Address, getAllAddress } from '@/api/address'
 import { useUserStore } from '@/store/user'
+import { useGlobalVarStore } from '@/store/globalVar'
 
 const pickAddressRef = ref()
 
@@ -57,6 +58,7 @@ function navToCreateAddress() {
   })
 }
 
+const globalVarStore = useGlobalVarStore()
 function onClickCard(address: Address) {
   // console.log(getCurrentPages())
   // // uni.navigateBack({})
@@ -66,16 +68,29 @@ function onClickCard(address: Address) {
     uni.navigateBack({})
   }
   else {
+    globalVarStore.selectedAddress = address
     uni.navigateTo({
-      url: `/pages/address/editAddress?addressId=${address.id}`,
+      url: '/pages/address/editAddress',
     })
   }
+}
+
+function loadAddressInfo() {
+  uni.showLoading({
+    title: '加载中',
+  })
+  getAllAddress().then((res: any) => {
+    addressList.value = res.data
+  }).finally(() => {
+    uni.hideLoading()
+  })
 }
 
 onLoad((option) => {
   mode = option.mode || ''
   // params = option.   //还可以  window.location.search.substring()
   //    invitation = this.getQueryVariable('id') //code是url后面带的
+  loadAddressInfo()
 })
 
 </script>

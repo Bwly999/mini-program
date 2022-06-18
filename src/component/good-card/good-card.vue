@@ -18,7 +18,7 @@ function getDetail() {
 </script>
 <template>
   <!-- <view class="rounded-2xl shadow-xl flex flex-col" :class="props.css" style="aspect-ratio: 9/11;" @click="getDetail"> -->
-  <view class="rounded-2xl shadow-xl flex flex-col" :class="props.css" @click="getDetail">
+  <view class="rounded-2xl shadow-xl flex flex-col bg-white" :class="props.css" @click="getDetail">
     <img :src="props.goods.coverImgUrl" style="width: 100%; height: 100%; border-radius: inherit;" alt="">
     <view class="good-desc ml-1rem">
       <view class="title">

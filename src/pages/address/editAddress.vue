@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
-import { type Address, getAddressById, saveAddress as saveAddressApi } from '@/api/address'
+import { type Address, saveAddress as saveAddressApi } from '@/api/address'
 
 // component
 import AddressInfo from '@/component/address-info/address-info.vue'
+import { useGlobalVarStore } from '@/store/globalVar'
 
 const formData = ref<Address>({
   consignee: '',
@@ -36,16 +37,18 @@ function saveAddress() {
       })
     })
 }
-function loadAddress(addressId: string) {
-  getAddressById(addressId).then((res: any) => {
-    console.log(res)
-    formData.value = res.data
-  })
-}
+// function loadAddress(addressId: string) {
+//   getAddressById(addressId).then((res: any) => {
+//     console.log(res)
+//     formData.value = res.data
+//   })
+// }
 onLoad((option) => {
-  console.log(option)
-  if (option.addressId)
-    loadAddress(option.addressId)
+  // console.log(option)
+  // if (option.addressId)
+  //   loadAddress(option.addressId)
+  const globalVarStore = useGlobalVarStore()
+  formData.value = globalVarStore.selectedAddress
 })
 </script>
 <template>

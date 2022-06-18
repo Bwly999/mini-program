@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
-import { onPullDownRefresh, onReachBottom } from '@dcloudio/uni-app'
+import { onLoad, onPullDownRefresh, onReachBottom } from '@dcloudio/uni-app'
 // import MixLoading from '../../component/mix-loading/mix-loading.vue'
 // import UniLoadMore from '../../uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue'
 // import Apple from './icon/apple.vue'
@@ -17,6 +17,8 @@ import Mysearch from '@/component/mysearch/mysearch.vue'
 import type { GoodsParams, GoodsRecord } from '@/api/goods'
 import { listGoods } from '@/api/goods'
 import { useGlobalVarStore } from '@/store/globalVar'
+import { useUserStore } from '@/store/user'
+import { isUserExist } from '@/api/user'
 
 const imgUrls = ref<Array<string>>([
   'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b4b60b10-5168-11eb-bd01-97bc1429a9ff.jpg',
@@ -65,7 +67,30 @@ function loadGoodsInfo() {
       showLoadMore.value = false
     })
 }
-loadGoodsInfo()
+
+function autoLogin() {
+  const userStore = useUserStore()
+  uni.login({
+    provider: 'weixin',
+    success: (res) => {
+      console.log(res)
+      const { code } = res
+      isUserExist(code).then((res: any) => {
+        console.log(res)
+        if (res.data)
+          userStore.login({ code })
+      })
+    },
+    fail: (err) => {
+      console.log(err)
+    },
+  })
+}
+onLoad(() => {
+  autoLogin()
+  loadGoodsInfo()
+})
+
 // onMounted(() => loadGoodsInfo())
 onReachBottom(() => {
   console.log('onReachBottom')
@@ -80,32 +105,6 @@ onReachBottom(() => {
 function searchclick(options: any) {
   console.log(options)
 }
-// const categoryList = ref([
-//   {
-//     name: '瓜果',
-//     icon: 'apple',
-//   },
-//   {
-//     name: '蔬菜',
-//     icon: 'vegetable',
-//   },
-//   {
-//     name: '粮油',
-//     icon: 'grain',
-//   },
-//   {
-//     name: '禽类',
-//     icon: 'chick',
-//   },
-//   {
-//     name: '畜牧',
-//     icon: 'cow',
-//   },
-//   {
-//     name: '水产',
-//     icon: 'lobster',
-//   },
-// ])
 const categoryList = ref([
   {
     name: '瓜果',
@@ -140,6 +139,7 @@ function navigateToCategory(category: string) {
     url: '/pages/category/category',
   })
 }
+
 </script>
 
 <template>
@@ -170,69 +170,8 @@ function navigateToCategory(category: string) {
           <a class="mt-1 text-center text-xs">{{ category.name }}</a>
         </view>
       </view>
-      <!-- <view class="flex justify-around flex-wrap relative text-5xl">
-        <view class="flex flex-col">
-          <Apple
-            class="icon"
-          />
-          <a class="mt-1 text-center text-xs">瓜果</a>
-        </view>
-        <view class="flex flex-col">
-          <Vegetable
-            class="icon"
-          />
-          <a class="mt-1 text-center text-xs">蔬菜</a>
-        </view>
-        <view class="flex flex-col">
-          <Grain
-            class="icon"
-          />
-          <a class="mt-1 text-center text-xs">粮油</a>
-        </view>
-        <view class="flex flex-col">
-          <Chick
-            class="icon"
-          />
-          <a class="mt-1 text-center text-xs">禽类</a>
-        </view>
-        <view class="flex flex-col">
-          <Cow
-            class="icon"
-          />
-          <a class="mt-1 text-center text-xs">畜牧</a>
-        </view>
-        <view class="flex flex-col">
-          <Fish
-            class="icon"
-          />
-          <a class="mt-1 text-center text-xs">水产</a>
-        </view>
-      </view> -->
-      <view class="flex justify-around gap-2">
-        <!-- <view class="flex flex-col">
-          <Cow
-            class="icon w-2rem h-2rem"
-          />
-          <a class="mt-1 text-center text-xs">畜牧</a>
-        </view>
-        <view class="flex flex-col">
-          <Fish
-            class="icon w-2rem h-2rem"
-          />
-          <a class="mt-1 text-center text-xs">水产</a>
-        </view> -->
-      </view>
     </view>
     <view class="app-status-bar-height" />
-    <view class="top-box" :style="headerMarginTopStyle">
-      <view class="t" />
-      <view class="search">
-        <u-search v-model="kw" placeholder="输入关键词搜索" :show-action="false" :disabled="true" @click="goSearch" />
-      </view>
-      <!--  #ifdef  MP-WEIXIN || MP-BAIDU || MP-TOUTIAO || MP-QQ -->
-      <view class="mp-btn" :style="menuButtonInfoStyle" />
-      <!--  #endif -->
-    </view>
   </view>
   <!-- <MixLoading /> -->
   <view class="flex grow-0">
@@ -243,7 +182,7 @@ function navigateToCategory(category: string) {
   </view>
 
   <!-- <good-card>1</good-card> -->
-  <view class="good flex flex-wrap justify-center">
+  <view class="good flex flex-wrap justify-center bg-slate-50">
     <good-card v-for="v, i in goodsList" :key="i" class="" :goods="v" css="w-337rpx h-470rpx m2" />
   </view>
   <view v-if="showLoadMore" class="text-center">

@@ -1,7 +1,12 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
+import { type Address } from '@/api/address'
+const emptyAddress: Address = {
+
+}
 export const useGlobalVarStore = defineStore('globalVar', {
   state: () => ({
     selectedCategory: '',
+    selectedAddress: emptyAddress,
   }),
 
   actions: {

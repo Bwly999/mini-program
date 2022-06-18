@@ -26,11 +26,6 @@ const sample = {
 }
 
 const region = computed(() => `${props.province || ''}${props.city || ''}${props.district || ''}`)
-function navToChangeAddress() {
-  uni.navigateTo({
-    url: '/pages/address/createAddress',
-  })
-}
 const emit = defineEmits(['clickArrow', 'clickCard'])
 </script>
 <template>

@@ -1,3 +1,4 @@
+import { TOKEN_KEY } from '@/store/user'
 const BASE_URL = 'http://localhost:8080'
 
 interface Options {
@@ -9,11 +10,13 @@ const request = (options: Options) => {
   const headers = {
     'Content-Type': 'application/json',
   }
-  const token = uni.getStorageSync('token')
+  const token = uni.getStorageSync(TOKEN_KEY)
   if (token) {
     Object.defineProperties(headers, {
       Authorization: {
         value: token,
+        writable: true,
+        enumerable: true,
       },
     })
   }
@@ -23,7 +26,7 @@ const request = (options: Options) => {
       url: BASE_URL + options.url,
       method: options.method || 'GET',
       data: options.data || {},
-      timeout: 800, // 8秒超时时间，单位 ms
+      timeout: 8000, // 8秒超时时间，单位 ms
       header: headers,
       success: (res) => {
         const errno = res.data?.errno

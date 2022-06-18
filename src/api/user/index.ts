@@ -1,5 +1,6 @@
 import request from '@/utils/request'
 
+const prefix = '/user'
 export interface UserData {
   code?: string
   avatarUrl?: string
@@ -10,7 +11,7 @@ export interface UserData {
 }
 export function apiLogin(user: UserData) {
   return request({
-    url: '/user/', // 仅为示例，并非真实接口地址。
+    url: `${prefix}/user/token`,
     method: 'POST',
     data: user,
   })
@@ -18,7 +19,14 @@ export function apiLogin(user: UserData) {
 
 export function apiGetUserInfo() {
   return request({
-    url: '/user/info', // 仅为示例，并非真实接口地址。
+    url: `${prefix}/user/info`,
     method: 'GET',
   }) as Promise<UserData>
+}
+
+export function isUserExist(code: string) {
+  return request({
+    url: `${prefix}/user/${code}:exist`,
+    method: 'GET',
+  }) as Promise<boolean>
 }

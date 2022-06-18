@@ -1,5 +1,6 @@
 import request from '@/utils/request'
 
+const prefix = '/user'
 export interface Address {
   id?: string
   consignee?: string
@@ -11,15 +12,30 @@ export interface Address {
 }
 export function saveAddress(address: Address) {
   return request({
-    url: '/address',
+    url: `${prefix}/user/address`,
     method: 'POST',
     data: address,
   })
 }
 
-export function getAddressById(addressId: string) {
+export function changeAddress(address: Address) {
   return request({
-    url: `address${addressId}`,
+    url: `${prefix}/user/address`,
+    method: 'PUT',
+    data: address,
+  })
+}
+
+// export function getAddressById(addressId: string) {
+//   return request({
+//     url: `${prefix}/user/address/${addressId}`,
+//     method: 'GET',
+//   })
+// }
+
+export function getAllAddress() {
+  return request({
+    url: `${prefix}/user/address`,
     method: 'GET',
   })
 }

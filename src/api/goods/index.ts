@@ -19,6 +19,8 @@ export interface GoodsRecord {
 export interface GoodsParams {
   name?: string
   category?: string
+  lowPrice?: number
+  highPrice?: number
   page?: number
   pageSize?: number
 }

@@ -28,5 +28,6 @@ export function isUserExist(code: string) {
   return request({
     url: `${prefix}/user/${code}:exist`,
     method: 'GET',
+    hideError: true,
   }) as Promise<boolean>
 }

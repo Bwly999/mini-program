@@ -19,12 +19,12 @@ function getDetail() {
 <template>
   <!-- <view class="rounded-2xl shadow-xl flex flex-col" :class="props.css" style="aspect-ratio: 9/11;" @click="getDetail"> -->
   <view class="rounded-2xl shadow-xl flex flex-col bg-white" :class="props.css" @click="getDetail">
-    <img :src="props.goods.coverImgUrl" style="width: 100%; height: 100%; border-radius: inherit;" alt="">
+    <img :src="props.goods.coverImgUrl" class="rounded-t-2xl" style="width: 100%; height: 100%;" alt="">
     <view class="good-desc ml-1rem">
       <view class="title">
         {{ props.goods.name }}
       </view>
-      <view class="flex">
+      <view class="flex mb-2">
         <a class="font-bold text-red">
           ¥ {{ props.goods.price }}
         </a>
@@ -38,12 +38,14 @@ function getDetail() {
 <style scoped>
 .title {
   width:100%;
-  height:2.8rem;
+  height:2.6rem;
   font-size:1rem;
   overflow:hidden;
   text-overflow: ellipsis;
   display:-webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+
+  font-weight: 550;
 }
 </style>

@@ -53,7 +53,7 @@ function loadGoodsInfo() {
       loadMoreText.value = '没有更多了'
       return
     }
-    goodsList.value?.push(...data.content)
+    goodsList.value.push(...data.content)
 
     queryParams.value.page!++
   })
@@ -91,17 +91,13 @@ onLoad(() => {
   loadGoodsInfo()
 })
 
-// onMounted(() => loadGoodsInfo())
 onReachBottom(() => {
   console.log('onReachBottom')
   if (showLoadMore.value)
     return
   loadGoodsInfo()
 })
-// onPullDownRefresh(() => {
-//   console.log('refresh')
-//   loadGoodsInfo()
-// })
+
 function searchclick(options: any) {
   console.log(options)
 }
@@ -166,7 +162,7 @@ function navigateToCategory(category: string) {
             :name="category.icon"
             class="icon"
           /> -->
-          <a class="i-apple text-center text-5xl" :class="`i-${category.icon}`" />
+          <a class="text-center text-5xl" :class="`i-${category.icon}`" />
           <a class="mt-1 text-center text-xs">{{ category.name }}</a>
         </view>
       </view>

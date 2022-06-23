@@ -5,6 +5,7 @@ import addressCard from '@/component/address-card/address-card.vue'
 import { type Address, getAllAddress } from '@/api/address'
 import { useUserStore } from '@/store/user'
 import { useGlobalVarStore } from '@/store/globalVar'
+import UniEmpty from '@/component/uni-empty/uni-empty.vue'
 
 const pickAddressRef = ref()
 
@@ -16,31 +17,7 @@ const sample = ref({
   district: '翔安区',
   detailAddress: '12331凌云路',
 })
-const addressList = ref([{
-  id: '1',
-  consignee: '天天的1',
-  phone: '13332323232',
-  province: '福建省',
-  city: '厦门市',
-  district: '翔安区',
-  detailAddress: '12331凌云路',
-}, {
-  id: '2',
-  consignee: '天天2',
-  phone: '13332323232',
-  province: '福建省',
-  city: '厦门市',
-  district: '翔安区',
-  detailAddress: '12331凌云路',
-}, {
-  id: '3',
-  consignee: '天天3',
-  phone: '13332323232',
-  province: '福建省',
-  city: '厦门市',
-  district: '翔安区',
-  detailAddress: '12331凌云路',
-}])
+const addressList = ref([])
 
 /**
  * mode = 'select' || '' select代表选择模式
@@ -76,14 +53,17 @@ function onClickCard(address: Address) {
 }
 
 function loadAddressInfo() {
-  uni.showLoading({
-    title: '加载中',
-  })
   getAllAddress().then((res: any) => {
     addressList.value = res.data
-  }).finally(() => {
-    uni.hideLoading()
   })
+    .catch((err: any) => {
+      console.log(err)
+      uni.showToast({
+        icon: 'error',
+        title: err.errmsg,
+        duration: 1500,
+      })
+    })
 }
 
 onLoad((option) => {
@@ -98,7 +78,10 @@ onLoad((option) => {
 <template>
   <view class="flex flex-col h-100vh">
     <view class="grow">
-      <address-card v-for="(v, i) in addressList" :key="i" v-bind="v" @click-card="onClickCard" />
+      <uni-empty v-if="addressList.length === 0" text="您还没有地址信息" css-class="mt-200rpx justify-center" />
+      <view v-else>
+        <address-card v-for="(v, i) in addressList" :key="i" v-bind="v" @click-card="onClickCard" />
+      </view>
     </view>
     <button class="mt-auto mb-4 rounded-full bg-red-500 text-white px-6" @click="navToCreateAddress">
       +新增收货地址

@@ -3,37 +3,41 @@ import { onMounted, ref } from 'vue'
 import { onLoad, onShow } from '@dcloudio/uni-app'
 import uniEmpty from '@/component/uni-empty/uni-empty.vue'
 import { listAllCategory } from '@/api/category'
-import type { Category } from '@/api/category'
 import { type GoodsParams, type GoodsRecord, listGoods } from '@/api/goods'
-import { mockData as categoryMockData } from '@/mock/category'
 import { mockData as goodMockData } from '@/mock/goods'
 import { useGlobalVarStore } from '@/store/globalVar'
 
 const isLoading = ref(false)
 // 分类
 const categoryList = ref<string[]>([])
-const current = ref(0)
+const current = ref(-1)
 function init() {
   listAllCategory().then((res: any) => {
-    console.log(res)
     categoryList.value = res.data
-    getGoodsList(current.value)
-  }).catch(() => {
-    categoryList.value = categoryMockData
-    getGoodsList(current.value)
+    swichMenu(0)
   })
 }
 
 // 商品
-const goodsList = ref<GoodsRecord[]>()
+const goodsList = ref<GoodsRecord[]>([])
 
 const currentPage = ref(1)
 const total = ref(0)
+const goodsName = ref()
+const lowPrice = ref()
+const highPrice = ref()
 function getGoodsList() {
   const params: GoodsParams = {
     category: categoryList.value[current.value],
     page: currentPage.value,
     pageSize: 10,
+  }
+  if (goodsName.value)
+    params.name = goodsName.value
+
+  if (lowPrice.value && highPrice.value) {
+    params.lowPrice = lowPrice.value
+    params.highPrice = highPrice.value
   }
   isLoading.value = true
   listGoods(params).then((res: any) => {
@@ -45,7 +49,7 @@ function getGoodsList() {
       })
       return
     }
-    goodsList.value?.push(...res.data.content)
+    goodsList.value.push(...res.data.content)
     total.value = res.data.total
     currentPage.value = currentPage.value + 1
   }).catch((_err: any) => {
@@ -69,11 +73,21 @@ function goGoodsDetail(item: GoodsRecord) {
     url: `/pages/goods/detail?id=${item.id}`,
   })
 }
+
+const resetQueryParams = () => {
+  goodsName.value = undefined
+  lowPrice.value = undefined
+  highPrice.value = undefined
+  currentPage.value = 1
+}
 const scrollTop = ref(0)
 function swichMenu(index: number) {
   if (index === current.value)
     return
   current.value = index
+  resetQueryParams()
+
+  goodsList.value = []
   getGoodsList()
   console.log(scrollTop.value)
   scrollTop.value = 0
@@ -92,10 +106,39 @@ onShow(() => {
     globalVarStore.selectedCategory = ''
   }
 })
+
+const selectDrawer = ref()
+
+const openSelectDrawer = () => {
+  selectDrawer.value.open()
+}
+const closeDrawer = () => {
+  selectDrawer.value.close()
+}
+
+const onClickSelectConfirm = () => {
+  currentPage.value = 1
+  goodsList.value = []
+  getGoodsList()
+  closeDrawer()
+}
+
+const onClickResetSelect = () => {
+  resetQueryParams()
+}
 </script>
 
 <template>
-  <view class="flex flex-1 overflow-hidden h-100vh">
+  <view>
+    <view class="flex">
+      <view>
+        <view class="price-s">
+          价格
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="flex flex-1 overflow-hidden h-100vh bg-white">
     <scroll-view class="u-tab-view menu-scroll-view" scroll-y="true" scroll-with-animation="true">
       <view
         v-for="(item,index) in categoryList" :key="index" class="u-tab-item"
@@ -106,26 +149,63 @@ onShow(() => {
           {{ item }}
         </text>
       </view>
+      <view class=" select-icon bg-white rounded-full my-4 w-16 h-16 flex flex-col justify-center items-center" @click="openSelectDrawer">
+        <view class="i-carbon-search-locate text-red-400 text-2xl" />
+        <view class="text-yellow-500 text-sm">
+          筛选
+        </view>
+      </view>
+      <uni-drawer ref="selectDrawer" mode="right" :mask-click="true">
+        <view class="rounded-md p2 bg-white flex flex-col h-100vh">
+          <view>
+            <view class="font-bold text-sm">
+              商品名
+            </view>
+            <view class="text-center align-middle">
+              <input v-model="goodsName" class="bg-slate-100 rounded-full w-300rpx text-center align-middle" placeholder="请输入商品名">
+            </view>
+          </view>
+          <view class="select-card mt-4">
+            <view class="font-bold text-sm">
+              价格
+            </view>
+            <view class="flex justify-between">
+              <input v-model="lowPrice" class="bg-slate-100 rounded-full w-5rem text-center align-middle" type="number" placeholder="最低价">
+              -
+              <input v-model="highPrice" class="bg-slate-100 rounded-full w-5rem text-center align-middle" type="number" placeholder="最高价">
+            </view>
+          </view>
+
+          <view class="flex mt-auto bg-slate-50">
+            <button class="rounded-full bg-white text-red-500 px-5" @click="onClickResetSelect">
+              重置
+            </button>
+            <button class="rounded-full bg-red-500 text-white px-5" @click="onClickSelectConfirm">
+              确认
+            </button>
+          </view>
+        </view>
+      </uni-drawer>
     </scroll-view>
     <scroll-view
-      class="goods-container flex" scroll-y="true" :scroll-top="scrollTop"
+      class="goods-container flex bg-slate-50 rounded-md" scroll-y="true" :scroll-top="scrollTop"
       @scrolltolower="goodsGoBottom"
     >
       <view v-if="isLoading" class="flex justify-center items-center h-100vh">
         <uni-load-more icon-type="circle" status="loading" />
       </view>
       <view v-else>
-        <uni-empty v-if="!goodsList" text="暂无商品" css-class="mt-200rpx justify-center" />
-        <view v-for="(item, index) in goodsList" :key="index" class="goodsList m2 bg-gray-100">
+        <uni-empty v-if="goodsList.length === 0" text="暂无商品" css-class="mt-200rpx justify-center" />
+        <view v-for="(item, index) in goodsList" :key="index" class="flex m2 bg-white rounded-md shadow-md mb-4">
           <image
-            mode="scaleToFill" lazy-load :src="item.coverImgUrl" class="w-200rpx h-225rpx border border-gray-200 rounded-lg"
+            mode="scaleToFill" lazy-load :src="item.coverImgUrl" class="h-225rpx max-w-200rpx max-h-225rpx rounded-lg shadow-md"
             @click="goGoodsDetail(item)"
           />
-          <view class="grow ml-24rpx relative flex flex-col">
+          <view class="ml-24rpx relative flex flex-col">
             <view class="" @click="goGoodsDetail(item)">
-              <text class="font-bold text-base">
+              <p class="title">
                 {{ item.name }}
-              </text>
+              </p>
             </view>
             <view v-if="item.stock" class="t2">
               库存:{{ item.stock }}
@@ -145,6 +225,16 @@ onShow(() => {
 </template>
 
 <style scoped>
+
+image{
+  will-change: transform
+}
+.select-icon {
+  transform: translate(20%, 0);
+  background: #477664;
+  box-shadow: inset 0.5rem 0.5rem 1.2rem #345649,
+              inset -0.5rem -0.5rem 1.2rem #5a967f;
+}
 .category-page {
 display: flex;
 flex-direction: column;
@@ -160,7 +250,7 @@ height: calc(100vh - var(--window-bottom) - var(--status-bar-height) - var(--win
 
 .u-tab-item {
   height: 110rpx;
-  background: #f6f6f6;
+  background: #fff;
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -176,7 +266,8 @@ height: calc(100vh - var(--window-bottom) - var(--status-bar-height) - var(--win
   color: #000;
   font-size: 30rpx;
   font-weight: 600;
-  background: #fff;
+  --un-bg-opacity: 1;
+  background-color: rgba(248, 250, 252, var(--un-bg-opacity));
 }
 
 .u-tab-item-active::before {
@@ -193,11 +284,6 @@ height: calc(100vh - var(--window-bottom) - var(--status-bar-height) - var(--win
   height: 100%;
 }
 
-.goodsList {
-  margin-bottom: 32rpx;
-  padding: 0 8rpx;
-  display: flex;
-}
 .t {
   font-weight: bold;
   color: #333;
@@ -207,6 +293,19 @@ height: calc(100vh - var(--window-bottom) - var(--status-bar-height) - var(--win
 .t2 {
   color: #666;
   font-size: 26rpx;
+}
+
+.title {
+  width:100%;
+  height:2.6rem;
+  font-size:1rem;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  display:-webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  font-weight: 550;
 }
 
 .price {

@@ -38,7 +38,7 @@ function saveAddress() {
 
 </script>
 <template>
-  <view class="pt-2 flex flex-col h-100vh bg-slate-100">
+  <view class="flex flex-col h-100vh bg-slate-100">
     <address-info ref="addressInfoRef" :model-value="formData" />
 
     <view class="sticky bottom-0 bg-white flex p2 justify-center mt-auto">

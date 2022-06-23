@@ -1,10 +1,8 @@
 <script lang="ts" setup>
 import { reactive, ref, toRefs } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
-import { isDark, toggleDark } from '@/composables'
 import { type UserData } from '@/api/user'
 import { useUserStore } from '@/store/user'
-import Mysearch from '@/component/mysearch/mysearch.vue'
 const single = ref<string>('')
 const change = (e: string) => {
   single.value = e
@@ -71,9 +69,7 @@ function navToMyAddress() {
     url: '/pages/address/address',
   })
 }
-function searchclick(options: any) {
-  console.log(options)
-}
+
 onLoad(() => userStore.getUserInfo())
 </script>
 <template>
@@ -89,7 +85,7 @@ onLoad(() => userStore.getUserInfo())
       </view>
     </view>
     <!-- <web-view src="https://player.bilibili.com/player.html?aid=416605084&bvid=BV13V411i7B7&cid=293227595&page=1" /> -->
-    <button class="rounded-xl bg-gray-500" @tap="getUserInfoAndLogin">
+    <button v-if="!userStore.id" class="rounded-xl bg-gray-500" @tap="getUserInfoAndLogin">
       登录
     </button>
     <view class="bg-slate-100 rounded-t-2xl grow">

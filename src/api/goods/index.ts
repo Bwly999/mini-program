@@ -8,7 +8,9 @@ export interface GoodsRecord {
   discountPrice: number
   stock: number
   scollImages: string[]
+  videoUrl: string
   originPlace?: string
+  monthSale: string
   level?: string
   weight?: number
   desc: string
@@ -40,7 +42,7 @@ export function listGoods(param: GoodsParams) {
 
 export function getGoodsById(id: string) {
   return request({
-    url: `/goods/${id}`, // 仅为示例，并非真实接口地址。
+    url: `/goods/goods/${id}`, // 仅为示例，并非真实接口地址。
     method: 'GET',
   })
 }

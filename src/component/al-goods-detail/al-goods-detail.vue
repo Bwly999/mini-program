@@ -3,7 +3,7 @@ import { onLoad, onReady } from '@dcloudio/uni-app'
 import { computed, ref } from 'vue'
 import { type GoodsRecord } from '@/api/goods'
 const props = defineProps<{
-  goodsDetail: GoodsRecord
+  goodsDetail: Partial<GoodsRecord>
 }>()
 const goodsDetail = computed(() => props.goodsDetail)
 
@@ -29,7 +29,7 @@ const acutalPrice = computed(() => {
           </text>
         </view>
         <view class="month-sale">
-          月销量：{{ '1' }}
+          月销量：{{ goodsDetail.monthSale || 0 }}
         </view>
       </view>
       <view class="goods-title">
@@ -65,7 +65,8 @@ const acutalPrice = computed(() => {
       <view class="title">
         商品详情
       </view>
-      <image v-for="(item,index) in goodsDetail.scollImages" :key="index" :src="item" mode="widthFix" />
+      <!-- <image v-for="(item,index) in goodsDetail.scollImages" :key="index" :src="item" mode="widthFix" /> -->
+      <view v-html="goodsDetail.desc" />
     </view>
   </view>
 </template>

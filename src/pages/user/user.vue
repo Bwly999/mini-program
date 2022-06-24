@@ -93,7 +93,7 @@ onLoad(() => userStore.getUserInfo())
         <view class="p2 font-bold">
           个人中心
         </view>
-        <view class="flex text-sm">
+        <view class="flex justify-around text-sm">
           <view class="flex flex-col justify-center items-center shadow-md bg-white m2">
             <a class="i-carbon-order-details text-center text-xl" />
             <button class="icon-btn text-sm" @click="navToMyOrder">

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { onLoad } from '@dcloudio/uni-app'
+import { onLoad, onShow } from '@dcloudio/uni-app'
 import addressCard from '@/component/address-card/address-card.vue'
 import { type Address, getAllAddress } from '@/api/address'
 import { useUserStore } from '@/store/user'
@@ -68,8 +68,9 @@ function loadAddressInfo() {
 
 onLoad((option) => {
   mode = option.mode || ''
-  // params = option.   //还可以  window.location.search.substring()
-  //    invitation = this.getQueryVariable('id') //code是url后面带的
+})
+
+onShow(() => {
   loadAddressInfo()
 })
 

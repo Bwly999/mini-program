@@ -129,7 +129,7 @@ const onClickResetSelect = () => {
 </script>
 
 <template>
-  <view>
+  <!-- <view>
     <view class="flex">
       <view>
         <view class="price-s">
@@ -137,7 +137,7 @@ const onClickResetSelect = () => {
         </view>
       </view>
     </view>
-  </view>
+  </view> -->
   <view class="flex flex-1 overflow-hidden h-100vh bg-white">
     <scroll-view class="u-tab-view menu-scroll-view" scroll-y="true" scroll-with-animation="true">
       <view
@@ -150,7 +150,7 @@ const onClickResetSelect = () => {
         </text>
       </view>
       <view class=" select-icon bg-white rounded-full my-4 w-16 h-16 flex flex-col justify-center items-center" @click="openSelectDrawer">
-        <view class="i-carbon-search-locate text-red-400 text-2xl" />
+        <view class="i-funnel text-red-400 text-2xl" />
         <view class="text-yellow-500 text-sm">
           筛选
         </view>
@@ -158,7 +158,7 @@ const onClickResetSelect = () => {
       <uni-drawer ref="selectDrawer" mode="right" :mask-click="true">
         <view class="rounded-md p2 bg-white flex flex-col h-100vh">
           <view>
-            <view class="font-bold text-sm">
+            <view class="font-bold text-lg">
               商品名
             </view>
             <view class="text-center align-middle">
@@ -166,7 +166,7 @@ const onClickResetSelect = () => {
             </view>
           </view>
           <view class="select-card mt-4">
-            <view class="font-bold text-sm">
+            <view class="font-bold text-lg">
               价格
             </view>
             <view class="flex justify-between">
@@ -177,10 +177,10 @@ const onClickResetSelect = () => {
           </view>
 
           <view class="flex mt-auto bg-slate-50">
-            <button class="rounded-full bg-white text-red-500 px-5" @click="onClickResetSelect">
+            <button class="rounded-full bg-white text-red-500 px-6" @click="onClickResetSelect">
               重置
             </button>
-            <button class="rounded-full bg-red-500 text-white px-5" @click="onClickSelectConfirm">
+            <button class="rounded-full bg-red-500 text-white px-6" @click="onClickSelectConfirm">
               确认
             </button>
           </view>
@@ -234,6 +234,13 @@ image{
   background: #477664;
   box-shadow: inset 0.5rem 0.5rem 1.2rem #345649,
               inset -0.5rem -0.5rem 1.2rem #5a967f;
+}
+
+.i-funnel {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBhcmlhLWhpZGRlbj0idHJ1ZSIgcm9sZT0iaW1nIiBjbGFzcz0iaWNvbmlmeSBpY29uaWZ5LS1waCIgd2lkdGg9IjFlbSIgaGVpZ2h0PSIxZW0iIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIG1lZXQiIHZpZXdCb3g9IjAgMCAyNTYgMjU2Ij48cGF0aCBmaWxsPSIjZmIyMzIzIiBkPSJNMTEyIDIzNy4xYTE5LjYgMTkuNiAwIDAgMS05LjQtMi40QTE5LjkgMTkuOSAwIDAgMSA5MiAyMTcuMXYtNzYuNUwyNy4zIDY5LjVBMjAgMjAgMCAwIDEgNDIuMSAzNmgxNzEuOGEyMCAyMCAwIDAgMSAxNC44IDMzLjVMMTY0IDE0MC42djU1LjFhMjAuMSAyMC4xIDAgMCAxLTguOSAxNi43bC0zMiAyMS4zYTIwLjQgMjAuNCAwIDAgMS0xMS4xIDMuNFpNNTEuMSA2MGw1OS43IDY1LjZhMTkuOCAxOS44IDAgMCAxIDUuMiAxMy41djcwLjVsMjQtMTZ2LTU0LjVhMTkuOCAxOS44IDAgMCAxIDUuMi0xMy41TDIwNC45IDYwWk05MyAxNDEuOFpNMjEzLjkgNjBaIj48L3BhdGg+PC9zdmc+");
+  background-size: cover;
+  width: 1em;
+  height: 1em;
 }
 .category-page {
 display: flex;

@@ -10,7 +10,6 @@ import type { GoodsRecord } from '@/api/goods'
 import { getGoodsById } from '@/api/goods'
 import { moneyFormatter } from '@/filters'
 
-const url = ref('https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b4b60b10-5168-11eb-bd01-97bc1429a9ff.jpg')
 const goodsNum = ref(1)
 const payWayOption = ref([
   {
@@ -23,6 +22,7 @@ const payWayOption = ref([
   },
 ])
 const payWay = ref(0)
+const goodsId = ref()
 
 const userStore = useUserStore()
 function bindPickerChange(e: any) {
@@ -94,8 +94,10 @@ function loadGoodsInfo(goodsId: string) {
 
 onLoad((options: any) => {
   console.log(options)
-  if (options.goodsId)
+  if (options.goodsId) {
+    goodsId.value = options.goodsId
     loadGoodsInfo(options.goodsId)
+  }
 })
 </script>
 

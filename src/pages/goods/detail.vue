@@ -1,36 +1,19 @@
 <script lang="ts" setup>
 import { onLoad, onReady } from '@dcloudio/uni-app'
-import { ref } from 'vue'
-import echoneSku from '@/component/echone-sku/echone-sku.vue'
+import { computed, ref } from 'vue'
 import alGoodsDetail from '@/component/al-goods-detail/al-goods-detail.vue'
 import uniEvaluate from '@/component/uni-evaluate/uni-evaluate.vue'
 import { type GoodsRecord, getGoodsById } from '@/api/goods'
-interface GoodDetail {
-  goodsId: number
-  shopId: number
-}
-const goodsInfo = ref<Partial<GoodsRecord>>()
 
-const imgUrls = ref<Array<string>>([
-  'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b4b60b10-5168-11eb-bd01-97bc1429a9ff.jpg',
-  'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b1dcfa70-5168-11eb-bd01-97bc1429a9ff.jpg',
-])
+const goodsInfo = ref<Partial<GoodsRecord>>({})
 
-const goodsDetail = {
-  actualPrice: 100,
-  originalPrice: 101,
-  title: '马肉',
-  shopLogo: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b1dcfa70-5168-11eb-bd01-97bc1429a9ff.jpg',
-  shopName: '马肉店',
-  dsrScore: 1,
-  serviceScore: 1,
-  shipScore: 1,
-  monthSales: 1,
-  detailPics: [
-    'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b4b60b10-5168-11eb-bd01-97bc1429a9ff.jpg',
-    'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b1dcfa70-5168-11eb-bd01-97bc1429a9ff.jpg',
-  ],
-}
+const imgUrls = computed(() => {
+  const imgs = [goodsInfo.value.coverImgUrl]
+  if (goodsInfo.value.scollImages)
+    imgs.push(...goodsInfo.value.scollImages!)
+
+  return imgs
+})
 
 const options = ref([{
   icon: 'chat',
@@ -56,10 +39,6 @@ function onClick(e: any) {
       url: `/pages/service/service?id=${goodsInfo.value?.shopId}`,
     })
   }
-  // uni.showToast({
-  //   title: `点击${e.content.text}`,
-  //   icon: 'none',
-  // })
 }
 // 评论
 const listData = [{
@@ -99,33 +78,17 @@ function buttonClick() {
 function loadGoodsInfo(goodsId: string) {
   getGoodsById(goodsId).then((res: any) => {
     goodsInfo.value = res.data
-  }).catch((err: any) => {
-    goodsInfo.value = {
-      id: '1',
-      name: 'hh',
-      price: 0,
-      discountPrice: 100,
-      stock: 0,
-      coverImgUrl: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b4b60b10-5168-11eb-bd01-97bc1429a9ff.jpg',
-    }
-    console.log(err)
   })
 }
 
 onLoad((option) => {
   console.log(option)
   const id = option.id || ''
-  // params = option.   //还可以  window.location.search.substring()
-  //    invitation = this.getQueryVariable('id') //code是url后面带的
   loadGoodsInfo(id)
 })
 let videoContext: any
 const hasVideo = ref(true)
 onReady(() => {
-//   uni.showModal({
-//     content: 'maw',
-//     showCancel: false,
-//   })
   if (hasVideo.value)
     videoContext = uni.createVideoContext('myVideo')
 })
@@ -140,9 +103,9 @@ function autoStopVideo(e: any) {
   <view>
     <view>
       <swiper class="w-100vw h-30vh" indicator-dots="true" @change="autoStopVideo">
-        <swiper-item>
+        <swiper-item v-if="goodsInfo.videoUrl">
           <video
-            id="myVideo" style="height: 100%;  width: 100%;" src="https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/%E7%AC%AC1%E8%AE%B2%EF%BC%88uni-app%E4%BA%A7%E5%93%81%E4%BB%8B%E7%BB%8D%EF%BC%89-%20DCloud%E5%AE%98%E6%96%B9%E8%A7%86%E9%A2%91%E6%95%99%E7%A8%8B@20181126-lite.m4v" enable-danmu danmu-btn controls poster="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b1476d40-4e5f-11eb-b997-9918a5dda011.png"
+            id="myVideo" style="height: 100%;  width: 100%;" :src="goodsInfo.videoUrl" controls poster="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b1476d40-4e5f-11eb-b997-9918a5dda011.png"
           />
         </swiper-item>
         <swiper-item v-for="img, key in imgUrls" :key="key">
@@ -150,18 +113,7 @@ function autoStopVideo(e: any) {
         </swiper-item>
       </swiper>
     </view>
-    <uni-icons type="contact" size="30" />
-    <a class="i-carbon-microphone text-2xl" />
-    <al-goods-detail :goods-detail="goodsDetail" />
-    <!-- <echone-sku
-      :show="skuShow"
-      :combinations="combinations"
-      :specifications="specifications"
-      :specifications-goodsInfo="specificationsProps"
-      :mode="skuMode"
-      @close="handleClose"
-      @confirm="handleConfirm"
-    /> -->
+    <al-goods-detail :goods-detail="goodsInfo" />
     <uni-evaluate :list-data="listData" :rate="1" />
     <view class="goods-carts">
       <uni-goods-nav

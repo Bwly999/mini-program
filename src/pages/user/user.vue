@@ -3,19 +3,6 @@ import { reactive, ref, toRefs } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
 import { type UserData } from '@/api/user'
 import { useUserStore } from '@/store/user'
-const single = ref<string>('')
-const change = (e: string) => {
-  single.value = e
-  console.log('-change事件:', e)
-}
-const url = ref<string>('https://staging-cn.vuejs.org/api/composition-api-setup.html#basic-usage')
-function getMessage(event) {
-  console.log(typeof event)
-  uni.showModal({
-    content: JSON.stringify(event.detail),
-    showCancel: false,
-  })
-}
 
 const userStore = useUserStore()
 
@@ -52,19 +39,47 @@ function getUserInfoAndLogin() {
   })
 }
 
+function isLogin() {
+  if (userStore.id)
+    return true
+  else
+    return false
+}
+function showLoginTip() {
+  uni.showToast({
+    title: '请先登录',
+    icon: 'error',
+    duration: 2000,
+  })
+}
+
 function navToMyOrder() {
+  if (!isLogin()) {
+    showLoginTip()
+    return
+  }
+
   uni.navigateTo({
     url: '/pages/order/order',
   })
 }
 const frightNo = ref('')
 function navToFright(no: string) {
+  if (!isLogin()) {
+    showLoginTip()
+    return
+  }
   uni.navigateTo({
     url: `/pages/fright/fright?id=${no}`,
   })
 }
 
 function navToMyAddress() {
+  if (!isLogin()) {
+    showLoginTip()
+    return
+  }
+
   uni.navigateTo({
     url: '/pages/address/address',
   })

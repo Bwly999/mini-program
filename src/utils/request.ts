@@ -51,7 +51,8 @@ const request = (options: Options) => {
       fail: (err) => {
         console.log('err', err)
         uni.showToast({
-          title: err.errMsg,
+          icon: 'error',
+          title: '网络请求失败',
           duration: 2000,
         })
         // msg('请求接口失败')

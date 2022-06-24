@@ -16,6 +16,24 @@ export interface Order {
   goodsName: string
   goodsCoverImgUrl: string
 }
+
+export interface OrderRet {
+  id: string
+  logisticsNumber: string
+  isSelf: number
+  address: string
+  payNumber: number
+  payAmount: number
+  userId: string
+  goods: {
+    id: string
+    name: string
+    coverImgUrl: string
+  }
+  shopId: string
+  state: number
+  comment: Comment
+}
 /**
  * state:
  * 订单状态
@@ -41,9 +59,9 @@ export interface OrderParams {
   pageSize?: number
 }
 
-export function listOrderByUserId(userId: string, params?: OrderParams) {
+export function listUserOrder(params?: OrderParams) {
   return request({
-    url: `/orders/${userId}`,
+    url: '/goods/orders/user',
     method: 'GET',
     data: params,
   })

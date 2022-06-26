@@ -65,6 +65,19 @@ export const useUserStore = defineStore('user', {
         this.$patch({
           ...data.data,
         })
+        let defaultAddress: Address = {}
+        const addressList = data.data.addressList as Array<Address>
+        if (addressList?.length === 0)
+          return
+
+        const defaultAddressArr = addressList?.filter(x => x.isDefault)
+        if (defaultAddressArr.length !== 0)
+          defaultAddress = defaultAddressArr[0]
+
+        else
+          defaultAddress = addressList[0]
+
+        this.selectedAddress = defaultAddress
         console.log(this.$state)
       }
     },

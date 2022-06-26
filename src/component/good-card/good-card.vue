@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { moneyFormatter } from '@/filters'
 export interface Good {
   id: string
   name: string
@@ -26,10 +27,10 @@ function getDetail() {
       </view>
       <view class="flex mb-2">
         <a class="font-bold text-red">
-          ¥ {{ props.goods.price }}
+          ¥ {{ moneyFormatter(props.goods.price) }}
         </a>
         <a v-if="props.goods.discountPrice" class="ml-2 font-bold line-through text-gray">
-          ¥ {{ props.goods.discountPrice }}
+          ¥ {{ moneyFormatter(props.goods.discountPrice) }}
         </a>
       </view>
     </view>

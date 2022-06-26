@@ -9,6 +9,7 @@ export interface Address {
   city?: string
   district?: string
   detailAddress?: string
+  isDefault?: boolean
 }
 export function saveAddress(address: Address) {
   return request({

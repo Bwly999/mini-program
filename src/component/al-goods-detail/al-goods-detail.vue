@@ -2,6 +2,7 @@
 import { onLoad, onReady } from '@dcloudio/uni-app'
 import { computed, ref } from 'vue'
 import { type GoodsRecord } from '@/api/goods'
+import { moneyFormatter } from '@/filters'
 const props = defineProps<{
   goodsDetail: Partial<GoodsRecord>
 }>()
@@ -12,9 +13,9 @@ onReady(() => {
 })
 const acutalPrice = computed(() => {
   if (props.goodsDetail.discountPrice)
-    return props.goodsDetail.discountPrice
+    return moneyFormatter(props.goodsDetail.discountPrice)
   else
-    return props.goodsDetail.price
+    return moneyFormatter(props.goodsDetail.price!)
 })
 </script>
 
@@ -25,7 +26,7 @@ const acutalPrice = computed(() => {
         <view class="price">
           ￥{{ acutalPrice }}
           <text v-if="goodsDetail.discountPrice" class="del-price">
-            ￥{{ goodsDetail.price }}
+            ￥{{ moneyFormatter(goodsDetail.price!) }}
           </text>
         </view>
         <view class="month-sale">

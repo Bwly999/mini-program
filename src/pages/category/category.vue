@@ -6,6 +6,7 @@ import { listAllCategory } from '@/api/category'
 import { type GoodsParams, type GoodsRecord, listGoods } from '@/api/goods'
 import { mockData as goodMockData } from '@/mock/goods'
 import { useGlobalVarStore } from '@/store/globalVar'
+import { moneyFormatter } from '@/filters'
 
 const isLoading = ref(false)
 // 分类
@@ -36,8 +37,8 @@ function getGoodsList() {
     params.name = goodsName.value
 
   if (lowPrice.value && highPrice.value) {
-    params.lowPrice = lowPrice.value
-    params.highPrice = highPrice.value
+    params.lowPrice = Math.floor(lowPrice.value * 100)
+    params.highPrice = Math.floor(highPrice.value * 100)
   }
   isLoading.value = true
   listGoods(params).then((res: any) => {
@@ -213,7 +214,7 @@ const onClickResetSelect = () => {
             <view class="mt-auto">
               <view v-if="item.discountPrice" class="item">
                 <text class="text-red-500">
-                  ¥{{ item.discountPrice }}
+                  ¥{{ moneyFormatter(item.discountPrice) }}
                 </text>
               </view>
             </view>

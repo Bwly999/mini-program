@@ -4,6 +4,7 @@ import { computed, ref } from 'vue'
 import alGoodsDetail from '@/component/al-goods-detail/al-goods-detail.vue'
 import uniEvaluate from '@/component/uni-evaluate/uni-evaluate.vue'
 import { type GoodsRecord, getGoodsById } from '@/api/goods'
+import { moneyFormatter } from '@/filters'
 
 const goodsInfo = ref<Partial<GoodsRecord>>({})
 

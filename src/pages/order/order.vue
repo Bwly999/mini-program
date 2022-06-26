@@ -61,14 +61,14 @@ onLoad(() => {
           active-color="red" @click-item="onClickItem"
         />
       </view>
-      <view class="content bg-slate-100" style="padding-top: 0.2rem;">
+      <view class="content bg-slate-100" style="padding-top: 0.1rem;">
         <scorll-view v-for="v, i in tabs" :key="i" class="">
           <view v-if="current === i" class="all">
             <view v-if="isLoading" class="flex justify-center items-center h-100vh">
               <uni-load-more icon-type="circle" status="loading" />
             </view>
             <view v-else>
-              <order-card v-for="order1, orderIdx in orderList" :key="orderIdx" class="w-100vw h-45vw mb-4 mx-2" :order="order1" />
+              <order-card v-for="order1, orderIdx in orderList" :key="orderIdx" class="w-100vw h-45vw mb-2 mx-2" :order="order1" />
             </view>
           </view>
         </scorll-view>

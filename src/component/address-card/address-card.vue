@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 interface Address {
+  id?: string
   consignee?: string
   phone?: string
   province?: string
@@ -9,6 +10,7 @@ interface Address {
   detailAddress?: string
 }
 const props = withDefaults(defineProps<Address>(), {
+  id: '',
   consignee: '',
   phone: '',
   province: '',
@@ -16,14 +18,6 @@ const props = withDefaults(defineProps<Address>(), {
   district: '',
   detailAddress: '',
 })
-const sample = {
-  consignee: '天天',
-  phone: '13332323232',
-  province: '福建省',
-  city: '厦门市',
-  district: '翔安区',
-  detailAddress: '12331凌云路',
-}
 
 const region = computed(() => `${props.province || ''}${props.city || ''}${props.district || ''}`)
 const emit = defineEmits(['clickArrow', 'clickCard'])

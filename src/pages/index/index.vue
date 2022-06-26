@@ -29,19 +29,15 @@ const showLoadMore = ref<boolean>(false)
 const loadMoreText = ref<string>('加载中...')
 
 const queryParams = ref<GoodsParams>({
+  name: '',
   page: 1,
   pageSize: 10,
 })
 const goodsList = ref<GoodsRecord[]>([])
-function sleep(delay: number) {
-  const start = (new Date()).getTime()
-  while ((new Date()).getTime() - start < delay)
-    continue
-}
+
 function loadGoodsInfo() {
   showLoadMore.value = true
   loadMoreText.value = '加载中...'
-  // sleep(1000)
   listGoods(queryParams.value).then((res: any) => {
     console.log(res)
     const { data } = res
@@ -98,8 +94,10 @@ onReachBottom(() => {
   loadGoodsInfo()
 })
 
-function searchclick(options: any) {
-  console.log(options)
+function onSearchClick() {
+  queryParams.value.page = 1
+  goodsList.value = []
+  loadGoodsInfo()
 }
 const categoryList = ref([
   {
@@ -139,15 +137,17 @@ function navigateToCategory(category: string) {
 </script>
 
 <template>
-  <view class="index">
-    <!-- <view class="top-0 flex gap-2 bg-white z-1" style="position: -webkit-sticky; position: sticky;">
+  <view class="relative">
+    <view class="top-0 flex gap-2 bg-white z-1 items-center justify-center p2" style="position: -webkit-sticky; position: sticky;">
+      <a class="i-search text-2xl" />
       <view class="search-box rounded-xl bg-gray-100 text-center">
-        <input type="text" placeholder="输入关键字搜索">
-        <view class="search-icon" />
+        <input v-model="queryParams.name" type="text" placeholder="输入关键字搜索">
       </view>
-      <a class="ml-2 text-lg font-bold">农产品</a>
-    </view> -->
-    <Mysearch :select-list="[{name: '傻鸟1'},{name: 'bird'}]" @search-click="searchclick" />
+      <button class="ml-2 text-lg font-bold rounded-full text-lime-600 w-20 bg-slate-100" @click="onSearchClick">
+        搜索
+      </button>
+    </view>
+    <!-- <Mysearch :select-list="[{name: '傻鸟1'},{name: 'bird'}]" @search-click="searchclick" /> -->
     <view>
       <swiper class="w-100vw" indicator-dots="true">
         <swiper-item v-for="img, key in imgUrls" :key="key">
@@ -168,31 +168,30 @@ function navigateToCategory(category: string) {
       </view>
     </view>
     <view class="app-status-bar-height" />
-  </view>
-  <!-- <MixLoading /> -->
-  <view class="flex grow-0">
-    <view class="font-bold text-xl ml-5 ">
-      热门商品
-    </view>
+    <!-- <MixLoading /> -->
+    <view class="flex grow-0">
+      <view class="font-bold text-xl ml-5 ">
+        热门商品
+      </view>
     <!-- <img class="h-1rem object-scale-down" src="https://img.alicdn.com/imgextra/i1/O1CN01EjcAPM25IsjiwGyYs_!!6000000007504-2-tps-65-20.png"> -->
-  </view>
+    </view>
 
-  <!-- <good-card>1</good-card> -->
-  <view class="good flex flex-wrap justify-center bg-slate-50">
-    <good-card v-for="v, i in goodsList" :key="i" class="" :goods="v" css="w-337rpx h-470rpx m2" />
-  </view>
-  <view v-if="showLoadMore" class="text-center">
-    <view class="text-center flex justify-center">
-      <view id="preloader_1">
-        <span />
-        <span />
-        <span />
-        <span />
-        <span />
+    <!-- <good-card>1</good-card> -->
+    <view class="good flex flex-wrap justify-center bg-slate-50">
+      <good-card v-for="v, i in goodsList" :key="i" class="" :goods="v" css="w-337rpx h-470rpx m2" />
+    </view>
+    <view v-if="showLoadMore" class="text-center">
+      <view class="text-center flex justify-center">
+        <view id="preloader_1">
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+        </view>
       </view>
     </view>
   </view>
-  <!-- </view> -->
 </template>
 
 <style scoped>
@@ -246,6 +245,13 @@ function navigateToCategory(category: string) {
     float: left;
     display: inline;
 } */
+
+.i-search {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBhcmlhLWhpZGRlbj0idHJ1ZSIgcm9sZT0iaW1nIiBjbGFzcz0iaWNvbmlmeSBpY29uaWZ5LS1jYXJib24iIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWlkWU1pZCBtZWV0IiB2aWV3Qm94PSIwIDAgMzIgMzIiPjxwYXRoIGZpbGw9IiM1NzlkNGQiIGQ9Im0yOSAyNy41ODZsLTcuNTUyLTcuNTUyYTExLjAxOCAxMS4wMTggMCAxIDAtMS40MTQgMS40MTRMMjcuNTg2IDI5Wk00IDEzYTkgOSAwIDEgMSA5IDlhOS4wMSA5LjAxIDAgMCAxLTktOVoiPjwvcGF0aD48L3N2Zz4=");
+  background-size: cover;
+  width: 1em;
+  height: 1em;
+}
 
 .i-apple {
   background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBhcmlhLWhpZGRlbj0idHJ1ZSIgcm9sZT0iaW1nIiBjbGFzcz0iaWNvbmlmeSBpY29uaWZ5LS1ub3RvIiB3aWR0aD0iMWVtIiBoZWlnaHQ9IjFlbSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDEyOCAxMjgiPjxwYXRoIGZpbGw9IiNEQzBEMjgiIGQ9Im00NS40MyA2OC4xNGwtNS40NS0xMy41MWwuMTUtMjEuODdzMTQuNjgtMi4yIDIyLjM5LTMuMjZzMjMuMDQtNy41MiAzNy4wMi0xLjMzYzE1Ljg4IDcuMDMgMjQuMyAyMy4zIDIwLjA2IDQ4LjFzLTIyLjgzIDQ0Ljg3LTM5LjU3IDQ3LjAzYy04LjI5IDEuMDctOS43Ny0yLjE1LTE2LjEyLTEuNjljLTUuMTQuMzctNC44NiAzLjA0LTEzLjYzIDIuNTljLTguNzctLjQ1LTE2LjIxLTMuNzEtMjAuNTktOS4xNXMxNS43NC00Ni45MSAxNS43NC00Ni45MXoiPjwvcGF0aD48cGF0aCBmaWxsPSIjRkY1MTE3IiBkPSJNMjEuMjMgMzYuOTljLTEyLjU3IDEwLjUtMTguNSAzMi42My04LjQ3IDU2LjI1YzguOTIgMjEuMDIgMjMuMTcgMjcuMDMgMjMuMTcgMjcuMDNzMjQuOTItMS42MyA0Mi4zMS0xMS4wMXMzNC4xOC0yNS43MSAzNC4xOC00Ny4xOHMtMTEuMTktMjguNzMtMTIuNC0yOS4wM2MtMS4yMS0uMy02LjIgMi44Ny0xMS44IDMuMDJjLTUuNi4xNS05Ljk4LTEuMjEtOS45OC0xLjIxbC0xNy42OSA1LjlsLTE2LjU0LTMuODZzLS41My0yLjMxIDEuMjYtMy4yNWMzLjcyLTEuOTQgMTEuNDkgMS4zNiAxNC42NyAxLjIxczUuOS00LjM5IDUuOS00LjM5cy03LjQxLS43Ni05Ljk4LTEuMzZjLTIuNTctLjU4LTE5Ljk2LTQuMzctMzQuNjMgNy44OHoiPjwvcGF0aD48cGF0aCBmaWxsPSIjOEQxRDBBIiBkPSJNNjIuMDMgMzcuMTJjLTQuNTguMjEtMTYuODYtNC4xLTE3Ljk3LS43M2MtMS4xOCAzLjU4IDcuOTYgOC4zMyAxOS4wOSA3LjU1YzExLjYxLS44MSAxOC44NC03LjIzIDE3LTEwLjY5Yy0xLjgzLTMuNDYtOS4zNiAzLjQ2LTE4LjEyIDMuODd6Ij48L3BhdGg+PHBhdGggZmlsbD0iIzUxMzYzMCIgZD0iTTUxLjA0IDE2Ljk2cy0xLjkzLS4xLTIuOTUtLjUxYy0xLjAyLS40MS0yLjQ2LS4zOC0yLjM0LTIuMTRjLjItMi45NSAzLjk4LTUuOTggNC44OS02LjUyYzEuNzMtMS4wMiA0Ljc2LS43NCA1LjkxIDBjMS40My45Mi43MSA0LjI4LjcxIDQuMjhzNS4wOSA3LjY0IDUuOCAxMi4zMmMuNjUgNC4yNyAzLjMxIDE2LjczLS43MSAxNy41MWMtMy42Ny43MS0yLjE0LTguODYtNC4xNy0xMy41NGMtMS4yMi0yLjgtMi45NS01LjgtNC41OC03Ljg0YTM2Ljk2NiAzNi45NjYgMCAwIDEtMi41Ni0zLjU2eiI+PC9wYXRoPjxwYXRoIGZpbGw9IiMyRjdDMzEiIGQ9Ik0xMDUuNDEgNS4wNWMuNDEtLjcxLS40MS0xLjQzLTMuNzctMS41M2MtMy4zNi0uMS0yMS42OS0xLjgzLTMyLjA3IDExLjFjLTcuNDYgOS4yOS02LjMxIDE3LjIxLTYuMzEgMTcuMjFsNi44Mi4zMWwzNS4zMy0yNy4wOXoiPjwvcGF0aD48cGF0aCBmaWxsPSIjNzA5RjE5IiBkPSJNODIuOSAxNy43N2M2LjE3LTQuMjYgMjIuNi0xMy41NCAyMi42LTEzLjU0czAgMi4zNC0xLjAyIDQuMzhTMTAwIDIwLjczIDg1Ljk1IDI4LjA2Yy0xMy4xOSA2Ljg4LTIxLjk5IDUuMTktMjIuNzEgMy45N2MtLjctMS4yMiA5LjQ4LTcuMjMgMTkuNjYtMTQuMjZ6Ij48L3BhdGg+PHBhdGggZmlsbD0iI0ZGRDJCMSIgZD0iTTM3LjYgMzkuOTdjLTIuNzMtMy45My05LjM0LTIuODItMTUuMjcgNS4wOWMtNy42NCAxMC4xOC03LjIzIDIzLjcyLTIuMDQgMjQuNTRjNS4xNS44MS42MS00LjM4IDguNTUtMTQuNjZjNi4wOC03Ljg3IDEyLjIyLTkuOTggOC43Ni0xNC45N3oiPjwvcGF0aD48L3N2Zz4=");

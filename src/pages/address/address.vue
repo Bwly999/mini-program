@@ -9,14 +9,6 @@ import UniEmpty from '@/component/uni-empty/uni-empty.vue'
 
 const pickAddressRef = ref()
 
-const sample = ref({
-  consignee: '天天',
-  phone: '13332323232',
-  province: '福建省',
-  city: '厦门市',
-  district: '翔安区',
-  detailAddress: '12331凌云路',
-})
 const addressList = ref([])
 
 /**
@@ -45,9 +37,10 @@ function onClickCard(address: Address) {
     uni.navigateBack({})
   }
   else {
+    console.log(address)
     globalVarStore.selectedAddress = address
     uni.navigateTo({
-      url: '/pages/address/editAddress',
+      url: `/pages/address/editAddress?id=${address.id}`,
     })
   }
 }

@@ -1,13 +1,19 @@
 <script lang="ts" setup>
+import { computed, ref } from 'vue'
 import type { OrderRet } from '@/api/order'
 import { type GoodsRecord, getGoodsById } from '@/api/goods'
 
 const props = defineProps<{
   order: Partial<OrderRet>
 }>()
-
+const stateMap = ref(['待付款', '待发货', '待收货', '待评价'])
 type GoodInfo = Partial<GoodsRecord>
-
+const state = computed(() => {
+  if (props.order.state !== undefined)
+    return stateMap.value[props.order.state]
+  else
+    return ''
+})
 function navToGoodDetail() {
   uni.navigateTo({
     url: `/pages/goods/detail?id=${props.order.goods?.id}`,
@@ -28,7 +34,7 @@ function onClickBuyAgain() {
         订单号: {{ props.order.id }}
       </view>
       <view class="ml-auto text-gray">
-        {{ props.order.state }}
+        {{ state }}
       </view>
     </view>
     <view class="flex justify-between items-center gap-1 grow">

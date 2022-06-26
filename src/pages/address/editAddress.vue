@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
-import { type Address, saveAddress as saveAddressApi } from '@/api/address'
+import { type Address, changeAddress } from '@/api/address'
 
 // component
 import AddressInfo from '@/component/address-info/address-info.vue'
@@ -15,13 +15,15 @@ const formData = ref<Address>({
   district: '',
   detailAddress: '',
 })
+const addressId = ref<string>('')
 
 const addressInfoRef = ref()
 
 function saveAddress() {
   addressInfoRef.value.validate()
     .then(() => {
-      return saveAddressApi(formData.value)
+      formData.value.id = undefined
+      return changeAddress(addressId.value, formData.value)
     })
     .then((res: any) => {
       console.log(res)
@@ -44,11 +46,9 @@ function saveAddress() {
 //   })
 // }
 onLoad((option) => {
-  // console.log(option)
-  // if (option.addressId)
-  //   loadAddress(option.addressId)
   const globalVarStore = useGlobalVarStore()
   formData.value = globalVarStore.selectedAddress
+  addressId.value = option.id || ''
 })
 </script>
 <template>

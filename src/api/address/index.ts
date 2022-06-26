@@ -18,9 +18,9 @@ export function saveAddress(address: Address) {
   })
 }
 
-export function changeAddress(address: Address) {
+export function changeAddress(addressId: string, address: Address) {
   return request({
-    url: `${prefix}/user/address`,
+    url: `${prefix}/user/address/${addressId}`,
     method: 'PUT',
     data: address,
   })

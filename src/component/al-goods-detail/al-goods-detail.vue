@@ -29,7 +29,7 @@ const acutalPrice = computed(() => {
           </text>
         </view>
         <view class="month-sale">
-          月销量：{{ goodsDetail.monthSale || 0 }}
+          销量：{{ goodsDetail.monthSale || 0 }}
         </view>
       </view>
       <view class="goods-title">

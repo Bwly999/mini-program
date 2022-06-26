@@ -41,6 +41,12 @@
 			}
 		},
 		{
+			"path": "pages/order/detail",
+			"style": {
+				"navigationBarTitleText": "订单详情"
+			}
+		},
+		{
 			"path": "pages/service/service",
 			"style": {
 				"navigationBarTitleText": "客服咨询"

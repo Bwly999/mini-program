@@ -89,7 +89,7 @@ onLoad(() => userStore.getUserInfo())
 </script>
 <template>
   <view class="flex flex-col h-100vh bg-teal-100">
-    <view class="user-info flex gap-2 p4">
+    <view class="user-info flex gap-5 p4">
       <view class="avator rounded-full ml-2">
         <image class="avator-img rounded-full max-h-20 max-w-20" mode="scaleToFill" :src="userStore.avatarUrl" />
       </view>
@@ -133,6 +133,12 @@ onLoad(() => userStore.getUserInfo())
               客服咨询
             </button>
           </view>
+        </view>
+      </view>
+
+      <view class="bg-white rounded-2xl shadow-md m-2 mt-4">
+        <view class="p2 font-bold">
+          About
         </view>
       </view>
     </view>

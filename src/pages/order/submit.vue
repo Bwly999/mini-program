@@ -36,14 +36,7 @@ function selectAddress() {
   })
 }
 
-function submitOrder() {
-  if (!userStore.selectedAddress && payWay.value !== 1) {
-    uni.showToast({
-      title: '请选择收货地址',
-      icon: 'none',
-    })
-    return
-  }
+function createOrder1() {
   createOrder({
     goodsId: goodsId.value,
     userId: userStore.id,
@@ -65,6 +58,29 @@ function submitOrder() {
   })
 }
 
+function submitOrder() {
+  if (!userStore.selectedAddress && payWay.value !== 1) {
+    uni.showToast({
+      title: '请选择收货地址',
+      icon: 'none',
+    })
+    return
+  }
+  if (payWay.value !== 1) {
+    uni.showModal({
+      title: '模拟支付',
+      content: '模拟支付窗口',
+      success: (res) => {
+        if (res.confirm)
+          createOrder1()
+      },
+    })
+  }
+  else {
+    createOrder1()
+  }
+}
+
 const goodsInfo = ref<Partial<GoodsRecord>>()
 const price = ref<number | undefined>()
 const calcPrice = computed(() => {
@@ -78,14 +94,6 @@ function loadGoodsInfo(goodsId: string) {
   getGoodsById(goodsId).then((res: any) => {
     goodsInfo.value = res.data
   }).catch((err: any) => {
-    goodsInfo.value = {
-      id: '1',
-      name: '',
-      price: 0,
-      discountPrice: 132,
-      stock: 0,
-      coverImgUrl: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b4b60b10-5168-11eb-bd01-97bc1429a9ff.jpg',
-    }
     console.log(err)
   }).finally(() => {
     price.value = goodsInfo.value?.discountPrice || goodsInfo.value?.price || undefined
@@ -106,7 +114,7 @@ onLoad((options: any) => {
     <!-- <uni-section class="bg-white" title="地址" type="line">
       <address-card v-bind="userStore.selectedAddress" @click-arrow="selectAddress" />
     </uni-section> -->
-    <view class="bg-white" title="地址" type="line">
+    <view class="bg-white rounded-xl" title="地址" type="line">
       <view class="shop-info flex items-center m-3">
         <view class="i-carbon-map" />
         <text class="ml-2 font-bold">
@@ -119,7 +127,7 @@ onLoad((options: any) => {
       <view class="shop-info flex items-center">
         <view class="i-carbon-shopping-bag" />
         <text class="ml-2 font-bold">
-          {{ goodsInfo?.shopName || '店铺' }}
+          {{ goodsInfo?.shopName || '助农店铺' }}
         </text>
       </view>
       <view class="flex items-center gap-1">
@@ -127,7 +135,7 @@ onLoad((options: any) => {
         <view class="grow">
           <view class="flex items-center">
             <text class="font-bold ">
-              商品名
+              {{ goodsInfo?.name }}
             </text>
           </view>
           <view class="flex">

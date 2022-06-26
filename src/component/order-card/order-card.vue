@@ -20,6 +20,12 @@ function navToGoodDetail() {
   })
 }
 
+function navToOrderDetail() {
+  uni.navigateTo({
+    url: `/pages/order/detail?id=${props.order.id}`,
+  })
+}
+
 function onClickBuyAgain() {
   uni.navigateTo({
     url: `/pages/order/submit?goodsId=${props.order.goods?.id}`,
@@ -37,8 +43,8 @@ function onClickBuyAgain() {
         {{ state }}
       </view>
     </view>
-    <view class="flex justify-between items-center gap-1 grow">
-      <image lazy-load mode="aspectFit" :src="props.order.goods?.coverImgUrl" class="mx-2 rounded-2xl max-h-25 max-w-25" @click="navToGoodDetail" />
+    <view class="flex justify-between items-center gap-1 grow" @click="navToOrderDetail">
+      <image lazy-load mode="aspectFit" :src="props.order.goods?.coverImgUrl" class="mx-2 rounded-2xl max-h-25 max-w-25" />
       <view class="flex items-center">
         <text class="font-bold ">
           {{ props.order.goods?.name || '' }}

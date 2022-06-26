@@ -21,7 +21,7 @@ const acutalPrice = computed(() => {
 
 <template>
   <view class="goods-detail">
-    <view class="detail-body">
+    <view class="detail-body mt-2">
       <view class="goods-text">
         <view class="price">
           ￥{{ acutalPrice }}
@@ -35,12 +35,12 @@ const acutalPrice = computed(() => {
       </view>
       <view class="goods-title">
         <text class="tag">
-          助农商城
+          {{ goodsDetail.shopName || '助农商城' }}
         </text>{{ goodsDetail.name }}
       </view>
     </view>
     <!-- 店铺信息 -->
-    <view class="goods-shop">
+    <!-- <view class="goods-shop">
       <view class="logo">
         <image :src="goodsDetail.shopName" mode="widthFix" />
       </view>
@@ -51,9 +51,26 @@ const acutalPrice = computed(() => {
           </text>
         </view>
         <view class="desc">
-          <text>描述{{ goodsDetail.desc }}</text>
-          <!-- <text>卖家{{ goodsDetail.serviceScore }}</text>
-          <text>物流{{ goodsDetail.shipScore }}</text> -->
+          <text>{{ goodsDetail.desc }}</text>
+        </view>
+      </view>
+    </view> -->
+    <view class="goods-param rounded-xl mt-2">
+      <view class="title">
+        商品参数
+      </view>
+      <view class="pl-5 flex flex-col gap-1">
+        <view v-if="goodsDetail.stock">
+          库存: {{ goodsDetail.stock }}件
+        </view>
+        <view v-if="goodsDetail.weight">
+          重量: {{ goodsDetail.weight }}斤
+        </view>
+        <view v-if="goodsDetail.level">
+          等级: {{ goodsDetail.level }}
+        </view>
+        <view v-if="goodsDetail.originPlace">
+          原产地: {{ goodsDetail.originPlace }}
         </view>
       </view>
     </view>
@@ -62,7 +79,7 @@ const acutalPrice = computed(() => {
 
 </view> -->
     <!-- 商品详情 -->
-    <view class="goods-show">
+    <view class="goods-show rounded-xl mt-2">
       <view class="title">
         商品详情
       </view>
@@ -88,7 +105,6 @@ $pad:20rpx 20rpx;
 .detail-body{
   background-color: #fff;
   padding:$pad;
-  margin:20rpx;
   @include box-shadow;
 }
 .swiper{
@@ -167,6 +183,27 @@ $pad:20rpx 20rpx;
     color: #888;
     text{
       margin-right: 30rpx;
+    }
+  }
+  }
+
+  .goods-param {
+  background-color: #fff;
+
+  .title{
+    font-weight: bold;
+    padding: $pad;
+    margin: 0 20rpx 0 20rpx;
+    position: relative;
+    &:before{
+      position: absolute;
+      left: 8rpx;
+      top: 30rpx;
+      content: "";
+      display: block;
+      width: 3px;
+      height: 25rpx;
+      background-color: rgb(49, 135, 216);
     }
   }
   }

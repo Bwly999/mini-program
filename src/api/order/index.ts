@@ -5,7 +5,7 @@ export interface Order {
   id: string
   logisticsNumber: string
   isSelf: number
-  address: string
+  address: Address
   payNumber: number
   payAmount: number
   userId: string
@@ -21,7 +21,8 @@ export interface OrderRet {
   id: string
   logisticsNumber: string
   isSelf: number
-  address: string
+  address: Address
+  payWay: number
   payNumber: number
   payAmount: number
   userId: string
@@ -31,7 +32,9 @@ export interface OrderRet {
     coverImgUrl: string
   }
   shopId: string
+  shopName: string
   state: number
+  createdTime: Date
   comment: Comment
 }
 /**
@@ -64,6 +67,13 @@ export function listUserOrder(params?: OrderParams) {
     url: '/goods/orders/user',
     method: 'GET',
     data: params,
+  })
+}
+
+export function getOrderById(orderId: string) {
+  return request({
+    url: `/goods/orders/${orderId}`,
+    method: 'GET',
   })
 }
 

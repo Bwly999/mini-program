@@ -23,9 +23,9 @@ const region = computed(() => `${props.province || ''}${props.city || ''}${props
 const emit = defineEmits(['clickArrow', 'clickCard'])
 </script>
 <template>
-  <view class="address-card bg-white flex flex-col" @click="$emit('clickArrow')">
+  <view class="address-card bg-white flex flex-col rounded-xl" @click="$emit('clickArrow')">
     <view class="address flex items-center" @click="$emit('clickCard', props)">
-      <view class="address-text p4">
+      <view class="address-text p4 pt-1">
         <view class="address-list-item-left-name">
           <text class="text-sm">
             {{ region }}

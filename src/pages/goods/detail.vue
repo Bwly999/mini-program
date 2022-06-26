@@ -16,14 +16,19 @@ const imgUrls = computed(() => {
   return imgs
 })
 
+// const options = ref([{
+//   icon: 'chat',
+//   text: '客服',
+// }, {
+//   icon: 'shop',
+//   text: '店铺',
+//   infoBackgroundColor: '#007aff',
+//   infoColor: '#f5f5f5',
+// }])
+
 const options = ref([{
   icon: 'chat',
   text: '客服',
-}, {
-  icon: 'shop',
-  text: '店铺',
-  infoBackgroundColor: '#007aff',
-  infoColor: '#f5f5f5',
 }])
 
 const buttonGroup = ref([
@@ -36,9 +41,13 @@ const buttonGroup = ref([
 
 function onClick(e: any) {
   if (e.content.text === '客服') {
-    uni.navigateTo({
-      url: `/pages/service/service?id=${goodsInfo.value?.shopId}`,
+    uni.showToast({
+      title: '开发中',
+      icon: 'error',
     })
+    // uni.navigateTo({
+    //   url: `/pages/service/service?id=${goodsInfo.value?.shopId}`,
+    // })
   }
 }
 // 评论
@@ -110,7 +119,7 @@ function autoStopVideo(e: any) {
           />
         </swiper-item>
         <swiper-item v-for="img, key in imgUrls" :key="key">
-          <image class="" style="height: 100%;  width: 100%;" :src="img" />
+          <image class="" style="height: 100%;  width: 100%;" :src="img" mode="aspectFit" />
         </swiper-item>
       </swiper>
     </view>

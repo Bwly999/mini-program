@@ -61,14 +61,14 @@ onLoad(() => {
           active-color="red" @click-item="onClickItem"
         />
       </view>
-      <view class="content bg-slate-100" style="padding-top: 0.1rem;">
+      <view class="bg-slate-100" style="padding-top: 0.1rem;">
         <scorll-view v-for="v, i in tabs" :key="i" class="">
           <view v-if="current === i" class="all">
             <view v-if="isLoading" class="flex justify-center items-center h-100vh">
               <uni-load-more icon-type="circle" status="loading" />
             </view>
             <view v-else>
-              <order-card v-for="order1, orderIdx in orderList" :key="orderIdx" class="w-100vw h-45vw mb-2 mx-2" :order="order1" />
+              <order-card v-for="order1, orderIdx in orderList" :key="orderIdx" class="w-100vw h-45vw mb-0 mx-1" :order="order1" />
             </view>
           </view>
         </scorll-view>
@@ -81,140 +81,4 @@ onLoad(() => {
 </template>
 
 <style lang="scss" scoped>
-.order {
-    width: 710rpx;
-    background-color: #ffffff;
-    margin: 20rpx auto;
-    border-radius: 20rpx;
-    box-sizing: border-box;
-    padding: 20rpx;
-    font-size: 28rpx;
-
-    .top {
-        display: flex;
-        justify-content: space-between;
-
-        .left {
-            display: flex;
-            align-items: center;
-
-            .store {
-                margin: 0 10rpx;
-                font-size: 32rpx;
-                font-weight: bold;
-            }
-        }
-
-        .right {
-            color: darkblue;
-        }
-    }
-
-    .item {
-        display: flex;
-        margin: 20rpx 0 0;
-
-        .left {
-            margin-right: 20rpx;
-
-            image {
-                width: 200rpx;
-                height: 200rpx;
-                border-radius: 10rpx;
-            }
-        }
-
-        .content {
-            flex: 1;
-
-            .title {
-                font-size: 28rpx;
-                line-height: 50rpx;
-            }
-
-            .type {
-                margin: 10rpx 0;
-                font-size: 24rpx;
-                color: red;
-            }
-
-            .delivery-time {
-                color: #e5d001;
-                font-size: 24rpx;
-            }
-        }
-
-        .right {
-            margin-left: 10rpx;
-            padding-top: 20rpx;
-            text-align: right;
-
-            .decimal {
-                font-size: 24rpx;
-                margin-top: 4rpx;
-            }
-
-            .number {
-                color: red;
-                font-size: 24rpx;
-            }
-        }
-    }
-
-    .total {
-        margin-top: 20rpx;
-        text-align: right;
-        font-size: 24rpx;
-
-        .total-price {
-            font-size: 32rpx;
-        }
-    }
-
-    .bottom {
-        display: flex;
-        margin-top: 40rpx;
-        padding: 0 10rpx;
-        justify-content: flex-end;
-        align-items: center;
-
-        .btn {
-            line-height: 52rpx;
-            width: 160rpx;
-            border-radius: 26rpx;
-            border: 2rpx solid gray;
-            font-size: 26rpx;
-            text-align: center;
-            color: black;
-        }
-
-        .evaluate {
-            color: black;
-            border-color: gray;
-        }
-    }
-}
-
-.wrap {
-    display: flex;
-    flex-direction: column;
-    height: calc(100vh - var(--window-top));
-    width: 100%;
-}
-
-.swiper-box {
-    flex: 1;
-}
-
-.swiper-item {
-    height: 100%;
-}
-
-.ml24 {
-    margin-left: 24rpx;
-}
-
-.btn-box {
-    width: 160rpx;
-}
 </style>

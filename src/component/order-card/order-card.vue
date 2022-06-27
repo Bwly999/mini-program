@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import type { OrderRet } from '@/api/order'
 import { type GoodsRecord, getGoodsById } from '@/api/goods'
+import { moneyFormatter } from '@/filters'
 
 const props = defineProps<{
   order: Partial<OrderRet>
@@ -34,7 +35,7 @@ function onClickBuyAgain() {
 </script>
 
 <template>
-  <view class="my-2 rounded-2xl shadow-xl bg-white p-2 shadow-inner flex flex-col overflow-hidden">
+  <view class="rounded-2xl shadow-xl bg-white p-2 shadow-inner flex flex-col overflow-hidden">
     <view class="flex">
       <view class="font-bold">
         订单号: {{ props.order.id }}
@@ -53,11 +54,11 @@ function onClickBuyAgain() {
       <view class="w-15">
         <view class="price-score">
           ¥<text class="font-bold">
-            {{ props.order.payAmount }}
+            {{ moneyFormatter(props.order.payAmount || 0) }}
           </text>
         </view>
         <p class="text-gray text-xs font-sans">
-          共{{ props.order.payAmount }}件
+          共{{ props.order.payNumber }}件
         </p>
       </view>
     </view>

@@ -9,11 +9,12 @@ export interface UserData {
   nickName?: string
   province?: string
 }
-export function apiLogin(user: UserData) {
+export function apiLogin(user: UserData, hideError = false) {
   return request({
     url: `${prefix}/user/token`,
     method: 'POST',
     data: user,
+    hideError,
   })
 }
 

@@ -21,13 +21,13 @@ const payWayOption = ref([
     value: 1,
   },
 ])
-const payWay = ref(0)
+const payWay = ref<number>(0)
 const goodsId = ref()
 
 const userStore = useUserStore()
 function bindPickerChange(e: any) {
   console.log(`picker发送选择改变，携带值为：${e.detail.value}`)
-  payWay.value = e.detail.value
+  payWay.value = Number(e.detail.value)
 }
 
 function selectAddress() {
@@ -66,6 +66,7 @@ function submitOrder() {
     })
     return
   }
+  console.log(payWay.value)
   if (payWay.value !== 1) {
     uni.showModal({
       title: '模拟支付',

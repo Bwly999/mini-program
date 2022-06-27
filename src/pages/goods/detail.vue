@@ -5,6 +5,7 @@ import alGoodsDetail from '@/component/al-goods-detail/al-goods-detail.vue'
 import uniEvaluate from '@/component/uni-evaluate/uni-evaluate.vue'
 import { type GoodsRecord, getGoodsById } from '@/api/goods'
 import { moneyFormatter } from '@/filters'
+import { checkLogin } from '@/utils/userUtil'
 
 const goodsInfo = ref<Partial<GoodsRecord>>({})
 
@@ -80,6 +81,9 @@ const listData = [{
 }]
 
 function buttonClick() {
+  if (!checkLogin())
+    return
+
   uni.navigateTo({
     url: `/pages/order/submit?goodsId=${goodsInfo.value?.id}`,
   })

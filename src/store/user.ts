@@ -46,9 +46,9 @@ export const useUserStore = defineStore('user', {
       // we could do other stuff like redirecting the user
     },
 
-    async login(user: UserData) {
+    async login(user: UserData, hideError = false) {
       try {
-        const { data: token } = await apiLogin(user) as any
+        const { data: token } = await apiLogin(user, hideError) as any
         uni.setStorageSync(TOKEN_KEY, token)
         this.getUserInfo()
       }

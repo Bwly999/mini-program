@@ -92,21 +92,21 @@ onLoad((option) => {
       <view class="mt-2">
         <view>
           订单编号:
-          <a class="font-bold">
+          <view class="font-bold inline">
             {{ orderInfo?.id }}
-          </a>
+          </view>
         </view>
         <view>
           下单时间:
-          <a class="font-bold">
+          <view class="font-bold inline">
             {{ orderInfo?.createdTime }}
-          </a>
+          </view>
         </view>
         <view>
           支付方式:
-          <a class="font-bold">
+          <view class="font-bold inline">
             {{ payWay }}
-          </a>
+          </view>
         </view>
       </view>
     </view>

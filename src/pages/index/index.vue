@@ -61,11 +61,21 @@ function loadGoodsInfo() {
     })
     .finally(() => {
       showLoadMore.value = false
+      uni.stopPullDownRefresh()
     })
 }
 
 function autoLogin() {
   const userStore = useUserStore()
+  function login() {
+    uni.login({
+      provider: 'weixin',
+      success: (res) => {
+        const { code } = res
+        userStore.login({ code })
+      },
+    })
+  }
   uni.login({
     provider: 'weixin',
     success: (res) => {
@@ -74,7 +84,7 @@ function autoLogin() {
       isUserExist(code).then((res: any) => {
         console.log(res)
         if (res.data)
-          userStore.login({ code })
+          login()
       })
     },
     fail: (err) => {
@@ -87,6 +97,11 @@ onLoad(() => {
   loadGoodsInfo()
 })
 
+onPullDownRefresh(() => {
+  resetQueryParams()
+  loadGoodsInfo()
+})
+
 onReachBottom(() => {
   console.log('onReachBottom')
   if (showLoadMore.value)
@@ -94,9 +109,13 @@ onReachBottom(() => {
   loadGoodsInfo()
 })
 
-function onSearchClick() {
+function resetQueryParams() {
   queryParams.value.page = 1
   goodsList.value = []
+}
+
+function onSearchClick() {
+  resetQueryParams()
   loadGoodsInfo()
 }
 const categoryList = ref([
@@ -178,7 +197,7 @@ function navigateToCategory(category: string) {
 
     <!-- <good-card>1</good-card> -->
     <view class="good flex flex-wrap justify-center bg-slate-50">
-      <good-card v-for="v, i in goodsList" :key="i" class="" :goods="v" css="w-337rpx h-470rpx m2" />
+      <good-card v-for="v, i in goodsList" :key="i" class="" :goods="v" css="w-337rpx h-480rpx m2" />
     </view>
     <view v-if="showLoadMore" class="text-center">
       <view class="text-center flex justify-center">

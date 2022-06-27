@@ -101,6 +101,10 @@ function loadGoodsInfo(goodsId: string) {
   })
 }
 
+function onNumberBoxChange(value: any) {
+  goodsNum.value = Number(value)
+}
+
 onLoad((options: any) => {
   console.log(options)
   if (options.goodsId) {
@@ -146,7 +150,7 @@ onLoad((options: any) => {
               </text>
             </view>
             <view class="ml-auto mr-2">
-              <uni-number-box v-model="goodsNum" />
+              <uni-number-box v-model="goodsNum" @change="onNumberBoxChange" />
             </view>
           </view>
         </view>

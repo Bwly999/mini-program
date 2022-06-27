@@ -1,8 +1,8 @@
 import { TOKEN_KEY } from '@/store/user'
-// const BASE_URL = 'http://localhost:8080'
+const BASE_URL = 'https://springboot-5jpr-2050213-1311358521.ap-shanghai.run.tcloudbase.com/'
 // const BASE_URL = 'http://www.bwly999.top:8080'
 // const BASE_URL = 'http://139.196.12.152:8080'
-const BASE_URL = 'http://47.99.200.3:8080'
+// const BASE_URL = 'http://47.99.200.3:8080'
 
 interface Options {
   url: string

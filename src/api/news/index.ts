@@ -14,8 +14,15 @@ export interface NewsParams {
 // Todo
 export function listNews(param: NewsParams) {
   return request({
-    url: '/g',
+    url: '/news',
     method: 'GET',
     data: param,
+  })
+}
+
+export function getNewsById(id: string) {
+  return request({
+    url: `/news/${id}`,
+    method: 'GET',
   })
 }

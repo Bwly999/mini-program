@@ -305,7 +305,7 @@ height: calc(100vh - var(--window-bottom) - var(--status-bar-height) - var(--win
 
 .title {
   width:100%;
-  height:2.6rem;
+  height:2.8rem;
   font-size:1rem;
   overflow:hidden;
   text-overflow: ellipsis;

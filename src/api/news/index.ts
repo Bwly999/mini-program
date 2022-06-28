@@ -5,7 +5,7 @@ export interface News {
   title: string
   content: string
   goodsList: Array<Good>
-  time: string
+  time: Date
 }
 export interface NewsParams {
   page?: number

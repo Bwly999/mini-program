@@ -25,7 +25,7 @@ function loadNews() {
   }
   isLoading.value = true
   listNews(queryParams).then((res: any) => {
-    newsList.value.push(...res.data.conent)
+    newsList.value.push(...res.data.content)
     queryParams.page++
     totalNewsNum.value = res.data.total
   }).catch((err) => {
@@ -66,10 +66,10 @@ onLoad(() => {
 })
 </script>
 <template>
-  <view class="bg-slate-100">
-    <view class="100vh">
+  <view class="bg-slate-100 h-100vh">
+    <view class="">
       <view class="flex flex-col gap-2">
-        <news-card v-for="(news, i) in newsList" :key="i" :news="news" css-class="mx-1" />
+        <news-card v-for="(news, i) in newsList" :key="i" :news="news" css-class="mx-1 h-30vw" />
       </view>
       <view v-if="isLoading" class="load">
         <loading-dance />

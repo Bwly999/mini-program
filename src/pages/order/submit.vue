@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
-import UniSection from '../../component/uni-section/uni-section.vue'
-import uniSection from '@/component/uni-section/uni-section.vue'
 import addressCard from '@/component/address-card/address-card.vue'
 import { useUserStore } from '@/store/user'
 import { createOrder } from '@/api/order'
@@ -150,7 +148,7 @@ onLoad((options: any) => {
               </text>
             </view>
             <view class="ml-auto mr-2">
-              <uni-number-box v-model="goodsNum" @change="onNumberBoxChange" />
+              <uni-number-box v-model="goodsNum" :max="goodsInfo?.stock || 100" @change="onNumberBoxChange" />
             </view>
           </view>
         </view>

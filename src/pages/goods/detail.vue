@@ -119,7 +119,7 @@ function autoStopVideo(e: any) {
       <swiper class="w-100vw h-30vh" indicator-dots="true" @change="autoStopVideo">
         <swiper-item v-if="goodsInfo.videoUrl">
           <video
-            id="myVideo" style="height: 100%;  width: 100%;" :src="goodsInfo.videoUrl" controls poster="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b1476d40-4e5f-11eb-b997-9918a5dda011.png"
+            id="myVideo" style="height: 100%;  width: 100%;" :src="goodsInfo.videoUrl" controls :poster="goodsInfo.coverImgUrl"
           />
         </swiper-item>
         <swiper-item v-for="img, key in imgUrls" :key="key">

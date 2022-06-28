@@ -1,11 +1,11 @@
 import request from '@/utils/request'
-
-// export interface News {
-//   id: string
-//   title: string
-//   coverImgUrl: string
-//   content: string
-// }
+export interface News {
+  id: string
+  title: string
+  content: string
+  image: string
+  time: string
+}
 export interface NewsParams {
   page?: number
   pageSize?: number

@@ -1,15 +1,15 @@
 <script lang="ts" setup>
 import { useGlobalVarStore } from '@/store/globalVar'
-
-interface Newscard {
-  id: string
-  title: string
-  content: string
-  image: string
-  time: string
-}
+import { type News } from '@/api/news'
+// interface Newscard {
+//   id: string
+//   title: string
+//   content: string
+//   image: string
+//   time: string
+// }
 const props = defineProps<{
-  news: Newscard
+  news: News
   cssClass?: string
 }>()
 const globalVar = useGlobalVarStore()

@@ -14,6 +14,9 @@
 </template>
 
 <style scoped>
+.load {
+    height: 30px;
+}
 #preloader_1{
     position:relative;
     width: 55px;

@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
-import { onLoad, onShow } from '@dcloudio/uni-app'
+import { onLoad, onReachBottom, onShow } from '@dcloudio/uni-app'
 import uniEmpty from '@/component/uni-empty/uni-empty.vue'
 import { listAllCategory } from '@/api/category'
 import { type GoodsParams, type GoodsRecord, listGoods } from '@/api/goods'
 import { mockData as goodMockData } from '@/mock/goods'
 import { useGlobalVarStore } from '@/store/globalVar'
 import { moneyFormatter } from '@/filters'
+import LoadingDance from '@/component/loading-dance/loading-dance.vue'
 
 const isLoading = ref(false)
 // 分类
@@ -67,6 +68,7 @@ function getGoodsList() {
 
 function goodsGoBottom() {
   console.log('reach bottom')
+  getGoodsList()
 }
 
 function goGoodsDetail(item: GoodsRecord) {
@@ -220,6 +222,7 @@ const onClickResetSelect = () => {
             </view>
           </view>
         </view>
+        <loading-dance v-if="isLoading" />
       </view>
     </scroll-view>
   </view>

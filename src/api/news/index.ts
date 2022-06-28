@@ -1,9 +1,10 @@
+import type { Good } from '@/component/good-card/good-card.vue'
 import request from '@/utils/request'
 export interface News {
   id: string
   title: string
   content: string
-  image: string
+  goodsList: Array<Good>
   time: string
 }
 export interface NewsParams {

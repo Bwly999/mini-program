@@ -36,11 +36,22 @@ function loadNews() {
         title: `${k}, ${v} title`,
         content: '21123<p>das</p>',
         time: '1',
-        image: '12312',
+        goodsList: [
+          {
+            id: '62b922b3e4061020f6738d2b',
+            name: '大虾鲜活超大基围虾青岛特大青虾冷冻鲜对虾速冻海虾虾类海鲜水产',
+            coverImgUrl: 'http://122.9.37.63/goods/8e6e5be4-4097-40e0-bbd7-b5b23479aeb7.jpg',
+          },
+          {
+            id: '62ba94dfa816d4170be20814',
+            name: '大虾鲜活超大基围虾青岛特大青虾冷冻鲜对虾速冻海虾虾类海鲜水产',
+            coverImgUrl: 'http://122.9.37.63/goods/f3865b30-8bf3-426f-9585-b6af380bba1f.jpg',
+          },
+        ],
       }
     }
 
-    newsList.value = Array.from({ length: 20 }, (k, v) => gen(k, v))
+    newsList.value = Array.from({ length: 3 }, (k, v) => gen(k, v))
     uni.showToast({
       title: '加载失败',
       icon: 'none',

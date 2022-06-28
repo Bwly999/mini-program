@@ -21,8 +21,10 @@ import { useUserStore } from '@/store/user'
 import { isUserExist } from '@/api/user'
 
 const imgUrls = ref<Array<string>>([
-  'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b4b60b10-5168-11eb-bd01-97bc1429a9ff.jpg',
-  'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b1dcfa70-5168-11eb-bd01-97bc1429a9ff.jpg',
+  'http://27557142.s21i.faiusr.com/2/ABUIABACGAAg1rjOiAYo2tWskwYwsAk4kAM.jpg',
+  'http://27557142.s21i.faiusr.com/2/ABUIABACGAAgnbDOiAYo3-PBjAYwsAk4kAM.jpg',
+  'http://27557142.s21i.faiusr.com/2/ABUIABACGAAgs8HOiAYo8PC38AEwsAk4kAM.jpg',
+  'http://27557142.s21i.faiusr.com/2/ABUIABACGAAg7aP8iAYokPzTxwIwwAc4pgQ.jpg',
 ])
 
 const showLoadMore = ref<boolean>(false)

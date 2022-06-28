@@ -4,7 +4,7 @@ export interface Good {
   id: string
   name: string
   coverImgUrl: string
-  price: number
+  price?: number
   discountPrice?: number
 }
 const props = defineProps<{
@@ -26,8 +26,8 @@ function getDetail() {
         {{ props.goods.name }}
       </view>
       <view class="flex mb-2">
-        <a class="font-bold text-red">
-          ¥ {{ moneyFormatter(props.goods.price) }}
+        <a v-if="props.goods.price" class="font-bold text-red">
+          ¥ {{ moneyFormatter(props.goods.price || 0) }}
         </a>
         <a v-if="props.goods.discountPrice" class="ml-2 font-bold line-through text-gray">
           ¥ {{ moneyFormatter(props.goods.discountPrice) }}

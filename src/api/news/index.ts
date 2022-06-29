@@ -3,6 +3,7 @@ import request from '@/utils/request'
 export interface News {
   id: string
   title: string
+  brief: string
   content: string
   goodsList: Array<Good>
   time: Date

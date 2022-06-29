@@ -69,9 +69,13 @@ function navToFright(no: string) {
     showLoginTip()
     return
   }
-  uni.navigateTo({
-    url: `/pages/fright/fright?id=${no}`,
+  uni.showToast({
+    title: '开发中',
+    icon: 'error',
   })
+  // uni.navigateTo({
+  //   url: `/pages/fright/fright?id=${no}`,
+  // })
 }
 
 function navToMyAddress() {

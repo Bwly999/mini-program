@@ -54,29 +54,29 @@ function onClick(e: any) {
 // 评论
 const listData = [{
   header_img: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b1dcfa70-5168-11eb-bd01-97bc1429a9ff.jpg',
-  user_name: '测试1',
+  user_name: '用户1',
   rate: 5,
-  create_time: '2019-04-12',
+  create_time: '2022-04-12',
   content: '好评',
   imgs: [
-    'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b1dcfa70-5168-11eb-bd01-97bc1429a9ff.jpg',
-    'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b1dcfa70-5168-11eb-bd01-97bc1429a9ff.jpg',
+    'http://27557142.s21i.faiusr.com/2/ABUIABACGAAg7aP8iAYokPzTxwIwwAc4pgQ.jpg',
+    'http://27557142.s21i.faiusr.com/2/ABUIABACGAAgs8HOiAYo8PC38AEwsAk4kAM.jpg',
   ],
 },
 {
   content: '中评',
-  create_time: '2019-04-12',
+  create_time: '2022-04-14',
   header_img: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b1dcfa70-5168-11eb-bd01-97bc1429a9ff.jpg',
-  user_name: '测试2',
-  rate: 4,
+  user_name: '用户2',
+  rate: 5,
   // imgs:[]
 },
 {
   content: '',
-  create_time: '2019-04-12',
+  create_time: '2022-05-12',
   header_img: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b1dcfa70-5168-11eb-bd01-97bc1429a9ff.jpg',
-  user_name: '测试3',
-  rate: 2,
+  user_name: '用户3',
+  rate: 5,
   // imgs:[]
 }]
 
@@ -128,7 +128,7 @@ function autoStopVideo(e: any) {
       </swiper>
     </view>
     <al-goods-detail :goods-detail="goodsInfo" />
-    <uni-evaluate :list-data="listData" :rate="1" />
+    <uni-evaluate :list-data="listData" :rate="5" />
     <view class="goods-carts">
       <uni-goods-nav
         :options="options" :fill="true" :button-group="buttonGroup" @click="onClick"

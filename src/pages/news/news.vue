@@ -27,7 +27,7 @@ function loadNews() {
   listNews(queryParams).then((res: any) => {
     newsList.value.push(...res.data.content)
     queryParams.page++
-    totalNewsNum.value = res.data.total
+    totalNewsNum.value = res.data.totalElements
   }).catch((err) => {
     console.log(err)
     // const gen = (k: any, v: any): News => {
@@ -87,7 +87,7 @@ function resetQueryParams() {
   <view class="bg-slate-100 h-100vh">
     <view class="">
       <view class="flex flex-col gap-2">
-        <news-card v-for="(news, i) in newsList" :key="i" :news="news" css-class="mx-1 h-30vw" />
+        <news-card v-for="(news, i) in newsList" :key="i" :news="news" css-class="mx-1 h-20vw" />
       </view>
       <view v-if="isLoading" class="load">
         <loading-dance />

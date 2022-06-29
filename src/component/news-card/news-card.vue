@@ -28,11 +28,8 @@ function navToNewsDetail() {
         {{ props.news.title }}
       </text>
     </view>
-    <view class="content p1 h-20vw overflow-hidden text-ellipsis ">
-      <view v-html="props.news.content" />
-      <!-- <text class="text-gray-900">
-        {{ props.news.content }}
-      </text> -->
+    <view class="content p1 h-15vw overflow-hidden text-ellipsis ">
+      {{ props.news.brief }}
     </view>
   </view>
 </template>

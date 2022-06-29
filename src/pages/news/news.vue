@@ -87,7 +87,7 @@ function resetQueryParams() {
   <view class="bg-slate-100 h-100vh">
     <view class="">
       <view class="flex flex-col gap-2">
-        <news-card v-for="(news, i) in newsList" :key="i" :news="news" css-class="mx-1 h-20vw" />
+        <news-card v-for="(news, i) in newsList" :key="i" :news="news" css-class="mx-2" />
       </view>
       <view v-if="isLoading" class="load">
         <loading-dance />

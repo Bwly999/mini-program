@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import { onLoad } from '@dcloudio/uni-app'
+import { onLoad, onPullDownRefresh } from '@dcloudio/uni-app'
 import type { OrderRet } from '@/api/order'
 import { type Order, type OrderParams, listUserOrder } from '@/api/order'
 import orderCard from '@/component/order-card/order-card.vue'
@@ -28,6 +28,7 @@ function loadOrderInfo() {
     // orderList.value = Array.from({ length: 10 }, () => order)
   }).finally(() => {
     isLoading.value = false
+    uni.stopPullDownRefresh()
   })
 }
 function onClickItem(e: any) {
@@ -48,6 +49,10 @@ function onClickItem(e: any) {
 }
 
 onLoad(() => {
+  loadOrderInfo()
+})
+
+onPullDownRefresh(() => {
   loadOrderInfo()
 })
 </script>

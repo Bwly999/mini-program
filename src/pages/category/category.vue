@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
-import { onLoad, onReachBottom, onShow } from '@dcloudio/uni-app'
+import { onLoad, onPullDownRefresh, onReachBottom, onShow } from '@dcloudio/uni-app'
 import uniEmpty from '@/component/uni-empty/uni-empty.vue'
 import { listAllCategory } from '@/api/category'
 import { type GoodsParams, type GoodsRecord, listGoods } from '@/api/goods'
@@ -28,6 +28,7 @@ const total = ref(0)
 const goodsName = ref()
 const lowPrice = ref()
 const highPrice = ref()
+
 function getGoodsList() {
   const params: GoodsParams = {
     category: categoryList.value[current.value],
@@ -63,6 +64,7 @@ function getGoodsList() {
     })
   }).finally(() => {
     isLoading.value = false
+    uni.stopPullDownRefresh()
   })
 }
 
@@ -125,6 +127,12 @@ const onClickSelectConfirm = () => {
   getGoodsList()
   closeDrawer()
 }
+
+onPullDownRefresh(() => {
+  currentPage.value = 1
+  goodsList.value = []
+  getGoodsList()
+})
 
 const onClickResetSelect = () => {
   resetQueryParams()
@@ -194,7 +202,7 @@ const onClickResetSelect = () => {
       class="goods-container flex bg-slate-50 rounded-md" scroll-y="true" :scroll-top="scrollTop"
       @scrolltolower="goodsGoBottom"
     >
-      <view v-if="isLoading" class="flex justify-center items-center h-100vh">
+      <view v-if="isLoading && goodsList.length === 0" class="flex justify-center items-center h-100vh">
         <uni-load-more icon-type="circle" status="loading" />
       </view>
       <view v-else>

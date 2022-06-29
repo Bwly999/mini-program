@@ -13,7 +13,8 @@
 		{
 			"path": "pages/category/category",
 			"style": {
-				"navigationBarTitleText": "分类"
+				"navigationBarTitleText": "分类",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -37,7 +38,8 @@
 		{
 			"path": "pages/order/order",
 			"style": {
-				"navigationBarTitleText": "我的订单"
+				"navigationBarTitleText": "我的订单",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -80,7 +82,8 @@
 		{
 			"path": "pages/news/news",
 			"style": {
-				"navigationBarTitleText": "资讯"
+				"navigationBarTitleText": "资讯",
+				"enablePullDownRefresh": true
 			}
 		},
 		{

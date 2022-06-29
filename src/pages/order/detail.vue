@@ -108,6 +108,12 @@ onLoad((option) => {
             {{ payWay }}
           </view>
         </view>
+        <view v-if="orderInfo?.logisticsNumber">
+          物流单号:
+          <view class="font-bold inline">
+            {{ orderInfo?.logisticsNumber }}
+          </view>
+        </view>
       </view>
     </view>
     <view class="bg-white rounded-xl" title="地址" type="line">
